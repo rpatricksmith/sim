@@ -1,6 +1,6 @@
 import { createLogger } from '@sim/logger'
 import { AgentIcon } from '@/components/icons'
-import type { BlockConfig } from '@/blocks/types'
+import type { BlockConfig, BlockMeta } from '@/blocks/types'
 import { AuthMode, IntegrationType } from '@/blocks/types'
 import {
   getModelOptions,
@@ -80,7 +80,6 @@ export const AgentBlock: BlockConfig<AgentResponse> = {
   docsLink: 'https://docs.sim.ai/blocks/agent',
   category: 'blocks',
   integrationType: IntegrationType.AI,
-  tags: ['llm', 'agentic', 'automation'],
   bgColor: 'var(--brand)',
   icon: AgentIcon,
   subBlocks: [
@@ -647,3 +646,7 @@ Return ONLY the JSON array.`,
     },
   },
 }
+
+export const AgentBlockMeta = {
+  tags: ['llm', 'agentic', 'automation'],
+} as const satisfies BlockMeta

@@ -21,7 +21,6 @@ import {
   ModalDescription,
   ModalFooter,
   ModalHeader,
-  Skeleton,
   Textarea,
   Tooltip,
   Trash,
@@ -262,7 +261,7 @@ function WorkspaceVariableRow({
       {canEdit ? (
         <Tooltip.Root>
           <Tooltip.Trigger asChild>
-            <Button variant='ghost' onClick={() => onDelete(envKey)} className='size-9'>
+            <Button variant='ghost' onClick={() => onDelete(envKey)} className='h-9 w-9'>
               <Trash />
             </Button>
           </Tooltip.Trigger>
@@ -417,7 +416,9 @@ export function SecretsManager() {
   const [renamingKey, setRenamingKey] = useState<string | null>(null)
   const [pendingKeyValue, setPendingKeyValue] = useState<string>('')
   const [selectedCredentialId, setSelectedCredentialId] = useState<string | null>(null)
-  const prevSelectedCredentialIdRef = useRef<string | null | undefined>(undefined)
+  const [prevSelectedCredentialId, setPrevSelectedCredentialId] = useState<
+    string | null | undefined
+  >(undefined)
   const [selectedDisplayNameDraft, setSelectedDisplayNameDraft] = useState('')
   const [selectedDescriptionDraft, setSelectedDescriptionDraft] = useState('')
   const [copyIdSuccess, setCopyIdSuccess] = useState(false)
@@ -449,8 +450,8 @@ export function SecretsManager() {
   )
 
   const currentCredentialId = selectedCredential?.id ?? null
-  if (currentCredentialId !== prevSelectedCredentialIdRef.current) {
-    prevSelectedCredentialIdRef.current = currentCredentialId
+  if (currentCredentialId !== prevSelectedCredentialId) {
+    setPrevSelectedCredentialId(currentCredentialId)
     if (!selectedCredential) {
       setSelectedDescriptionDraft('')
       setSelectedDisplayNameDraft('')
@@ -1188,8 +1189,8 @@ export function SecretsManager() {
           <div className='min-h-0 flex-1 overflow-y-auto'>
             <div className='flex flex-col gap-4.5'>
               <div className='flex items-center gap-2.5 border-[var(--border)] border-b pb-3'>
-                <div className='flex size-9 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-[var(--surface-5)]'>
-                  <Key className='size-[18px] text-[var(--text-tertiary)]' />
+                <div className='flex h-9 w-9 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-[var(--surface-5)]'>
+                  <Key className='h-[18px] w-[18px] text-[var(--text-tertiary)]' />
                 </div>
                 <div className='min-w-0 flex-1'>
                   <div className='flex items-center gap-2'>
@@ -1221,7 +1222,7 @@ export function SecretsManager() {
                       <Button
                         variant='ghost'
                         type='button'
-                        className='-my-1 size-5 p-0'
+                        className='-my-1 h-5 w-5 p-0'
                         onClick={() => {
                           navigator.clipboard.writeText(selectedCredential.id)
                           setCopyIdSuccess(true)
@@ -1230,9 +1231,9 @@ export function SecretsManager() {
                         aria-label='Copy value'
                       >
                         {copyIdSuccess ? (
-                          <Check className='size-3 text-[var(--text-success)]' />
+                          <Check className='h-3 w-3 text-[var(--text-success)]' />
                         ) : (
-                          <Clipboard className='size-3 text-[var(--text-icon)]' />
+                          <Clipboard className='h-3 w-3 text-[var(--text-icon)]' />
                         )}
                       </Button>
                     </Tooltip.Trigger>
@@ -1275,12 +1276,7 @@ export function SecretsManager() {
               <div className='flex flex-col gap-1.5 border-[var(--border)] border-t pt-4'>
                 <Label>Members ({activeMembers.length})</Label>
 
-                {membersLoading ? (
-                  <div className='flex flex-col gap-2'>
-                    <Skeleton className='h-[44px] w-full rounded-lg' />
-                    <Skeleton className='h-[44px] w-full rounded-lg' />
-                  </div>
-                ) : (
+                {membersLoading ? null : (
                   <div className='flex flex-col gap-2'>
                     {activeMembers.map((member) => (
                       <div
@@ -1291,7 +1287,7 @@ export function SecretsManager() {
                         )}
                       >
                         <div className='flex min-w-0 items-center gap-2.5'>
-                          <Avatar className='size-8 flex-shrink-0'>
+                          <Avatar className='h-8 w-8 flex-shrink-0'>
                             <AvatarFallback
                               style={{
                                 background: getUserColor(member.userId || member.userEmail || ''),
@@ -1492,7 +1488,7 @@ export function SecretsManager() {
         <div className='flex items-center gap-2'>
           <div className='flex flex-1 items-center gap-2 rounded-lg border border-[var(--border)] bg-transparent px-2 py-1.5 transition-colors duration-100 dark:bg-[var(--surface-4)] dark:hover-hover:border-[var(--border-1)] dark:hover-hover:bg-[var(--surface-5)]'>
             <Search
-              className='size-[14px] flex-shrink-0 text-[var(--text-tertiary)]'
+              className='h-[14px] w-[14px] flex-shrink-0 text-[var(--text-tertiary)]'
               strokeWidth={2}
             />
             <Input
@@ -1505,7 +1501,7 @@ export function SecretsManager() {
               spellCheck='false'
               readOnly
               onFocus={(e) => e.target.removeAttribute('readOnly')}
-              className='h-auto flex-1 border-0 bg-transparent p-0 font-base leading-none placeholder:text-[var(--text-tertiary)] focus-visible:ring-0 focus-visible:ring-offset-0'
+              className='h-auto flex-1 border-0 bg-transparent p-0 leading-none placeholder:text-[var(--text-tertiary)] focus-visible:ring-0 focus-visible:ring-offset-0'
             />
           </div>
           <Tooltip.Root>
@@ -1530,29 +1526,8 @@ export function SecretsManager() {
 
         <div ref={scrollContainerRef} className='min-h-0 flex-1 overflow-y-auto'>
           <div className='flex flex-col gap-4'>
-            {isLoading ? (
-              <>
-                <div className='flex flex-col gap-2'>
-                  <Skeleton className='h-5 w-[70px]' />
-                  <div className='text-[var(--text-muted)] text-small'>
-                    <Skeleton className='h-5 w-[160px]' />
-                  </div>
-                </div>
-                <div className={cn(GRID_COLS, 'gap-y-2')}>
-                  <Skeleton className={cn(COL_SPAN_ALL, 'h-5 w-[55px]')} />
-                  {Array.from({ length: 2 }, (_, i) => (
-                    <div key={`personal-${i}`} className='contents'>
-                      <Skeleton className='h-9 rounded-md' />
-                      <div />
-                      <Skeleton className='h-9 rounded-md' />
-                      <Skeleton className='ml-2 h-9 w-[60px] rounded-md' />
-                      <Skeleton className='size-9 rounded-md' />
-                    </div>
-                  ))}
-                </div>
-              </>
-            ) : (
-              <div className={cn(GRID_COLS, 'gap-y-2')}>
+            {isLoading ? null : (
+              <div className={`${GRID_COLS} gap-y-2`}>
                 {(!searchTerm.trim() ||
                   filteredWorkspaceEntries.length > 0 ||
                   filteredNewWorkspaceRows.length > 0) && (

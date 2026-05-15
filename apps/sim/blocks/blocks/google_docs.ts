@@ -1,6 +1,6 @@
 import { GoogleDocsIcon } from '@/components/icons'
 import { getScopesForService } from '@/lib/oauth/utils'
-import type { BlockConfig } from '@/blocks/types'
+import type { BlockConfig, BlockMeta } from '@/blocks/types'
 import { AuthMode, IntegrationType } from '@/blocks/types'
 import { SERVICE_ACCOUNT_SUBBLOCKS } from '@/blocks/utils'
 import type { GoogleDocsResponse } from '@/tools/google_docs/types'
@@ -15,8 +15,7 @@ export const GoogleDocsBlock: BlockConfig<GoogleDocsResponse> = {
   docsLink: 'https://docs.sim.ai/tools/google_docs',
   category: 'tools',
   integrationType: IntegrationType.Documents,
-  tags: ['google-workspace', 'document-processing', 'content-management'],
-  bgColor: '#E0E0E0',
+  bgColor: '#FFFFFF',
   icon: GoogleDocsIcon,
   subBlocks: [
     // Operation selector
@@ -200,3 +199,39 @@ Return ONLY the document content - no explanations, no extra text.`,
     updatedContent: { type: 'boolean', description: 'Content update status' },
   },
 }
+
+export const GoogleDocsBlockMeta = {
+  tags: ['google-workspace', 'document-processing', 'content-management'],
+  templates: [
+    {
+      icon: GoogleDocsIcon,
+      title: 'Google Docs review-cycle automator',
+      prompt:
+        'Build a workflow that watches Google Docs for a "ready-for-review" status comment, notifies named reviewers over Slack, collects approval reactions, and resolves the comment when complete.',
+      modules: ['agent', 'workflows'],
+      category: 'productivity',
+      tags: ['team', 'automation'],
+      alsoIntegrations: ['slack'],
+    },
+    {
+      icon: GoogleDocsIcon,
+      title: 'Google Docs version digester',
+      prompt:
+        'Create a scheduled weekly workflow that compares Google Docs revisions for tracked documents, summarizes who changed what, and posts a digest to the doc owner.',
+      modules: ['scheduled', 'agent', 'workflows'],
+      category: 'productivity',
+      tags: ['team', 'reporting'],
+      alsoIntegrations: ['slack'],
+    },
+    {
+      icon: GoogleDocsIcon,
+      title: 'Google Docs translation copy',
+      prompt:
+        'Build a workflow that takes a Google Doc and creates translated copies into target languages with Google Translate, links them in the source, and notifies the localization team.',
+      modules: ['agent', 'workflows'],
+      category: 'marketing',
+      tags: ['content', 'enterprise'],
+      alsoIntegrations: ['google_translate'],
+    },
+  ],
+} as const satisfies BlockMeta

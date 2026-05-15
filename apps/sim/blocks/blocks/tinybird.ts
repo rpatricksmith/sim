@@ -1,5 +1,5 @@
 import { TinybirdIcon } from '@/components/icons'
-import type { BlockConfig } from '@/blocks/types'
+import type { BlockConfig, BlockMeta } from '@/blocks/types'
 import { AuthMode, IntegrationType } from '@/blocks/types'
 import type { TinybirdResponse } from '@/tools/tinybird/types'
 
@@ -13,7 +13,6 @@ export const TinybirdBlock: BlockConfig<TinybirdResponse> = {
   docsLink: 'https://www.tinybird.co/docs/api-reference',
   category: 'tools',
   integrationType: IntegrationType.Analytics,
-  tags: ['data-warehouse', 'data-analytics'],
   bgColor: '#2EF598',
   icon: TinybirdIcon,
   subBlocks: [
@@ -207,3 +206,48 @@ export const TinybirdBlock: BlockConfig<TinybirdResponse> = {
     },
   },
 }
+
+export const TinybirdBlockMeta = {
+  tags: ['data-warehouse', 'data-analytics'],
+  templates: [
+    {
+      icon: TinybirdIcon,
+      title: 'Tinybird pipe-as-API endpoint',
+      prompt:
+        'Create a workflow that calls a Tinybird published pipe with parameters on a schedule, normalizes the results, and writes them into a Sim table for downstream consumers.',
+      modules: ['scheduled', 'tables', 'agent', 'workflows'],
+      category: 'engineering',
+      tags: ['analysis', 'sync'],
+    },
+    {
+      icon: TinybirdIcon,
+      title: 'Tinybird realtime metric watcher',
+      prompt:
+        'Build a workflow that polls a Tinybird pipe every minute for a realtime KPI, compares against a rolling baseline, and pages PagerDuty when the metric crosses a SLO threshold.',
+      modules: ['scheduled', 'agent', 'workflows'],
+      category: 'operations',
+      tags: ['devops', 'monitoring'],
+      alsoIntegrations: ['pagerduty'],
+    },
+    {
+      icon: TinybirdIcon,
+      title: 'Tinybird user-segment exporter',
+      prompt:
+        'Create a workflow that calls a Tinybird published endpoint with segment parameters, writes the user list to a table, and feeds it to a Loops campaign for targeted activation messaging.',
+      modules: ['tables', 'agent', 'workflows'],
+      category: 'marketing',
+      tags: ['marketing', 'sync'],
+      alsoIntegrations: ['loops'],
+    },
+    {
+      icon: TinybirdIcon,
+      title: 'Tinybird usage-meter dashboard',
+      prompt:
+        'Build a workflow that exposes a Tinybird endpoint reporting per-customer usage for billing, refreshes a Sim table hourly, and surfaces top consumers to Slack.',
+      modules: ['scheduled', 'tables', 'agent', 'workflows'],
+      category: 'operations',
+      tags: ['finance', 'reporting'],
+      alsoIntegrations: ['slack'],
+    },
+  ],
+} as const satisfies BlockMeta

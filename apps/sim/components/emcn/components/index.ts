@@ -21,6 +21,7 @@ export {
   checkboxIconVariants,
   checkboxVariants,
 } from './checkbox/checkbox'
+export { Chip, ChipLink, type ChipLinkProps, type ChipProps, chipVariants } from './chip/chip'
 export {
   CODE_LINE_HEIGHT_PX,
   Code,
@@ -42,6 +43,7 @@ export {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuItemAction,
   DropdownMenuLabel,
   DropdownMenuPortal,
   DropdownMenuRadioGroup,
@@ -57,6 +59,7 @@ export {
 export { Expandable, ExpandableContent } from './expandable/expandable'
 export { FieldDivider } from './field-divider/field-divider'
 export { FormField } from './form-field/form-field'
+export { Info } from './info/info'
 export { Input, inputVariants } from './input/input'
 export { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from './input-otp/input-otp'
 export { Label } from './label/label'
@@ -140,5 +143,4 @@ export { TimePicker, timePickerVariants } from './time-picker/time-picker'
 export { CountdownRing } from './toast/countdown-ring'
 export { ToastProvider, toast, useToast } from './toast/toast'
 export { Tooltip } from './tooltip/tooltip'
-export { TourCard, TourTooltip } from './tour-tooltip/tour-tooltip'
 export { Wizard } from './wizard/wizard'

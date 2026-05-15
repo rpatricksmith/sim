@@ -14,7 +14,6 @@ import {
   ModalDescription,
   ModalFooter,
   ModalHeader,
-  Skeleton,
   Tooltip,
 } from '@/components/emcn'
 import {
@@ -162,11 +161,7 @@ export function InboxSettingsTab() {
           </p>
 
           <div className='mt-1 flex flex-col gap-[1px] overflow-hidden rounded-lg border border-[var(--border)]'>
-            {sendersLoading ? (
-              <div className='px-3 py-2.5'>
-                <Skeleton className='h-[16px] w-[200px]' />
-              </div>
-            ) : (
+            {sendersLoading ? null : (
               <>
                 {sendersData?.workspaceMembers.map((member) => (
                   <div

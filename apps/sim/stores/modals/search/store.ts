@@ -58,7 +58,7 @@ export const useSearchModalStore = create<SearchModalState>()(
             type: block.type,
           }
 
-          if (block.category === 'blocks' && block.type !== 'starter') {
+          if (block.category === 'blocks') {
             regularBlocks.push(searchItem)
           } else if (block.category === 'tools') {
             tools.push(searchItem)

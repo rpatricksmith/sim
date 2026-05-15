@@ -1,5 +1,5 @@
 import { CirclebackIcon } from '@/components/icons'
-import type { BlockConfig } from '@/blocks/types'
+import type { BlockConfig, BlockMeta } from '@/blocks/types'
 import { IntegrationType } from '@/blocks/types'
 import { getTrigger } from '@/triggers'
 
@@ -11,7 +11,6 @@ export const CirclebackBlock: BlockConfig = {
     'Receive meeting notes, action items, transcripts, and recordings when meetings are processed. Circleback uses webhooks to push data to your workflows.',
   category: 'triggers',
   integrationType: IntegrationType.AI,
-  tags: ['meeting', 'note-taking', 'automation'],
   bgColor: 'linear-gradient(180deg, #E0F7FA 0%, #FFFFFF 100%)',
   docsLink: 'https://docs.sim.ai/tools/circleback',
   icon: CirclebackIcon,
@@ -51,3 +50,7 @@ export const CirclebackBlock: BlockConfig = {
     available: ['circleback_meeting_completed', 'circleback_meeting_notes', 'circleback_webhook'],
   },
 }
+
+export const CirclebackBlockMeta = {
+  tags: ['meeting', 'note-taking', 'automation'],
+} as const satisfies BlockMeta

@@ -1,5 +1,5 @@
 import { GoogleIcon } from '@/components/icons'
-import type { BlockConfig } from '@/blocks/types'
+import type { BlockConfig, BlockMeta } from '@/blocks/types'
 import { AuthMode, IntegrationType } from '@/blocks/types'
 import type { GoogleSearchResponse } from '@/tools/google/types'
 
@@ -12,8 +12,7 @@ export const GoogleSearchBlock: BlockConfig<GoogleSearchResponse> = {
   docsLink: 'https://docs.sim.ai/tools/google_search',
   category: 'tools',
   integrationType: IntegrationType.Search,
-  tags: ['google-workspace', 'web-scraping', 'seo'],
-  bgColor: '#E0E0E0',
+  bgColor: '#FFFFFF',
   icon: GoogleIcon,
 
   subBlocks: [
@@ -92,3 +91,7 @@ Return ONLY the search query - no explanations, no quotes around the whole thing
     searchInformation: { type: 'json', description: 'Search metadata' },
   },
 }
+
+export const GoogleSearchBlockMeta = {
+  tags: ['google-workspace', 'web-scraping', 'seo'],
+} as const satisfies BlockMeta

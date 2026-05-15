@@ -1,5 +1,5 @@
 import { ProfoundIcon } from '@/components/icons'
-import type { BlockConfig } from '@/blocks/types'
+import type { BlockConfig, BlockMeta } from '@/blocks/types'
 import { AuthMode, IntegrationType } from '@/blocks/types'
 
 const CATEGORY_REPORT_OPS = [
@@ -67,7 +67,6 @@ export const ProfoundBlock: BlockConfig = {
   docsLink: 'https://docs.sim.ai/tools/profound',
   category: 'tools',
   integrationType: IntegrationType.Analytics,
-  tags: ['seo', 'data-analytics'],
   bgColor: '#000000',
   icon: ProfoundIcon,
   authMode: AuthMode.ApiKey,
@@ -404,3 +403,37 @@ export const ProfoundBlock: BlockConfig = {
     },
   },
 }
+
+export const ProfoundBlockMeta = {
+  tags: ['seo', 'data-analytics'],
+  templates: [
+    {
+      icon: ProfoundIcon,
+      title: 'Profound AI-visibility tracker',
+      prompt:
+        'Create a scheduled weekly workflow that pulls Profound brand-visibility scores across AI search engines, tracks how my brand surfaces in answers for tracked prompts, and reports week-over-week shifts to Slack.',
+      modules: ['scheduled', 'agent', 'workflows'],
+      category: 'marketing',
+      tags: ['marketing', 'monitoring'],
+      alsoIntegrations: ['slack'],
+    },
+    {
+      icon: ProfoundIcon,
+      title: 'Profound competitor share-of-voice',
+      prompt:
+        'Build a workflow that pulls Profound competitor share-of-voice across AI engines, writes the leaderboard to a tracking table, and flags when a competitor jumps more than two positions.',
+      modules: ['scheduled', 'tables', 'agent', 'workflows'],
+      category: 'marketing',
+      tags: ['marketing', 'analysis'],
+    },
+    {
+      icon: ProfoundIcon,
+      title: 'Profound prompt-coverage audit',
+      prompt:
+        'Build a workflow that uploads my list of priority prompts to Profound, monitors how my brand surfaces in AI answers across engines weekly, and writes the coverage report to a tables-based scorecard.',
+      modules: ['scheduled', 'tables', 'agent', 'workflows'],
+      category: 'marketing',
+      tags: ['marketing', 'monitoring'],
+    },
+  ],
+} as const satisfies BlockMeta

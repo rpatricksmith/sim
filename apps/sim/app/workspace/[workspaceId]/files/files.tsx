@@ -9,7 +9,6 @@ import {
   Columns2,
   Combobox,
   type ComboboxOption,
-  Download,
   Eye,
   File as FilesIcon,
   Folder,
@@ -1041,7 +1040,7 @@ export function Files() {
             }
           : undefined,
         dropdownItems: [
-          { label: 'Download', icon: Download, onClick: handleDownloadSelected },
+          { label: 'Download', icon: Upload, onClick: handleDownloadSelected },
           ...(canEdit
             ? [
                 { label: 'Rename', icon: Pencil, onClick: handleStartHeaderRename },
@@ -1424,7 +1423,7 @@ export function Files() {
           : []),
       {
         label: 'Download',
-        icon: Download,
+        icon: Upload,
         onClick: handleDownloadSelected,
       },
       ...(canEdit

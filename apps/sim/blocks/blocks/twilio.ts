@@ -1,5 +1,5 @@
 import { TwilioIcon } from '@/components/icons'
-import type { BlockConfig } from '@/blocks/types'
+import type { BlockConfig, BlockMeta } from '@/blocks/types'
 import { AuthMode, IntegrationType } from '@/blocks/types'
 import type { TwilioSMSBlockOutput } from '@/tools/twilio/types'
 
@@ -11,7 +11,6 @@ export const TwilioSMSBlock: BlockConfig<TwilioSMSBlockOutput> = {
   longDescription: 'Integrate Twilio into the workflow. Can send SMS messages.',
   category: 'tools',
   integrationType: IntegrationType.Communication,
-  tags: ['messaging', 'automation'],
   docsLink: 'https://docs.sim.ai/tools/twilio',
   bgColor: '#F22F46', // Twilio brand color
   icon: TwilioIcon,
@@ -73,3 +72,7 @@ export const TwilioSMSBlock: BlockConfig<TwilioSMSBlockOutput> = {
     error: { type: 'string', description: 'Error information if sending fails' },
   },
 }
+
+export const TwilioSMSBlockMeta = {
+  tags: ['messaging', 'automation'],
+} as const satisfies BlockMeta

@@ -1,5 +1,5 @@
 import { VideoIcon } from '@/components/icons'
-import { AuthMode, type BlockConfig, IntegrationType } from '@/blocks/types'
+import { AuthMode, type BlockConfig, type BlockMeta, IntegrationType } from '@/blocks/types'
 import { normalizeFileInput } from '@/blocks/utils'
 import type { VideoBlockResponse } from '@/tools/video/types'
 
@@ -12,9 +12,8 @@ export const VideoGeneratorBlock: BlockConfig<VideoBlockResponse> = {
   longDescription:
     'Generate high-quality videos from text prompts using leading AI providers. Supports multiple models, aspect ratios, resolutions, and provider-specific features like world consistency, camera controls, and audio generation.',
   docsLink: 'https://docs.sim.ai/tools/video-generator',
-  category: 'tools',
+  category: 'blocks',
   integrationType: IntegrationType.AI,
-  tags: ['video-generation', 'llm'],
   bgColor: '#181C1E',
   icon: VideoIcon,
 
@@ -837,3 +836,7 @@ export const VideoGeneratorV2Block: BlockConfig<VideoBlockResponse> = {
     },
   },
 }
+
+export const VideoGeneratorBlockMeta = {
+  tags: ['video-generation', 'llm'],
+} as const satisfies BlockMeta

@@ -1,5 +1,5 @@
 import { RssIcon } from '@/components/icons'
-import type { BlockConfig } from '@/blocks/types'
+import type { BlockConfig, BlockMeta } from '@/blocks/types'
 import { IntegrationType } from '@/blocks/types'
 import { getTrigger } from '@/triggers'
 
@@ -11,7 +11,6 @@ export const RssBlock: BlockConfig = {
     'Subscribe to any RSS or Atom feed and automatically trigger your workflow when new content is published. Perfect for monitoring blogs, news sites, podcasts, and any content that publishes an RSS feed.',
   category: 'triggers',
   integrationType: IntegrationType.Search,
-  tags: ['content-management', 'automation'],
   bgColor: '#F97316',
   icon: RssIcon,
   triggerAllowed: true,
@@ -38,3 +37,7 @@ export const RssBlock: BlockConfig = {
     available: ['rss_poller'],
   },
 }
+
+export const RssBlockMeta = {
+  tags: ['content-management', 'automation'],
+} as const satisfies BlockMeta

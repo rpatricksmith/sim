@@ -1,6 +1,6 @@
 import { getErrorMessage } from '@sim/utils/errors'
 import { PostgresIcon } from '@/components/icons'
-import type { BlockConfig } from '@/blocks/types'
+import type { BlockConfig, BlockMeta } from '@/blocks/types'
 import { IntegrationType } from '@/blocks/types'
 import type { PostgresResponse } from '@/tools/postgresql/types'
 
@@ -11,9 +11,8 @@ export const PostgreSQLBlock: BlockConfig<PostgresResponse> = {
   longDescription:
     'Integrate PostgreSQL into the workflow. Can query, insert, update, delete, and execute raw SQL.',
   docsLink: 'https://docs.sim.ai/tools/postgresql',
-  category: 'tools',
+  category: 'blocks',
   integrationType: IntegrationType.Databases,
-  tags: ['data-warehouse', 'data-analytics'],
   bgColor: '#336791',
   icon: PostgresIcon,
   subBlocks: [
@@ -403,3 +402,7 @@ Return ONLY the SQL query - no explanations, no markdown, no extra text.`,
     },
   },
 }
+
+export const PostgreSQLBlockMeta = {
+  tags: ['data-warehouse', 'data-analytics'],
+} as const satisfies BlockMeta

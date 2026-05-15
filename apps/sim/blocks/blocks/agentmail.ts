@@ -1,5 +1,5 @@
 import { AgentMailIcon } from '@/components/icons'
-import type { BlockConfig } from '@/blocks/types'
+import type { BlockConfig, BlockMeta } from '@/blocks/types'
 import { AuthMode, IntegrationType } from '@/blocks/types'
 
 export const AgentMailBlock: BlockConfig = {
@@ -11,7 +11,6 @@ export const AgentMailBlock: BlockConfig = {
   docsLink: 'https://docs.sim.ai/tools/agentmail',
   category: 'tools',
   integrationType: IntegrationType.Email,
-  tags: ['messaging'],
   bgColor: '#000000',
   icon: AgentMailIcon,
   authMode: AuthMode.ApiKey,
@@ -619,3 +618,55 @@ export const AgentMailBlock: BlockConfig = {
     updatedAt: { type: 'string', description: 'Last updated timestamp' },
   },
 }
+
+export const AgentMailBlockMeta = {
+  tags: ['messaging'],
+  templates: [
+    {
+      icon: AgentMailIcon,
+      title: 'AgentMail inbox-per-customer',
+      prompt:
+        'Build a workflow that creates a dedicated AgentMail inbox for every new customer account, configures the display name and labels, and writes the inbox address back to the customer record so all customer email is isolated and threaded.',
+      modules: ['tables', 'agent', 'workflows'],
+      category: 'support',
+      tags: ['support', 'automation', 'enterprise'],
+    },
+    {
+      icon: AgentMailIcon,
+      title: 'AgentMail support concierge',
+      prompt:
+        'Create a knowledge base from product docs and past resolutions, then build a workflow that watches an AgentMail inbox for new threads, drafts a contextual reply with citations, and either sends it or saves it as a draft based on confidence.',
+      modules: ['knowledge-base', 'agent', 'workflows'],
+      category: 'support',
+      tags: ['support', 'automation', 'communication'],
+    },
+    {
+      icon: AgentMailIcon,
+      title: 'AgentMail draft assistant',
+      prompt:
+        'Build a workflow that watches AgentMail threads, drafts a reply that matches my tone using my recent sent messages as reference, and updates the existing draft each time the thread receives a new message so the draft stays current.',
+      modules: ['agent', 'workflows'],
+      category: 'productivity',
+      tags: ['individual', 'communication', 'automation'],
+    },
+    {
+      icon: AgentMailIcon,
+      title: 'AgentMail label organizer',
+      prompt:
+        'Create a workflow that classifies new AgentMail messages by topic and customer tier, applies the matching thread labels, and moves threads with stale labels into archive labels on a weekly schedule.',
+      modules: ['scheduled', 'agent', 'workflows'],
+      category: 'operations',
+      tags: ['automation', 'team'],
+    },
+    {
+      icon: AgentMailIcon,
+      title: 'AgentMail + Loops support touch-points',
+      prompt:
+        'Create a workflow that watches AgentMail support threads and sends a Loops event for each customer milestone — first contact, resolved, escalated — so Loops can automate the right follow-up email based on real support outcomes.',
+      modules: ['agent', 'workflows'],
+      category: 'support',
+      tags: ['support', 'automation', 'communication'],
+      alsoIntegrations: ['loops'],
+    },
+  ],
+} as const satisfies BlockMeta

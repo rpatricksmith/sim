@@ -1,5 +1,5 @@
 import { TranslateIcon } from '@/components/icons'
-import { AuthMode, type BlockConfig, IntegrationType } from '@/blocks/types'
+import { AuthMode, type BlockConfig, type BlockMeta, IntegrationType } from '@/blocks/types'
 import {
   getModelOptions,
   getProviderCredentialSubBlocks,
@@ -16,9 +16,8 @@ export const TranslateBlock: BlockConfig = {
   authMode: AuthMode.ApiKey,
   longDescription: 'Integrate Translate into the workflow. Can translate text to any language.',
   docsLink: 'https://docs.sim.ai/tools/translate',
-  category: 'tools',
+  category: 'blocks',
   integrationType: IntegrationType.AI,
-  tags: ['document-processing', 'llm'],
   bgColor: '#FF4B4B',
   icon: TranslateIcon,
   subBlocks: [
@@ -87,3 +86,7 @@ export const TranslateBlock: BlockConfig = {
     tokens: { type: 'json', description: 'Token usage' },
   },
 }
+
+export const TranslateBlockMeta = {
+  tags: ['document-processing', 'llm'],
+} as const satisfies BlockMeta

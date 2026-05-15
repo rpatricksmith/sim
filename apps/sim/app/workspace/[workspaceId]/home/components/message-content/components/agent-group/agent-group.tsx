@@ -42,7 +42,6 @@ export function AgentGroup({
 }: AgentGroupProps) {
   const AgentIcon = getAgentIcon(agentName)
   const hasItems = items.length > 0
-  const isSubagent = agentName !== 'mothership'
   const toolItems = items.filter(
     (item): item is Extract<AgentGroupItem, { type: 'tool' }> => item.type === 'tool'
   )
@@ -82,14 +81,14 @@ export function AgentGroup({
           }}
           className='flex cursor-pointer items-center gap-2'
         >
-          <div className='flex size-[16px] flex-shrink-0 items-center justify-center'>
+          <div className='flex h-[16px] w-[16px] flex-shrink-0 items-center justify-center'>
             {isDelegating ? (
-              <PillsRing className='size-[15px] text-[var(--text-icon)]' animate />
+              <PillsRing className='h-[15px] w-[15px] text-[var(--text-icon)]' animate />
             ) : (
-              <AgentIcon className='size-[16px] text-[var(--text-icon)]' />
+              <AgentIcon className='h-[16px] w-[16px] text-[var(--text-icon)]' />
             )}
           </div>
-          <span className='font-base text-[var(--text-body)] text-sm'>{agentLabel}</span>
+          <span className='text-[var(--text-body)] text-sm'>{agentLabel}</span>
           <ChevronDown
             className={cn(
               'h-[7px] w-[9px] text-[var(--text-icon)] transition-transform duration-150',
@@ -99,21 +98,21 @@ export function AgentGroup({
         </button>
       ) : (
         <div className='flex items-center gap-2'>
-          <div className='flex size-[16px] flex-shrink-0 items-center justify-center'>
+          <div className='flex h-[16px] w-[16px] flex-shrink-0 items-center justify-center'>
             {isDelegating ? (
-              <PillsRing className='size-[15px] text-[var(--text-icon)]' animate />
+              <PillsRing className='h-[15px] w-[15px] text-[var(--text-icon)]' animate />
             ) : (
-              <AgentIcon className='size-[16px] text-[var(--text-icon)]' />
+              <AgentIcon className='h-[16px] w-[16px] text-[var(--text-icon)]' />
             )}
           </div>
-          <span className='font-base text-[var(--text-body)] text-sm'>{agentLabel}</span>
+          <span className='text-[var(--text-body)] text-sm'>{agentLabel}</span>
         </div>
       )}
       {hasItems && (
         <Expandable expanded={expanded}>
           <ExpandableContent>
             <BoundedViewport isStreaming={isStreaming}>
-              <div className={cn('flex flex-col gap-1.5 py-0.5', isSubagent && 'opacity-60')}>
+              <div className='flex flex-col gap-1.5 py-0.5'>
                 {items.map((item, idx) => {
                   if (item.type === 'tool') {
                     return (
@@ -129,7 +128,7 @@ export function AgentGroup({
                   return (
                     <span
                       key={`text-${idx}`}
-                      className='pl-6 font-base text-[13px] text-[var(--text-secondary)] leading-[18px]'
+                      className='pl-6 text-[13px] text-[var(--text-secondary)] leading-[18px] opacity-60'
                     >
                       {item.content.trim()}
                     </span>

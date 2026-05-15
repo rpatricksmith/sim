@@ -1,6 +1,6 @@
 import { getErrorMessage } from '@sim/utils/errors'
 import { MySQLIcon } from '@/components/icons'
-import type { BlockConfig } from '@/blocks/types'
+import type { BlockConfig, BlockMeta } from '@/blocks/types'
 import { IntegrationType } from '@/blocks/types'
 import type { MySQLResponse } from '@/tools/mysql/types'
 
@@ -11,10 +11,9 @@ export const MySQLBlock: BlockConfig<MySQLResponse> = {
   longDescription:
     'Integrate MySQL into the workflow. Can query, insert, update, delete, and execute raw SQL.',
   docsLink: 'https://docs.sim.ai/tools/mysql',
-  category: 'tools',
+  category: 'blocks',
   integrationType: IntegrationType.Databases,
-  tags: ['data-warehouse', 'data-analytics'],
-  bgColor: '#E0E0E0',
+  bgColor: '#FFFFFF',
   icon: MySQLIcon,
   subBlocks: [
     {
@@ -383,3 +382,7 @@ Return ONLY the SQL query - no explanations, no markdown, no extra text.`,
     },
   },
 }
+
+export const MySQLBlockMeta = {
+  tags: ['data-warehouse', 'data-analytics'],
+} as const satisfies BlockMeta

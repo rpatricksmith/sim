@@ -1,5 +1,5 @@
 import { A2AIcon } from '@/components/icons'
-import type { BlockConfig } from '@/blocks/types'
+import type { BlockConfig, BlockMeta } from '@/blocks/types'
 import { IntegrationType } from '@/blocks/types'
 import { normalizeFileInput } from '@/blocks/utils'
 import type { ToolResponse } from '@/tools/types'
@@ -63,9 +63,8 @@ export const A2ABlock: BlockConfig<A2AResponse> = {
     'Send messages, query task status, cancel tasks, or discover agent capabilities. ' +
     'Compatible with any A2A-compliant agent including LangGraph, Google ADK, and other Sim workflows.',
   docsLink: 'https://docs.sim.ai/blocks/a2a',
-  category: 'tools',
-  integrationType: IntegrationType.DeveloperTools,
-  tags: ['agentic', 'automation'],
+  category: 'blocks',
+  integrationType: IntegrationType.DevOps,
   bgColor: '#4151B5',
   icon: A2AIcon,
   subBlocks: [
@@ -353,3 +352,7 @@ export const A2ABlock: BlockConfig<A2AResponse> = {
     },
   },
 }
+
+export const A2ABlockMeta = {
+  tags: ['agentic', 'automation'],
+} as const satisfies BlockMeta

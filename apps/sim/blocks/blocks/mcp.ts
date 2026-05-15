@@ -1,6 +1,6 @@
 import { McpIcon } from '@/components/icons'
 import { createMcpToolId } from '@/lib/mcp/shared'
-import type { BlockConfig } from '@/blocks/types'
+import type { BlockConfig, BlockMeta } from '@/blocks/types'
 import { IntegrationType } from '@/blocks/types'
 import type { ToolResponse } from '@/tools/types'
 
@@ -15,9 +15,8 @@ export const McpBlock: BlockConfig<McpResponse> = {
   longDescription:
     'Integrate MCP into the workflow. Can execute tools from MCP servers. Requires MCP servers in workspace settings.',
   docsLink: 'https://docs.sim.ai/mcp',
-  category: 'tools',
-  integrationType: IntegrationType.DeveloperTools,
-  tags: ['agentic', 'automation', 'llm'],
+  category: 'blocks',
+  integrationType: IntegrationType.DevOps,
   bgColor: '#181C1E',
   icon: McpIcon,
   subBlocks: [
@@ -100,3 +99,7 @@ export const McpBlock: BlockConfig<McpResponse> = {
     },
   },
 }
+
+export const McpBlockMeta = {
+  tags: ['agentic', 'automation', 'llm'],
+} as const satisfies BlockMeta

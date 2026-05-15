@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react'
 import { memo, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
-import { Check, Copy, Wand2 } from 'lucide-react'
+import { Check, Wand2 } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import 'prismjs/components/prism-python'
 import { createLogger } from '@sim/logger'
@@ -9,6 +9,7 @@ import {
   CODE_LINE_HEIGHT_PX,
   Code as CodeEditor,
   calculateGutterWidth,
+  Duplicate,
   getCodeEditorProps,
   highlight,
   languages,
@@ -787,7 +788,7 @@ export const Code = memo(function Code({
           )}
           aria-label='Copy code'
         >
-          {copied ? <Check className='size-3.5' /> : <Copy className='size-3.5' />}
+          {copied ? <Check className='h-3.5 w-3.5' /> : <Duplicate className='h-3.5 w-3.5' />}
         </Button>
       )}
       {!hideInternalWand && (
@@ -816,9 +817,9 @@ export const Code = memo(function Code({
                 onClick={isPromptVisible ? hidePromptInline : showPromptInline}
                 disabled={isAiLoading || isAiStreaming}
                 aria-label='Generate code with AI'
-                className='size-8 rounded-full border border-transparent bg-muted/80 text-muted-foreground shadow-sm transition-all duration-200 hover-hover:border-primary/20 hover-hover:bg-muted hover-hover:text-foreground hover-hover:shadow'
+                className='h-8 w-8 rounded-full border border-transparent bg-muted/80 text-muted-foreground shadow-sm transition-all duration-200 hover-hover:border-primary/20 hover-hover:bg-muted hover-hover:text-foreground hover-hover:shadow'
               >
-                <Wand2 className='size-4' />
+                <Wand2 className='h-4 w-4' />
               </Button>
             )}
         </div>

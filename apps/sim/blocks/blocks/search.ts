@@ -1,5 +1,5 @@
 import { SearchIcon } from '@/components/icons'
-import type { BlockConfig } from '@/blocks/types'
+import type { BlockConfig, BlockMeta } from '@/blocks/types'
 import { IntegrationType } from '@/blocks/types'
 
 export const SearchBlock: BlockConfig = {
@@ -9,9 +9,8 @@ export const SearchBlock: BlockConfig = {
   longDescription: 'Search the web using the Search tool. Each search costs $0.01 per query.',
   bgColor: '#3B82F6',
   icon: SearchIcon,
-  category: 'tools',
+  category: 'blocks',
   integrationType: IntegrationType.Search,
-  tags: ['web-scraping', 'seo'],
   docsLink: 'https://docs.sim.ai/tools/search',
   subBlocks: [
     {
@@ -39,3 +38,7 @@ export const SearchBlock: BlockConfig = {
     cost: { type: 'json', description: 'Cost information ($0.01)' },
   },
 }
+
+export const SearchBlockMeta = {
+  tags: ['web-scraping', 'seo'],
+} as const satisfies BlockMeta

@@ -1,5 +1,5 @@
 import { HuggingFaceIcon } from '@/components/icons'
-import type { BlockConfig } from '@/blocks/types'
+import type { BlockConfig, BlockMeta } from '@/blocks/types'
 import { AuthMode, IntegrationType } from '@/blocks/types'
 import type { HuggingFaceChatResponse } from '@/tools/huggingface/types'
 
@@ -13,7 +13,6 @@ export const HuggingFaceBlock: BlockConfig<HuggingFaceChatResponse> = {
   docsLink: 'https://docs.sim.ai/tools/huggingface',
   category: 'tools',
   integrationType: IntegrationType.AI,
-  tags: ['llm', 'agentic'],
   bgColor: '#0B0F19',
   icon: HuggingFaceIcon,
   subBlocks: [
@@ -121,3 +120,46 @@ export const HuggingFaceBlock: BlockConfig<HuggingFaceChatResponse> = {
     usage: { type: 'json', description: 'Token usage stats' },
   },
 }
+
+export const HuggingFaceBlockMeta = {
+  tags: ['llm', 'agentic'],
+  templates: [
+    {
+      icon: HuggingFaceIcon,
+      title: 'Hugging Face zero-shot classifier',
+      prompt:
+        'Build a workflow that runs each row in a table through a Hugging Face zero-shot classification model with custom labels, writes the predicted label and confidence back, and flags low-confidence rows for review.',
+      modules: ['tables', 'agent', 'workflows'],
+      category: 'operations',
+      tags: ['analysis', 'automation'],
+    },
+    {
+      icon: HuggingFaceIcon,
+      title: 'Open-source sentiment scorer',
+      prompt:
+        'Create a workflow that scores customer feedback with a Hugging Face sentiment model, writes sentiment and score columns back to the table, and pings Slack on a sudden negative spike.',
+      modules: ['tables', 'agent', 'workflows'],
+      category: 'support',
+      tags: ['support', 'analysis'],
+      alsoIntegrations: ['slack'],
+    },
+    {
+      icon: HuggingFaceIcon,
+      title: 'Hugging Face cross-encoder reranker',
+      prompt:
+        'Create a retrieval pipeline that fetches top-50 candidates from a knowledge base, reranks them with a Hugging Face cross-encoder, and returns the top-5 to the answering agent for higher precision.',
+      modules: ['knowledge-base', 'agent', 'workflows'],
+      category: 'engineering',
+      tags: ['engineering', 'automation'],
+    },
+    {
+      icon: HuggingFaceIcon,
+      title: 'Hugging Face PII redactor',
+      prompt:
+        'Build a workflow that runs a Hugging Face NER model over text uploads to detect PII, redacts sensitive entities, and writes the cleaned text to a downstream table.',
+      modules: ['files', 'agent', 'workflows'],
+      category: 'operations',
+      tags: ['legal', 'automation'],
+    },
+  ],
+} as const satisfies BlockMeta

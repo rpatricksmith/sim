@@ -1,6 +1,6 @@
 import { HubspotIcon } from '@/components/icons'
 import { getScopesForService } from '@/lib/oauth/utils'
-import type { BlockConfig } from '@/blocks/types'
+import type { BlockConfig, BlockMeta } from '@/blocks/types'
 import { AuthMode, IntegrationType } from '@/blocks/types'
 import type { HubSpotResponse } from '@/tools/hubspot/types'
 import { getTrigger } from '@/triggers'
@@ -15,8 +15,7 @@ export const HubSpotBlock: BlockConfig<HubSpotResponse> = {
     'Integrate HubSpot into your workflow. Manage contacts, companies, deals, tickets, and other CRM objects with powerful automation capabilities. Can be used in trigger mode to start workflows when contacts are created, deleted, or updated.',
   docsLink: 'https://docs.sim.ai/tools/hubspot',
   category: 'tools',
-  integrationType: IntegrationType.CRM,
-  tags: ['marketing', 'sales-engagement', 'customer-support'],
+  integrationType: IntegrationType.Sales,
   bgColor: '#FF7A59',
   icon: HubspotIcon,
   subBlocks: [
@@ -1366,3 +1365,50 @@ Return ONLY the JSON array of property names - no explanations, no markdown, no 
     ],
   },
 }
+
+export const HubSpotBlockMeta = {
+  tags: ['marketing', 'sales-engagement', 'customer-support'],
+  templates: [
+    {
+      icon: HubspotIcon,
+      title: 'HubSpot deal search',
+      prompt:
+        'Create a knowledge base connected to my HubSpot account so all deals, contacts, and activity history are automatically synced and searchable. Then build an agent I can ask things like "what happened with the Stripe integration deal?" or "which deals closed last quarter over $50k?" and get answers with HubSpot record links.',
+      modules: ['knowledge-base', 'agent'],
+      category: 'sales',
+      tags: ['sales', 'crm', 'research'],
+    },
+    {
+      icon: HubspotIcon,
+      title: 'Win/loss analyzer',
+      prompt:
+        'Build a workflow that pulls closed deals from HubSpot each week, analyzes patterns in wins vs losses — deal size, industry, sales cycle length, objections — and generates a report file with actionable insights on what to change. Schedule it to run every Monday.',
+      modules: ['agent', 'files', 'scheduled', 'workflows'],
+      category: 'sales',
+      tags: ['sales', 'crm', 'analysis', 'reporting'],
+    },
+
+    {
+      icon: HubspotIcon,
+      title: 'Get HubSpot deal alerts in Slack',
+      prompt:
+        'Receive instant Slack notifications when HubSpot deals advance, contacts are created, or revenue milestones are hit.',
+      modules: ['agent', 'workflows'],
+      category: 'productivity',
+      tags: ['automation', 'communication'],
+      featured: true,
+      alsoIntegrations: ['slack'],
+    },
+    {
+      icon: HubspotIcon,
+      title: 'Send personalised emails from HubSpot events',
+      prompt:
+        'Trigger Gmail messages when HubSpot contacts enter a lifecycle stage, ensuring timely and relevant outreach without manual effort.',
+      modules: ['agent', 'workflows'],
+      category: 'productivity',
+      tags: ['automation', 'communication'],
+      featured: true,
+      alsoIntegrations: ['gmail'],
+    },
+  ],
+} as const satisfies BlockMeta

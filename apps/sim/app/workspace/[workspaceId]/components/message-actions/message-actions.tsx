@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation'
 import {
   Button,
   Check,
-  Copy,
+  Duplicate,
   Modal,
   ModalBody,
   ModalContent,
@@ -180,7 +180,7 @@ export const MessageActions = memo(function MessageActions({
                 onClick={copyToClipboard}
                 className={BUTTON_CLASS}
               >
-                {copied ? <Check className={ICON_CLASS} /> : <Copy className={ICON_CLASS} />}
+                {copied ? <Check className={ICON_CLASS} /> : <Duplicate className={ICON_CLASS} />}
               </button>
             </Tooltip.Trigger>
             <Tooltip.Content side='top'>
@@ -255,12 +255,12 @@ export const MessageActions = memo(function MessageActions({
                         type='button'
                         aria-label='Copy request ID'
                         onClick={copyRequestId}
-                        className='flex size-[22px] shrink-0 items-center justify-center rounded-full text-[var(--text-icon)] transition-colors hover-hover:bg-[var(--surface-hover)] focus-visible:outline-none'
+                        className='flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full text-[var(--text-icon)] transition-colors hover-hover:bg-[var(--surface-hover)] focus-visible:outline-none'
                       >
                         {copiedRequestId ? (
-                          <Check className='size-[14px]' />
+                          <Check className='h-[14px] w-[14px]' />
                         ) : (
-                          <Copy className='size-[14px]' />
+                          <Duplicate className='h-[14px] w-[14px]' />
                         )}
                       </button>
                     </Tooltip.Trigger>
@@ -287,7 +287,7 @@ export const MessageActions = memo(function MessageActions({
               Cancel
             </Button>
             <Button variant='primary' onClick={handleSubmitFeedback}>
-              Submit feedback
+              Submit
             </Button>
           </ModalFooter>
         </ModalContent>

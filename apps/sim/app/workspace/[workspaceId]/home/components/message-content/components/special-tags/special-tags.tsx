@@ -21,7 +21,7 @@ import { useTablesList } from '@/hooks/queries/tables'
 import { useWorkflows } from '@/hooks/queries/workflows'
 import { useWorkspaceFiles } from '@/hooks/queries/workspace-files'
 
-interface OptionsItemData {
+export interface OptionsItemData {
   title: string
   description: string
 }
@@ -392,7 +392,7 @@ export function SpecialTags({
 export function PendingTagIndicator() {
   return (
     <div className='flex animate-stream-fade-in items-center gap-2 py-2'>
-      <div className='grid size-[16px] grid-cols-2 gap-[1.5px]'>
+      <div className='grid h-[16px] w-[16px] grid-cols-2 gap-[1.5px]'>
         {THINKING_BLOCKS.map((block, i) => (
           <div
             key={i}
@@ -401,7 +401,7 @@ export function PendingTagIndicator() {
           />
         ))}
       </div>
-      <span className='font-base text-[var(--text-body)] text-sm'>Thinking…</span>
+      <span className='text-[var(--text-body)] text-sm'>Thinking…</span>
     </div>
   )
 }
@@ -429,7 +429,7 @@ function OptionsDisplay({ data, onSelect }: OptionsDisplayProps) {
           aria-expanded={expanded}
           className='flex items-center gap-2'
         >
-          <span className='font-base text-[var(--text-body)] text-sm'>Suggested follow-ups</span>
+          <span className='text-[var(--text-body)] text-sm'>Suggested follow-ups</span>
           <ChevronDown
             className={cn(
               'h-[7px] w-[9px] text-[var(--text-icon)] transition-transform duration-150',
@@ -438,7 +438,7 @@ function OptionsDisplay({ data, onSelect }: OptionsDisplayProps) {
           />
         </button>
       ) : (
-        <span className='font-base text-[var(--text-body)] text-sm'>Suggested follow-ups</span>
+        <span className='text-[var(--text-body)] text-sm'>Suggested follow-ups</span>
       )}
       <Expandable expanded={expanded}>
         <ExpandableContent className='mt-1.5'>
@@ -458,11 +458,11 @@ function OptionsDisplay({ data, onSelect }: OptionsDisplayProps) {
                     i > 0 && 'border-t'
                   )}
                 >
-                  <div className='flex size-[16px] flex-shrink-0 items-center justify-center'>
-                    <span className='font-base text-[var(--text-icon)] text-sm'>{i + 1}</span>
+                  <div className='flex h-[16px] w-[16px] flex-shrink-0 items-center justify-center'>
+                    <span className='text-[var(--text-icon)] text-sm'>{i + 1}</span>
                   </div>
-                  <span className='flex-1 font-base text-[var(--text-body)] text-sm'>{title}</span>
-                  <ArrowRight className='size-[16px] shrink-0 text-[var(--text-icon)]' />
+                  <span className='flex-1 text-[var(--text-body)] text-sm'>{title}</span>
+                  <ArrowRight className='h-[16px] w-[16px] shrink-0 text-[var(--text-icon)]' />
                 </button>
               )
             })}
@@ -545,7 +545,7 @@ export function WorkspaceResourceDisplay({
       <ContextMentionIcon
         context={context}
         workflowColor={workflowColor}
-        className='relative top-0.5 size-[12px] flex-shrink-0 text-[var(--text-icon)]'
+        className='relative top-0.5 h-[12px] w-[12px] flex-shrink-0 text-[var(--text-icon)]'
       />
       {resource.title}
     </>
@@ -616,10 +616,8 @@ function CredentialDisplay({ data }: { data: CredentialTagData }) {
         className='flex items-center gap-2 rounded-lg border border-[var(--divider)] px-3 py-2.5 transition-colors hover-hover:bg-[var(--surface-5)]'
       >
         {createElement(Icon, { className: 'h-[16px] w-[16px] shrink-0' })}
-        <span className='flex-1 font-base text-[var(--text-body)] text-sm'>
-          Connect {data.provider}
-        </span>
-        <ArrowRight className='size-[16px] shrink-0 text-[var(--text-icon)]' />
+        <span className='flex-1 text-[var(--text-body)] text-sm'>Connect {data.provider}</span>
+        <ArrowRight className='h-[16px] w-[16px] shrink-0 text-[var(--text-icon)]' />
       </a>
     )
   }
@@ -634,11 +632,7 @@ function CredentialDisplay({ data }: { data: CredentialTagData }) {
 function MothershipErrorDisplay({ data }: { data: MothershipErrorTagData }) {
   const detail = data.code ? `${data.message} (${data.code})` : data.message
 
-  return (
-    <p className='font-base text-[13px] text-[var(--text-secondary)] italic leading-[20px]'>
-      {detail}
-    </p>
-  )
+  return <p className='text-[13px] text-[var(--text-secondary)] italic leading-[20px]'>{detail}</p>
 }
 
 function UsageUpgradeDisplay({ data }: { data: UsageUpgradeTagData }) {
@@ -650,7 +644,7 @@ function UsageUpgradeDisplay({ data }: { data: UsageUpgradeTagData }) {
     <div className='rounded-xl border border-amber-300/40 bg-amber-50/50 px-4 py-3 dark:border-amber-500/20 dark:bg-amber-950/20'>
       <div className='flex items-center gap-2'>
         <svg
-          className='size-4 shrink-0 text-amber-600 dark:text-amber-400'
+          className='h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400'
           viewBox='0 0 16 16'
           fill='none'
           xmlns='http://www.w3.org/2000/svg'
@@ -676,7 +670,7 @@ function UsageUpgradeDisplay({ data }: { data: UsageUpgradeTagData }) {
         className='mt-2 inline-flex items-center gap-1 font-[500] text-amber-700 text-small underline decoration-dashed underline-offset-2 transition-colors hover-hover:text-amber-900 dark:text-amber-300 dark:hover-hover:text-amber-200'
       >
         {buttonLabel}
-        <ArrowRight className='size-3' />
+        <ArrowRight className='h-3 w-3' />
       </a>
     </div>
   )

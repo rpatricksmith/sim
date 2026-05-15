@@ -1,5 +1,5 @@
 import { SpotifyIcon } from '@/components/icons'
-import type { BlockConfig } from '@/blocks/types'
+import type { BlockConfig, BlockMeta } from '@/blocks/types'
 import { AuthMode, IntegrationType } from '@/blocks/types'
 import { normalizeFileInput } from '@/blocks/utils'
 import type { ToolResponse } from '@/tools/types'
@@ -14,7 +14,6 @@ export const SpotifyBlock: BlockConfig<ToolResponse> = {
   docsLink: 'https://docs.sim.ai/tools/spotify',
   category: 'tools',
   integrationType: IntegrationType.Communication,
-  tags: ['content-management', 'automation'],
   hideFromToolbar: true,
   bgColor: '#000000',
   icon: SpotifyIcon,
@@ -1366,3 +1365,7 @@ export const SpotifyBlock: BlockConfig<ToolResponse> = {
     },
   },
 }
+
+export const SpotifyBlockMeta = {
+  tags: ['content-management', 'automation'],
+} as const satisfies BlockMeta

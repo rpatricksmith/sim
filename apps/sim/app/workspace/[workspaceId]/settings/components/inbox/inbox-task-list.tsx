@@ -14,7 +14,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/emcn'
 import { Input } from '@/components/ui'
-import { InboxTaskSkeleton } from '@/app/workspace/[workspaceId]/settings/components/inbox/inbox-skeleton'
 import type { InboxTaskItem } from '@/hooks/queries/inbox'
 import { useInboxConfig, useInboxTasks } from '@/hooks/queries/inbox'
 
@@ -86,7 +85,7 @@ export function InboxTaskList() {
             placeholder='Search tasks...'
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className='h-auto flex-1 border-0 bg-transparent p-0 font-base leading-none placeholder:text-[var(--text-tertiary)] focus-visible:ring-0 focus-visible:ring-offset-0'
+            className='h-auto flex-1 border-0 bg-transparent p-0 leading-none placeholder:text-[var(--text-tertiary)] focus-visible:ring-0 focus-visible:ring-offset-0'
           />
         </div>
         <DropdownMenu>
@@ -119,13 +118,7 @@ export function InboxTaskList() {
       </div>
 
       <div className='min-h-0 flex-1 overflow-y-auto'>
-        {isLoading ? (
-          <div className='flex flex-col gap-1'>
-            {Array.from({ length: 3 }).map((_, i) => (
-              <InboxTaskSkeleton key={i} />
-            ))}
-          </div>
-        ) : filteredTasks.length === 0 ? (
+        {isLoading ? null : filteredTasks.length === 0 ? (
           <div className='flex h-[200px] items-center justify-center text-[var(--text-muted)] text-sm'>
             {searchTerm.trim()
               ? `No tasks matching "${searchTerm}"`

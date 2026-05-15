@@ -1,5 +1,5 @@
 import { ParallelIcon } from '@/components/icons'
-import { AuthMode, type BlockConfig, IntegrationType } from '@/blocks/types'
+import { AuthMode, type BlockConfig, type BlockMeta, IntegrationType } from '@/blocks/types'
 import type { ToolResponse } from '@/tools/types'
 
 export const ParallelBlock: BlockConfig<ToolResponse> = {
@@ -12,8 +12,7 @@ export const ParallelBlock: BlockConfig<ToolResponse> = {
   docsLink: 'https://docs.sim.ai/tools/parallel-ai',
   category: 'tools',
   integrationType: IntegrationType.Search,
-  tags: ['web-scraping', 'llm', 'agentic'],
-  bgColor: '#E0E0E0',
+  bgColor: '#FFFFFF',
   icon: ParallelIcon,
   subBlocks: [
     {
@@ -275,3 +274,7 @@ export const ParallelBlock: BlockConfig<ToolResponse> = {
     },
   },
 }
+
+export const ParallelBlockMeta = {
+  tags: ['web-scraping', 'llm', 'agentic'],
+} as const satisfies BlockMeta

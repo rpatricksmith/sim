@@ -2,6 +2,7 @@
 
 import { memo, useMemo } from 'react'
 import { Read as ReadTool, WorkspaceFile } from '@/lib/copilot/generated/tool-catalog-v1'
+import { isToolHiddenInUi } from '@/lib/copilot/tools/client/hidden-tools'
 import { resolveToolDisplay } from '@/lib/copilot/tools/client/store-utils'
 import { ClientToolCallState } from '@/lib/copilot/tools/client/tool-call-state'
 import type { ContentBlock, MothershipResource, OptionItem, ToolCallData } from '../../types'
@@ -17,11 +18,6 @@ import {
 } from './components'
 
 const FILE_SUBAGENT_ID = 'file'
-const HIDDEN_TOOL_NAMES = new Set([
-  'tool_search_tool_regex',
-  'load_agent_skill',
-  'load_custom_tool',
-])
 
 interface TextSegment {
   type: 'text'
@@ -77,10 +73,6 @@ const SUBAGENT_DISPATCH_TOOLS: Record<string, string> = {
 function isToolResultRead(params?: Record<string, unknown>): boolean {
   const path = params?.path
   return typeof path === 'string' && path.startsWith('internal/tool-results/')
-}
-
-function isHiddenToolCall(toolName: string | undefined): boolean {
-  return !!toolName && HIDDEN_TOOL_NAMES.has(toolName)
 }
 
 function formatToolName(name: string): string {
@@ -309,7 +301,7 @@ function parseBlocks(blocks: ContentBlock[]): MessageSegment[] {
     if (block.type === 'tool_call') {
       if (!block.toolCall) continue
       const tc = block.toolCall
-      if (isHiddenToolCall(tc.name)) continue
+      if (isToolHiddenInUi(tc.name)) continue
       if (tc.name === ReadTool.id && isToolResultRead(tc.params)) continue
       const isDispatch = SUBAGENT_KEYS.has(tc.name) && !tc.calledBy
 
@@ -527,10 +519,8 @@ function MessageContentInner({
           case 'stopped':
             return (
               <div key={`stopped-${i}`} className='flex items-center gap-[8px]'>
-                <CircleStop className='size-[16px] flex-shrink-0 text-[var(--text-icon)]' />
-                <span className='font-base text-[14px] text-[var(--text-body)]'>
-                  Stopped by user
-                </span>
+                <CircleStop className='h-[16px] w-[16px] flex-shrink-0 text-[var(--text-icon)]' />
+                <span className='text-[14px] text-[var(--text-body)]'>Stopped by user</span>
               </div>
             )
         }

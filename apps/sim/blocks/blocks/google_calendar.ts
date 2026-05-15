@@ -1,6 +1,6 @@
-import { GoogleCalendarIcon } from '@/components/icons'
+import { GoogleCalendarIcon, TwilioIcon } from '@/components/icons'
 import { getScopesForService } from '@/lib/oauth/utils'
-import type { BlockConfig } from '@/blocks/types'
+import type { BlockConfig, BlockMeta } from '@/blocks/types'
 import { AuthMode, IntegrationType } from '@/blocks/types'
 import { createVersionedToolSelector, SERVICE_ACCOUNT_SUBBLOCKS } from '@/blocks/utils'
 import type { GoogleCalendarResponse } from '@/tools/google_calendar/types'
@@ -16,8 +16,7 @@ export const GoogleCalendarBlock: BlockConfig<GoogleCalendarResponse> = {
   docsLink: 'https://docs.sim.ai/tools/google_calendar',
   category: 'tools',
   integrationType: IntegrationType.Productivity,
-  tags: ['calendar', 'scheduling', 'google-workspace'],
-  bgColor: '#E0E0E0',
+  bgColor: '#FFFFFF',
   icon: GoogleCalendarIcon,
   hideFromToolbar: true,
   subBlocks: [
@@ -658,7 +657,6 @@ export const GoogleCalendarV2Block: BlockConfig<GoogleCalendarResponse> = {
   name: 'Google Calendar',
   hideFromToolbar: false,
   integrationType: IntegrationType.Productivity,
-  tags: ['calendar', 'scheduling', 'google-workspace'],
   tools: {
     ...GoogleCalendarBlock.tools,
     access: [
@@ -710,3 +708,34 @@ export const GoogleCalendarV2Block: BlockConfig<GoogleCalendarResponse> = {
     timeZone: { type: 'string', description: 'Calendar time zone' },
   },
 }
+
+export const GoogleCalendarBlockMeta = {
+  tags: ['calendar', 'scheduling', 'google-workspace'],
+  templates: [
+    {
+      icon: GoogleCalendarIcon,
+      title: 'Meeting prep agent',
+      prompt:
+        'Create an agent that checks my Google Calendar each morning, researches every attendee and topic on the web, and prepares a brief for each meeting so I walk in fully prepared. Schedule it to run every weekday morning.',
+      image: '/templates/meeting-prep-dark.png',
+      modules: ['agent', 'scheduled', 'workflows'],
+      category: 'popular',
+      tags: ['founder', 'sales', 'research', 'automation'],
+      featured: true,
+    },
+    {
+      icon: TwilioIcon,
+      title: 'SMS appointment reminders',
+      prompt:
+        'Create a scheduled workflow that checks Google Calendar each morning for appointments in the next 24 hours, and sends an SMS reminder to each attendee via Twilio with the meeting time, location, and any prep notes.',
+      modules: ['scheduled', 'agent', 'workflows'],
+      category: 'productivity',
+      tags: ['individual', 'communication', 'automation'],
+      alsoIntegrations: ['twilio_sms'],
+    },
+  ],
+} as const satisfies BlockMeta
+
+export const GoogleCalendarV2BlockMeta = {
+  tags: ['calendar', 'scheduling', 'google-workspace'],
+} as const satisfies BlockMeta

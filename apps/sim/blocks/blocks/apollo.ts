@@ -1,6 +1,7 @@
 import { getErrorMessage } from '@sim/utils/errors'
+import { Users } from '@/components/emcn/icons'
 import { ApolloIcon } from '@/components/icons'
-import type { BlockConfig } from '@/blocks/types'
+import type { BlockConfig, BlockMeta } from '@/blocks/types'
 import { AuthMode, IntegrationType } from '@/blocks/types'
 import type { ApolloResponse } from '@/tools/apollo/types'
 
@@ -14,7 +15,6 @@ export const ApolloBlock: BlockConfig<ApolloResponse> = {
   docsLink: 'https://docs.sim.ai/tools/apollo',
   category: 'tools',
   integrationType: IntegrationType.Sales,
-  tags: ['enrichment', 'sales-engagement'],
   bgColor: '#EBF212',
   icon: ApolloIcon,
   subBlocks: [
@@ -1172,3 +1172,27 @@ Return ONLY the timestamp string in ISO 8601 format - no explanations, no quotes
     output: { type: 'json', description: 'Output data from the Apollo operation' },
   },
 }
+
+export const ApolloBlockMeta = {
+  tags: ['enrichment', 'sales-engagement'],
+  templates: [
+    {
+      icon: Users,
+      title: 'Lead enrichment pipeline',
+      prompt:
+        'Build a workflow that watches my leads table for new entries, enriches each lead with company size, funding, tech stack, and decision-maker contacts using Apollo and web search, then updates the table with the enriched information.',
+      modules: ['tables', 'agent', 'workflows'],
+      category: 'sales',
+      tags: ['sales', 'crm', 'automation', 'research'],
+    },
+    {
+      icon: ApolloIcon,
+      title: 'Prospect researcher',
+      prompt:
+        'Create an agent that takes a company name, deep-researches them across the web and Apollo, finds key decision-makers, recent news, funding rounds, and pain points, then compiles a prospect brief I can review before outreach.',
+      modules: ['agent', 'files', 'workflows'],
+      category: 'sales',
+      tags: ['sales', 'research'],
+    },
+  ],
+} as const satisfies BlockMeta

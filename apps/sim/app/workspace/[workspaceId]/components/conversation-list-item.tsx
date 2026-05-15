@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react'
-import { Blimp } from '@/components/emcn'
 import { cn } from '@/lib/core/utils/cn'
 
 interface ConversationListItemProps {
@@ -21,28 +20,19 @@ export function ConversationListItem({
   statusIndicatorClassName,
   actions,
 }: ConversationListItemProps) {
+  const showStatusDot = isActive || isUnread
   return (
     <div className={cn('flex w-full min-w-0 items-center gap-2', className)}>
-      <span className='relative flex-shrink-0'>
-        <Blimp className='size-[16px] text-[var(--text-icon)]' />
-        {isActive && (
-          <span
-            className={cn(
-              '-right-[1px] -bottom-[1px] absolute h-[6px] w-[6px] rounded-full border border-[var(--surface-1)] bg-amber-400',
-              statusIndicatorClassName
-            )}
-          />
-        )}
-        {!isActive && isUnread && (
-          <span
-            className={cn(
-              '-right-[1px] -bottom-[1px] absolute h-[6px] w-[6px] rounded-full border border-[var(--surface-1)] bg-[var(--indicator-online)]',
-              statusIndicatorClassName
-            )}
-          />
-        )}
-      </span>
       <span className={cn('min-w-0 flex-1 truncate', titleClassName)}>{title}</span>
+      {showStatusDot && (
+        <span
+          aria-hidden='true'
+          className={cn('h-[6px] w-[6px] flex-shrink-0 rounded-full', statusIndicatorClassName)}
+          style={{
+            backgroundColor: isActive ? '#EAB308' : 'var(--brand-accent)',
+          }}
+        />
+      )}
       {actions && <div className='ml-auto flex flex-shrink-0 items-center'>{actions}</div>}
     </div>
   )

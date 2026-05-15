@@ -1,6 +1,6 @@
-import { LinearIcon } from '@/components/icons'
+import { DevinIcon, LinearIcon, SlackIcon } from '@/components/icons'
 import { getScopesForService } from '@/lib/oauth/utils'
-import type { BlockConfig } from '@/blocks/types'
+import type { BlockConfig, BlockMeta } from '@/blocks/types'
 import { AuthMode, IntegrationType } from '@/blocks/types'
 import { normalizeFileInput } from '@/blocks/utils'
 import type { LinearResponse } from '@/tools/linear/types'
@@ -18,7 +18,6 @@ export const LinearBlock: BlockConfig<LinearResponse> = {
   docsLink: 'https://docs.sim.ai/tools/linear',
   category: 'tools',
   integrationType: IntegrationType.Productivity,
-  tags: ['project-management', 'ticketing'],
   icon: LinearIcon,
   bgColor: '#5E6AD2',
   subBlocks: [
@@ -2611,3 +2610,50 @@ export const LinearV2Block: BlockConfig<LinearResponse> = {
     ],
   },
 }
+
+export const LinearBlockMeta = {
+  tags: ['project-management', 'ticketing'],
+  templates: [
+    {
+      icon: LinearIcon,
+      title: 'Linear knowledge search',
+      prompt:
+        'Create a knowledge base connected to my Linear workspace so all issues, comments, project updates, and decisions are automatically synced and searchable. Then build an agent I can ask things like "why did we deprioritize the mobile app?" or "what was the root cause of the checkout bug?" and get answers traced back to specific issues.',
+      modules: ['knowledge-base', 'agent'],
+      category: 'engineering',
+      tags: ['engineering', 'research', 'product'],
+    },
+    {
+      icon: DevinIcon,
+      title: 'Linear ticket to Devin pipeline',
+      prompt:
+        'Create a workflow that fires when a Linear ticket gets the "devin" label, transforms the ticket description, acceptance criteria, and linked context into a Devin prompt, creates a session, and posts the session link plus an estimated completion window back on the ticket.',
+      modules: ['agent', 'workflows'],
+      category: 'engineering',
+      tags: ['engineering', 'agentic', 'automation'],
+      alsoIntegrations: ['devin'],
+    },
+    {
+      icon: SlackIcon,
+      title: 'Meeting notes to action items',
+      prompt:
+        'Create a workflow that takes meeting notes or a transcript, extracts action items with owners and due dates, creates tasks in Linear or Asana for each one, and posts a summary to the relevant Slack channel.',
+      modules: ['agent', 'workflows'],
+      category: 'productivity',
+      tags: ['team', 'automation'],
+      alsoIntegrations: ['asana', 'slack'],
+    },
+
+    {
+      icon: LinearIcon,
+      title: 'Linear issue updates in Slack',
+      prompt:
+        'Post Slack messages when Linear issues are created, assigned, or completed so your team is always in the loop.',
+      modules: ['agent', 'workflows'],
+      category: 'productivity',
+      tags: ['automation', 'communication'],
+      featured: true,
+      alsoIntegrations: ['slack'],
+    },
+  ],
+} as const satisfies BlockMeta

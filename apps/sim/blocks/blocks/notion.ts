@@ -1,6 +1,7 @@
 import { toError } from '@sim/utils/errors'
+import { Send } from '@/components/emcn/icons'
 import { NotionIcon } from '@/components/icons'
-import type { BlockConfig } from '@/blocks/types'
+import type { BlockConfig, BlockMeta } from '@/blocks/types'
 import { AuthMode, IntegrationType } from '@/blocks/types'
 import { createVersionedToolSelector } from '@/blocks/utils'
 import type { NotionResponse } from '@/tools/notion/types'
@@ -18,7 +19,6 @@ export const NotionBlock: BlockConfig<NotionResponse> = {
   docsLink: 'https://docs.sim.ai/tools/notion',
   category: 'tools',
   integrationType: IntegrationType.Documents,
-  tags: ['note-taking', 'knowledge-base', 'content-management'],
   bgColor: '#181C1E',
   icon: NotionIcon,
   subBlocks: [
@@ -430,7 +430,6 @@ export const NotionV2Block: BlockConfig<any> = {
   docsLink: 'https://docs.sim.ai/tools/notion',
   category: 'tools',
   integrationType: IntegrationType.Documents,
-  tags: ['note-taking', 'knowledge-base', 'content-management'],
   bgColor: '#181C1E',
   icon: NotionIcon,
   hideFromToolbar: false,
@@ -556,3 +555,44 @@ export const NotionV2Block: BlockConfig<any> = {
     },
   },
 }
+
+export const NotionBlockMeta = {
+  tags: ['note-taking', 'knowledge-base', 'content-management'],
+  templates: [
+    {
+      icon: Send,
+      title: 'Customer support bot',
+      prompt:
+        'Create a knowledge base and connect it to my Notion or Google Docs so it stays synced with my product documentation automatically. Then build an agent that answers customer questions using it with sourced citations and deploy it as a chat endpoint.',
+      modules: ['knowledge-base', 'agent', 'workflows'],
+      category: 'support',
+      tags: ['support', 'communication', 'automation'],
+      alsoIntegrations: ['google_docs'],
+    },
+    {
+      icon: NotionIcon,
+      title: 'Notion knowledge search',
+      prompt:
+        'Create a knowledge base connected to my Notion workspace so all pages, databases, meeting notes, and wikis are automatically synced and searchable. Then build an agent I can ask things like "what\'s our refund policy?" or "what was decided in the Q3 planning doc?" and get instant answers with page links.',
+      modules: ['knowledge-base', 'agent'],
+      category: 'productivity',
+      tags: ['team', 'research'],
+    },
+
+    {
+      icon: NotionIcon,
+      title: 'Notify your team from Notion',
+      prompt:
+        'Post Slack messages automatically when Notion pages are created or updated so the whole team stays aligned without manual check-ins.',
+      modules: ['agent', 'workflows'],
+      category: 'productivity',
+      tags: ['automation', 'communication'],
+      featured: true,
+      alsoIntegrations: ['slack'],
+    },
+  ],
+} as const satisfies BlockMeta
+
+export const NotionV2BlockMeta = {
+  tags: ['note-taking', 'knowledge-base', 'content-management'],
+} as const satisfies BlockMeta

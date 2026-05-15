@@ -4,7 +4,7 @@ import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createLogger } from '@sim/logger'
 import { toError } from '@sim/utils/errors'
 import { useQueryClient } from '@tanstack/react-query'
-import { History, Plus } from 'lucide-react'
+import { History, Plus, Square } from 'lucide-react'
 import { useParams, useRouter } from 'next/navigation'
 import { usePostHog } from 'posthog-js/react'
 import { useShallow } from 'zustand/react/shallow'
@@ -12,11 +12,11 @@ import {
   BubbleChatClose,
   BubbleChatPreview,
   Button,
-  Copy,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  Duplicate,
   Layout,
   Modal,
   ModalBody,
@@ -34,7 +34,7 @@ import {
   PopoverTrigger,
   Trash,
 } from '@/components/emcn'
-import { Lock, Square, Unlock, Upload } from '@/components/emcn/icons'
+import { Lock, Unlock, Upload } from '@/components/emcn/icons'
 import { VariableIcon } from '@/components/icons'
 import { requestJson } from '@/lib/api/client/request'
 import {
@@ -347,7 +347,6 @@ export const Panel = memo(function Panel({ workspaceId: propWorkspaceId }: Panel
     removeFromQueue: copilotRemoveFromQueue,
     sendNow: copilotSendNow,
     editQueuedMessage: copilotEditQueuedMessage,
-    getCurrentRequestId: getCopilotCurrentRequestId,
   } = useChat(
     workspaceId,
     copilotChatId,
@@ -423,10 +422,9 @@ export const Panel = memo(function Panel({ workspaceId: propWorkspaceId }: Panel
     captureEvent(posthogRef.current, 'task_generation_aborted', {
       workspace_id: workspaceId,
       view: 'copilot',
-      request_id: getCopilotCurrentRequestId(),
     })
     copilotStopGeneration()
-  }, [copilotStopGeneration, getCopilotCurrentRequestId, workspaceId])
+  }, [copilotStopGeneration, workspaceId])
 
   const handleCopilotSubmit = useCallback(
     (text: string, fileAttachments?: FileAttachmentForApi[], contexts?: ChatContext[]) => {
@@ -609,11 +607,12 @@ export const Panel = memo(function Panel({ workspaceId: propWorkspaceId }: Panel
   const hasValidationErrors = false // TODO: Add validation logic if needed
   const isWorkflowBlocked = isExecuting || hasValidationErrors
   const isButtonDisabled = !isExecuting && (isWorkflowBlocked || (!canRun && !isLoadingPermissions))
+
   /**
    * Register global keyboard shortcuts using the central commands registry.
    *
    * - Mod+Enter: Run / cancel workflow (matches the Run button behavior)
-   * - Mod+Alt+F: Focus Toolbar tab and search input
+   * - Mod+F: Focus Toolbar tab and search input
    */
   useRegisterGlobalCommands(() =>
     createCommands([
@@ -657,7 +656,7 @@ export const Panel = memo(function Panel({ workspaceId: propWorkspaceId }: Panel
             <div className='flex gap-1.5'>
               <DropdownMenu open={isMenuOpen} onOpenChange={setIsMenuOpen}>
                 <DropdownMenuTrigger asChild>
-                  <Button className='size-[30px] rounded-[5px]' data-tour='panel-menu'>
+                  <Button className='h-[30px] w-[30px] rounded-[5px]'>
                     <MoreHorizontal />
                   </Button>
                 </DropdownMenuTrigger>
@@ -701,7 +700,7 @@ export const Panel = memo(function Panel({ workspaceId: propWorkspaceId }: Panel
                     onSelect={handleDuplicateWorkflow}
                     disabled={!userPermissions.canEdit || isDuplicating}
                   >
-                    <Copy animate={isDuplicating} />
+                    <Duplicate />
                     Duplicate workflow
                   </DropdownMenuItem>
                   <DropdownMenuItem
@@ -716,7 +715,7 @@ export const Panel = memo(function Panel({ workspaceId: propWorkspaceId }: Panel
                 </DropdownMenuContent>
               </DropdownMenu>
               <Button
-                className='size-[30px] rounded-[5px]'
+                className='h-[30px] w-[30px] rounded-[5px]'
                 variant={isChatOpen ? 'active' : 'default'}
                 onClick={() => setIsChatOpen(!isChatOpen)}
               >
@@ -725,7 +724,7 @@ export const Panel = memo(function Panel({ workspaceId: propWorkspaceId }: Panel
             </div>
 
             {/* Deploy and Run */}
-            <div className='flex gap-1.5' data-tour='deploy-run'>
+            <div className='flex gap-1.5'>
               <Deploy
                 activeWorkflowId={activeWorkflowId}
                 userPermissions={userPermissions}
@@ -733,15 +732,14 @@ export const Panel = memo(function Panel({ workspaceId: propWorkspaceId }: Panel
               />
               <Button
                 className='h-[30px] gap-2 px-2.5'
-                data-tour='run-button'
                 variant={isExecuting ? 'active' : 'tertiary'}
                 onClick={isExecuting ? cancelWorkflow : () => runWorkflow()}
                 disabled={!isExecuting && isButtonDisabled}
               >
                 {isExecuting ? (
-                  <Square className='size-[11.5px] fill-current' />
+                  <Square className='h-[11.5px] w-[11.5px] fill-current' />
                 ) : (
-                  <Play className='size-[11.5px]' />
+                  <Play className='h-[11.5px] w-[11.5px]' />
                 )}
                 {isExecuting ? 'Stop' : 'Run'}
               </Button>
@@ -761,7 +759,6 @@ export const Panel = memo(function Panel({ workspaceId: propWorkspaceId }: Panel
                   variant={_hasHydrated && activeTab === 'copilot' ? 'active' : 'ghost'}
                   onClick={() => handleTabClick('copilot')}
                   data-tab-button='copilot'
-                  data-tour='tab-copilot'
                 >
                   Copilot
                 </Button>
@@ -775,7 +772,6 @@ export const Panel = memo(function Panel({ workspaceId: propWorkspaceId }: Panel
                 variant={_hasHydrated && activeTab === 'toolbar' ? 'active' : 'ghost'}
                 onClick={() => handleTabClick('toolbar')}
                 data-tab-button='toolbar'
-                data-tour='tab-toolbar'
               >
                 Toolbar
               </Button>
@@ -788,7 +784,6 @@ export const Panel = memo(function Panel({ workspaceId: propWorkspaceId }: Panel
                 variant={_hasHydrated && activeTab === 'editor' ? 'active' : 'ghost'}
                 onClick={() => handleTabClick('editor')}
                 data-tab-button='editor'
-                data-tour='tab-editor'
               >
                 Editor
               </Button>
@@ -815,7 +810,7 @@ export const Panel = memo(function Panel({ workspaceId: propWorkspaceId }: Panel
                   </h2>
                   <div className='flex items-center gap-2'>
                     <Button variant='ghost' className='p-0' onClick={handleCopilotNewChat}>
-                      <Plus className='size-[14px]' />
+                      <Plus className='h-[14px] w-[14px]' />
                     </Button>
                     <Popover
                       open={isCopilotHistoryOpen}
@@ -826,7 +821,7 @@ export const Panel = memo(function Panel({ workspaceId: propWorkspaceId }: Panel
                     >
                       <PopoverTrigger asChild>
                         <Button variant='ghost' className='p-0'>
-                          <History className='size-[14px]' />
+                          <History className='h-[14px] w-[14px]' />
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent align='end' side='bottom' sideOffset={8} maxHeight={280}>
@@ -854,14 +849,14 @@ export const Panel = memo(function Panel({ workspaceId: propWorkspaceId }: Panel
                                         >
                                           <Button
                                             variant='ghost'
-                                            className='size-[16px] p-0'
+                                            className='h-[16px] w-[16px] p-0'
                                             onClick={(e) => {
                                               e.stopPropagation()
                                               handleCopilotDeleteChat(chat.id)
                                             }}
                                             aria-label='Delete chat'
                                           >
-                                            <Trash className='size-[10px]' />
+                                            <Trash className='h-[10px] w-[10px]' />
                                           </Button>
                                         </div>
                                       }
