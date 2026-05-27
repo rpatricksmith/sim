@@ -10,6 +10,7 @@ import { getDocumentIcon } from '@/components/icons/document-icons'
 import { cn } from '@/lib/core/utils/cn'
 import { workflowBorderColor } from '@/lib/workspaces/colors'
 import type { ChatContextKind, ChatMessageContext } from '@/app/workspace/[workspaceId]/home/types'
+import { registry as blockRegistry } from '@/blocks/registry'
 
 interface RenderIconArgs {
   context: ChatMessageContext
@@ -36,6 +37,21 @@ function renderWorkflowSquare({ className, workflowColor }: RenderIconArgs): Rea
       }}
     />
   )
+}
+
+/**
+ * Renders the integration chip glyph: just the block's brand SVG icon, no
+ * background tile — sized and positioned by the caller-supplied className
+ * (same slot the `@` character normally occupies). The block is resolved
+ * by `context.blockType` so the chip stays in sync with the registry.
+ */
+function renderIntegrationTile({ context, className }: RenderIconArgs): ReactNode | null {
+  if (context.kind !== 'integration') return null
+  if (!context.blockType) return null
+  const block = blockRegistry[context.blockType]
+  if (!block) return null
+  const Icon = block.icon
+  return <Icon className={className} />
 }
 
 /**
@@ -84,4 +100,5 @@ export const CHAT_CONTEXT_KIND_REGISTRY: Record<ChatContextKind, ChatContextKind
   templates: { label: 'Templates', renderIcon: () => null },
   docs: { label: 'Docs', renderIcon: () => null },
   slash_command: { label: 'Command', renderIcon: () => null },
+  integration: { label: 'Integration', renderIcon: renderIntegrationTile },
 }

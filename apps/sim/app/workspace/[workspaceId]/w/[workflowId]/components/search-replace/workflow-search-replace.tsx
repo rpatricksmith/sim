@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ChevronDown, ChevronRight, ChevronUp, X } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import { useShallow } from 'zustand/react/shallow'
-import { Button, Input } from '@/components/emcn'
+import { Button, Input, toast } from '@/components/emcn'
 import { cn } from '@/lib/core/utils/cn'
 import { getWorkflowSearchDependentClears } from '@/lib/workflows/search-replace/dependencies'
 import { indexWorkflowSearchMatches } from '@/lib/workflows/search-replace/indexer'
@@ -38,7 +38,6 @@ import { useFolderMap } from '@/hooks/queries/folders'
 import { isWorkflowEffectivelyLocked } from '@/hooks/queries/utils/folder-tree'
 import { useWorkflowMap } from '@/hooks/queries/workflows'
 import { useCollaborativeWorkflow } from '@/hooks/use-collaborative-workflow'
-import { useNotificationStore } from '@/stores/notifications/store'
 import { usePanelEditorStore } from '@/stores/panel'
 import { useWorkflowSearchReplaceStore } from '@/stores/workflow-search-replace/store'
 import { useWorkflowRegistry } from '@/stores/workflows/registry/store'
@@ -102,7 +101,6 @@ export function WorkflowSearchReplace() {
       ? 'Workflow is locked'
       : undefined
   const userPermissions = useUserPermissionsContext()
-  const addNotification = useNotificationStore((state) => state.addNotification)
   const {
     collaborativeBatchSetSubblockValues,
     collaborativeUpdateIterationCollection,
@@ -394,13 +392,11 @@ export function WorkflowSearchReplace() {
 
       if (plan.conflicts.length > 0) {
         const [firstConflict] = plan.conflicts
-        addNotification({
-          level: 'error',
-          message: firstConflict?.reason
+        toast.error(
+          firstConflict?.reason
             ? `Replacement stopped: ${firstConflict.reason}`
-            : `Replacement stopped: ${plan.conflicts.length} match changed. Re-run search and try again.`,
-          workflowId,
-        })
+            : `Replacement stopped: ${plan.conflicts.length} match changed. Re-run search and try again.`
+        )
         return
       }
 
@@ -441,11 +437,7 @@ export function WorkflowSearchReplace() {
       }
 
       if (batchUpdates.length === 0 && plan.subflowUpdates.length === 0) {
-        addNotification({
-          level: 'info',
-          message: 'No eligible matches to replace.',
-          workflowId,
-        })
+        toast({ message: 'No eligible matches to replace.' })
         return
       }
 
@@ -459,11 +451,7 @@ export function WorkflowSearchReplace() {
         })),
       })
       if (!applied) {
-        addNotification({
-          level: 'error',
-          message: 'Replacement could not be applied in the current workflow state.',
-          workflowId,
-        })
+        toast.error('Replacement could not be applied in the current workflow state.')
         return
       }
 
@@ -472,10 +460,8 @@ export function WorkflowSearchReplace() {
       }
 
       const replacedCount = plan.updates.length + plan.subflowUpdates.length
-      addNotification({
-        level: 'info',
+      toast({
         message: `Replaced ${replacedCount} field${replacedCount === 1 ? '' : 's'}.`,
-        workflowId,
       })
     } finally {
       setIsApplying(false)

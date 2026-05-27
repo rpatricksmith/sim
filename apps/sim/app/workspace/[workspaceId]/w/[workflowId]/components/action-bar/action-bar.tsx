@@ -1,7 +1,7 @@
 import { memo, useCallback } from 'react'
 import { ArrowLeftRight, ArrowUpDown, Circle, CircleOff, Lock, LogOut, Unlock } from 'lucide-react'
 import { useShallow } from 'zustand/react/shallow'
-import { Button, Duplicate, PlayOutline, Tooltip, Trash2 } from '@/components/emcn'
+import { Button, Duplicate, PlayOutline, Tooltip, Trash2, toast } from '@/components/emcn'
 import { cn } from '@/lib/core/utils/cn'
 import { isInputDefinitionTrigger } from '@/lib/workflows/triggers/input-definition-triggers'
 import { useUserPermissionsContext } from '@/app/workspace/[workspaceId]/providers/workspace-permissions-provider'
@@ -9,7 +9,6 @@ import { useWorkflowExecution } from '@/app/workspace/[workspaceId]/w/[workflowI
 import { validateTriggerPaste } from '@/app/workspace/[workspaceId]/w/[workflowId]/utils'
 import { useCollaborativeWorkflow } from '@/hooks/use-collaborative-workflow'
 import { useExecutionStore, useIsCurrentWorkflowExecuting } from '@/stores/execution'
-import { useNotificationStore } from '@/stores/notifications'
 import { useWorkflowRegistry } from '@/stores/workflows/registry/store'
 import { useWorkflowStore } from '@/stores/workflows/workflow/store'
 
@@ -55,10 +54,8 @@ export const ActionBar = memo(
     const { setPendingSelection } = useWorkflowRegistry()
     const { handleRunFromBlock } = useWorkflowExecution()
 
-    const addNotification = useNotificationStore((s) => s.addNotification)
-
     const handleDuplicateBlock = useCallback(() => {
-      const { copyBlocks, preparePasteData, activeWorkflowId } = useWorkflowRegistry.getState()
+      const { copyBlocks, preparePasteData } = useWorkflowRegistry.getState()
       const existingBlocks = useWorkflowStore.getState().blocks
       copyBlocks([blockId])
 
@@ -68,11 +65,7 @@ export const ActionBar = memo(
       const blocks = Object.values(pasteData.blocks)
       const validation = validateTriggerPaste(blocks, existingBlocks, 'duplicate')
       if (!validation.isValid) {
-        addNotification({
-          level: 'error',
-          message: validation.message!,
-          workflowId: activeWorkflowId || undefined,
-        })
+        toast.error(validation.message!)
         return
       }
 
@@ -84,7 +77,7 @@ export const ActionBar = memo(
         pasteData.parallels,
         pasteData.subBlockValues
       )
-    }, [blockId, addNotification, collaborativeBatchAddBlocks, setPendingSelection])
+    }, [blockId, collaborativeBatchAddBlocks, setPendingSelection])
 
     const {
       isEnabled,

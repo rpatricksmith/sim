@@ -23,14 +23,17 @@ import { cn } from '@/lib/core/utils/cn'
  * Variants: `ghost` (transparent → `--surface-active` hover), `filled` (`--surface-active` → `--surface-6` hover),
  * `primary` (inverse surface), `destructive` (red surface with red border).
  * `active` renders ghost/filled in their selected state. `fullWidth` swaps `inline-flex` for block-level `flex`.
+ * `flush` removes the default horizontal margin (`mx-0.5`) used by chip clusters — use when a single chip sits
+ * inside its own layout slot (grid cell, table cell) where the cluster spacing is unwanted.
  */
 const chipVariants = cva(
-  'group mx-0.5 h-[30px] cursor-pointer items-center gap-2 rounded-lg px-2 text-left text-sm transition-colors disabled:cursor-not-allowed disabled:opacity-60',
+  'group h-[30px] cursor-pointer items-center gap-2 rounded-lg px-2 text-left text-sm transition-colors disabled:cursor-not-allowed disabled:opacity-60',
   {
     variants: {
       variant: {
         ghost: 'hover-hover:bg-[var(--surface-active)]',
-        filled: 'bg-[var(--surface-active)] hover-hover:bg-[var(--surface-6)]',
+        filled:
+          'bg-[var(--surface-5)] hover-hover:bg-[var(--surface-active)] dark:bg-[var(--surface-4)]',
         primary:
           'bg-[var(--text-primary)] text-[var(--text-inverse)] hover-hover:bg-[var(--text-body)] hover-hover:text-[var(--text-inverse)] dark:bg-white dark:text-[var(--bg)] dark:hover-hover:bg-[var(--text-secondary)] dark:hover-hover:text-[var(--bg)]',
         destructive:
@@ -38,12 +41,13 @@ const chipVariants = cva(
       },
       active: { true: '', false: '' },
       fullWidth: { true: 'flex', false: 'inline-flex' },
+      flush: { true: 'mx-0', false: 'mx-0.5' },
     },
     compoundVariants: [
       { variant: 'ghost', active: true, className: 'bg-[var(--surface-active)]' },
-      { variant: 'filled', active: true, className: 'hover-hover:bg-[var(--surface-active)]' },
+      { variant: 'filled', active: true, className: 'bg-[var(--surface-active)]' },
     ],
-    defaultVariants: { variant: 'ghost', active: false, fullWidth: false },
+    defaultVariants: { variant: 'ghost', active: false, fullWidth: false, flush: false },
   }
 )
 
@@ -90,14 +94,14 @@ interface ChipProps
  * @example <Chip leftIcon={Credit} onClick={openBilling}>{balance}</Chip>
  */
 const Chip = forwardRef<HTMLButtonElement, ChipProps>(function Chip(
-  { className, variant, active, fullWidth, leftIcon, rightIcon, children, type, ...props },
+  { className, variant, active, fullWidth, flush, leftIcon, rightIcon, children, type, ...props },
   ref
 ) {
   return (
     <button
       ref={ref}
       type={type ?? 'button'}
-      className={cn(chipVariants({ variant, active, fullWidth }), className)}
+      className={cn(chipVariants({ variant, active, fullWidth, flush }), className)}
       {...props}
     >
       <ChipContent variant={variant} leftIcon={leftIcon} rightIcon={rightIcon}>
@@ -116,13 +120,13 @@ interface ChipLinkProps
  * @example <ChipLink href='/integrations' active={isCurrent} leftIcon={ArrowLeft}>Integrations</ChipLink>
  */
 const ChipLink = forwardRef<HTMLAnchorElement, ChipLinkProps>(function ChipLink(
-  { className, variant, active, fullWidth, leftIcon, rightIcon, children, ...props },
+  { className, variant, active, fullWidth, flush, leftIcon, rightIcon, children, ...props },
   ref
 ) {
   return (
     <Link
       ref={ref}
-      className={cn(chipVariants({ variant, active, fullWidth }), className)}
+      className={cn(chipVariants({ variant, active, fullWidth, flush }), className)}
       {...props}
     >
       <ChipContent variant={variant} leftIcon={leftIcon} rightIcon={rightIcon}>

@@ -43,6 +43,7 @@ import type {
 import {
   useContextManagement,
   useFileAttachments,
+  useIntegrationAutoMention,
   useMentionMenu,
   useMentionTokens,
 } from '@/app/workspace/[workspaceId]/w/[workflowId]/components/panel/components/copilot/components/user-input/hooks'
@@ -157,13 +158,7 @@ export const UserInput = forwardRef<UserInputHandle, UserInputProps>(function Us
   const overlayRef = useRef<HTMLDivElement>(null)
   const plusMenuRef = useRef<PlusMenuHandle>(null)
 
-  const [prevDefaultValue, setPrevDefaultValue] = useState(defaultValue)
-  if (defaultValue && defaultValue !== prevDefaultValue) {
-    setPrevDefaultValue(defaultValue)
-    setValue(defaultValue)
-  } else if (!defaultValue && prevDefaultValue) {
-    setPrevDefaultValue(defaultValue)
-  }
+  const prevDefaultValueRef = useRef(defaultValue)
 
   const files = useFileAttachments({
     userId: userId || session?.user?.id,
@@ -321,17 +316,51 @@ export const UserInput = forwardRef<UserInputHandle, UserInputProps>(function Us
     setSelectedContexts: contextManagement.setSelectedContexts,
   })
 
+  const integrationAutoMention = useIntegrationAutoMention({
+    setSelectedContexts: contextManagement.setSelectedContexts,
+  })
+
   const canSubmit = (value.trim().length > 0 || hasFiles) && !isSending && !hasUploadingFiles
 
   const valueRef = useRef(value)
   valueRef.current = value
+
+  /**
+   * Convert integration names on mount for any initial value seeded by
+   * `defaultValue` or a restored mothership draft. Mid-typing conversion
+   * is intentionally NOT handled here — the keystroke fast-path in
+   * `handleInputChange` covers that case via `processChange`, and running
+   * it on every value change would inject `@` while the user is still
+   * typing the name and prematurely open the mention menu.
+   */
+  useEffect(() => {
+    if (!valueRef.current) return
+    const converted = integrationAutoMention.applyToText(valueRef.current)
+    if (converted !== valueRef.current) setValue(converted)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  /**
+   * Sync `value` when the `defaultValue` prop changes post-mount — e.g.
+   * the user clicks a different template while UserInput is already
+   * mounted. Mirrors the previously inline render-phase derivation but
+   * now runs the prompt through `applyToText` so integration names get
+   * chipified consistently with paste / draft restore flows.
+   */
+  useEffect(() => {
+    if (defaultValue === prevDefaultValueRef.current) return
+    prevDefaultValueRef.current = defaultValue
+    if (defaultValue) setValue(integrationAutoMention.applyToText(defaultValue))
+  }, [defaultValue, integrationAutoMention.applyToText])
+
   const sttPrefixRef = useRef('')
 
   function handleTranscript(text: string) {
     const prefix = sttPrefixRef.current
     const newVal = prefix ? `${prefix} ${text}` : text
-    setValue(newVal)
-    valueRef.current = newVal
+    const converted = integrationAutoMention.applyToText(newVal)
+    setValue(converted)
+    valueRef.current = converted
   }
 
   function handleUsageLimitExceeded() {
@@ -377,7 +406,7 @@ export const UserInput = forwardRef<UserInputHandle, UserInputProps>(function Us
     ref,
     () => ({
       loadQueuedMessage: (msg: QueuedMessage) => {
-        setValue(msg.content)
+        setValue(integrationAutoMention.applyToText(msg.content))
         const restored: AttachedFile[] = (msg.fileAttachments ?? []).map((a) => ({
           id: a.id,
           name: a.filename,
@@ -399,7 +428,12 @@ export const UserInput = forwardRef<UserInputHandle, UserInputProps>(function Us
         })
       },
     }),
-    [files.restoreAttachedFiles, contextManagement.setSelectedContexts, textareaRef]
+    [
+      files.restoreAttachedFiles,
+      contextManagement.setSelectedContexts,
+      textareaRef,
+      integrationAutoMention.applyToText,
+    ]
   )
 
   useLayoutEffect(() => {
@@ -733,9 +767,12 @@ export const UserInput = forwardRef<UserInputHandle, UserInputProps>(function Us
   const syncMentionState = useCallback(
     (textarea: HTMLTextAreaElement, text: string, caret: number) => {
       const active = getActiveMentionAtRef.current(caret, text)
-      // Treat any whitespace inside the query as a closer — typing a space
-      // after `@foo` should leave the raw `@foo` text and dismiss the menu.
-      const isOpenable = active && !/\s/.test(active.query)
+      // Any word-boundary character inside the query — whitespace, sentence
+      // punctuation, or brackets — dismisses the menu. The mention token
+      // is "complete" the moment the user types a non-word character, so
+      // there's nothing more to query. Mirrors the boundary set the
+      // integration auto-detector uses for symmetry.
+      const isOpenable = active && !/[\s.,;:!?(){}[\]"'`/\\<>]/.test(active.query)
       if (!isOpenable) {
         if (mentionRangeRef.current !== null) {
           mentionRangeRef.current = null
@@ -759,12 +796,32 @@ export const UserInput = forwardRef<UserInputHandle, UserInputProps>(function Us
 
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      const newValue = e.target.value
-      const caret = e.target.selectionStart ?? newValue.length
-      setValue(newValue)
-      syncMentionState(e.target, newValue, caret)
+      const previousValue = valueRef.current
+      const nextValue = e.target.value
+
+      let finalValue = nextValue
+      if (nextValue.length === previousValue.length + 1) {
+        // Single-char keystroke — synchronous, boundary-triggered.
+        finalValue = integrationAutoMention.processChange({
+          textarea: e.target,
+          previousValue,
+          nextValue,
+        })
+      } else if (nextValue.length > previousValue.length + 1) {
+        // Multi-char insertion (paste, drag-drop, IME commit) — bulk
+        // convert all matches and rewrite the textarea via `setRangeText`
+        // to keep the edit in a single native undo step.
+        finalValue = integrationAutoMention.applyToText(nextValue)
+        if (finalValue !== nextValue) {
+          e.target.setRangeText(finalValue, 0, nextValue.length, 'preserve')
+        }
+      }
+
+      const caret = e.target.selectionStart ?? finalValue.length
+      setValue(finalValue)
+      syncMentionState(e.target, finalValue, caret)
     },
-    [syncMentionState]
+    [integrationAutoMention.applyToText, integrationAutoMention.processChange, syncMentionState]
   )
 
   const handleSelectAdjust = useCallback(() => {

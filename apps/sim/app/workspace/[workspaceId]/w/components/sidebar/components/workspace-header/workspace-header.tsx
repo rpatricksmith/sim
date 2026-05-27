@@ -406,7 +406,7 @@ function WorkspaceHeaderImpl({
                       <div key={workspace.id}>
                         {editingWorkspaceId === workspace.id ? (
                           <div
-                            className={cn(chipVariants({ active: true, fullWidth: true }), 'mx-0')}
+                            className={chipVariants({ active: true, fullWidth: true, flush: true })}
                           >
                             {workspace.logoUrl ? (
                               <img
@@ -478,8 +478,12 @@ function WorkspaceHeaderImpl({
                         ) : (
                           <div
                             className={cn(
-                              chipVariants({ active: isActive || isMenuOpen, fullWidth: true }),
-                              'mx-0 select-none'
+                              chipVariants({
+                                active: isActive || isMenuOpen,
+                                fullWidth: true,
+                                flush: true,
+                              }),
+                              'select-none'
                             )}
                             onClick={(e) => {
                               if (e.metaKey || e.ctrlKey) {
@@ -558,7 +562,8 @@ function WorkspaceHeaderImpl({
                     disabled={isCreatingWorkspace}
                     title={createWorkspaceDisabledReason ?? undefined}
                     fullWidth
-                    className='mx-0 w-full select-none disabled:pointer-events-none disabled:opacity-50'
+                    flush
+                    className='w-full select-none disabled:pointer-events-none disabled:opacity-50'
                   >
                     New workspace
                   </Chip>
@@ -577,7 +582,8 @@ function WorkspaceHeaderImpl({
                   }}
                   title={inviteDisabledReason ?? undefined}
                   fullWidth
-                  className='mx-0 w-full select-none'
+                  flush
+                  className='w-full select-none'
                 >
                   Invite members
                 </Chip>

@@ -16,6 +16,8 @@ import {
   SlackIcon,
 } from '@/components/icons'
 import { cn } from '@/lib/core/utils/cn'
+import { INTEGRATIONS } from '@/lib/integrations'
+import { integrationConnectHref } from '@/app/workspace/[workspaceId]/integrations/connect-route'
 import { useWorkspaceCredentials } from '@/hooks/queries/credentials'
 import { useOAuthConnections } from '@/hooks/queries/oauth/oauth-connections'
 
@@ -23,7 +25,12 @@ type Icon = ComponentType<{ className?: string }>
 
 type Action =
   | { kind: 'prompt'; id: string; label: string; prompt: string; icon: Icon }
-  | { kind: 'integration'; id: string; label: string; icon: Icon }
+  | { kind: 'integration'; id: string; label: string; icon: Icon; slug: string }
+
+/** Lookup integration slug by OAuth service display name (case-insensitive). */
+const SLUG_BY_LOWER_NAME: ReadonlyMap<string, string> = new Map(
+  INTEGRATIONS.map((i) => [i.name.toLowerCase(), i.slug])
+)
 
 interface PromptOption {
   id: string
@@ -174,12 +181,13 @@ function toPromptAction(option: PromptOption): Action {
   }
 }
 
-function toIntegrationAction(service: ServiceInfo): Action {
+function toIntegrationAction(service: ServiceInfo, slug: string): Action {
   return {
     kind: 'integration',
     id: `integrate-${service.providerId}`,
     label: `Integrate with ${service.name}`,
     icon: service.icon,
+    slug,
   }
 }
 
@@ -190,8 +198,20 @@ function toIntegrationAction(service: ServiceInfo): Action {
  * replaces it with personalized integrations.
  */
 const INITIAL_ACTIONS: Action[] = [
-  { kind: 'integration', id: 'integrate-slack', label: 'Integrate with Slack', icon: SlackIcon },
-  { kind: 'integration', id: 'integrate-gmail', label: 'Integrate with Gmail', icon: GmailIcon },
+  {
+    kind: 'integration',
+    id: 'integrate-slack',
+    label: 'Integrate with Slack',
+    icon: SlackIcon,
+    slug: 'slack',
+  },
+  {
+    kind: 'integration',
+    id: 'integrate-gmail',
+    label: 'Integrate with Gmail',
+    icon: GmailIcon,
+    slug: 'gmail',
+  },
   toPromptAction(TABLE_PROMPTS.find((p) => p.id === 'crm')!),
   toPromptAction(INTEGRATION_PROMPTS.find((p) => p.id === 'github-pr-review')!),
 ]
@@ -227,8 +247,14 @@ export function SuggestedActions({ onSelectPrompt }: SuggestedActionsProps) {
   useEffect(() => {
     if (services.length === 0 || connectedProviders.size === 0) return
 
-    const availableServices = services.filter((s) => !connectedProviders.has(s.providerId))
-    const integrations = sample(availableServices, 2).map(toIntegrationAction)
+    const candidates = services.flatMap((s) => {
+      if (connectedProviders.has(s.providerId)) return []
+      const slug = SLUG_BY_LOWER_NAME.get(s.name.toLowerCase())
+      return slug ? [{ service: s, slug }] : []
+    })
+    const integrations = sample(candidates, 2).map(({ service, slug }) =>
+      toIntegrationAction(service, slug)
+    )
 
     const integrationPool = INTEGRATION_PROMPTS.filter(
       (p) => !p.providerId || !connectedProviders.has(p.providerId)
@@ -247,7 +273,7 @@ export function SuggestedActions({ onSelectPrompt }: SuggestedActionsProps) {
       onSelectPrompt(action.prompt)
       return
     }
-    router.push(`/workspace/${workspaceId}/integrations`)
+    router.push(integrationConnectHref(workspaceId, action.slug))
   }
 
   return (

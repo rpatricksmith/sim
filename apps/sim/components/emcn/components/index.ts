@@ -23,6 +23,24 @@ export {
 } from './checkbox/checkbox'
 export { Chip, ChipLink, type ChipLinkProps, type ChipProps, chipVariants } from './chip/chip'
 export {
+  ChipDropdown,
+  type ChipDropdownOption,
+  type ChipDropdownProps,
+} from './chip-dropdown/chip-dropdown'
+export {
+  ChipModal,
+  ChipModalBody,
+  type ChipModalDropdownOption,
+  ChipModalError,
+  type ChipModalErrorProps,
+  ChipModalField,
+  type ChipModalFieldProps,
+  ChipModalFooter,
+  ChipModalHeader,
+  type ChipModalHeaderProps,
+  type ChipModalProps,
+} from './chip-modal/chip-modal'
+export {
   CODE_LINE_HEIGHT_PX,
   Code,
   calculateGutterWidth,
@@ -60,6 +78,14 @@ export { Expandable, ExpandableContent } from './expandable/expandable'
 export { FieldDivider } from './field-divider/field-divider'
 export { FormField } from './form-field/form-field'
 export { Info } from './info/info'
+export {
+  InfoCard,
+  InfoCardItem,
+  type InfoCardItemProps,
+  InfoCardList,
+  type InfoCardListProps,
+  type InfoCardProps,
+} from './info-card/info-card'
 export { Input, inputVariants } from './input/input'
 export { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from './input-otp/input-otp'
 export { Label } from './label/label'

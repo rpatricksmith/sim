@@ -1,28 +1,38 @@
 'use client'
 
-import { type ComponentType, useCallback, useEffect, useMemo, useState } from 'react'
+import {
+  type ComponentType,
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import { createLogger } from '@sim/logger'
 import { getErrorMessage } from '@sim/utils/errors'
-import { AlertTriangle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import {
   Avatar,
   AvatarFallback,
   Button,
-  ChevronDown,
   Chip,
+  ChipDropdown,
   ChipLink,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
+  ChipModal,
+  ChipModalBody,
+  ChipModalField,
+  ChipModalFooter,
+  ChipModalHeader,
   Modal,
   ModalBody,
   ModalContent,
   ModalDescription,
   ModalFooter,
   ModalHeader,
+  Send,
+  TagInput,
   Tooltip,
+  toast,
 } from '@/components/emcn'
 import { ArrowLeft, Check, Duplicate } from '@/components/emcn/icons'
 import { useSession } from '@/lib/auth/auth-client'
@@ -54,6 +64,7 @@ import {
   useOAuthConnections,
 } from '@/hooks/queries/oauth/oauth-connections'
 import { useWorkspacePermissionsQuery } from '@/hooks/queries/workspace'
+import { useOAuthReturnRouter } from '@/hooks/use-oauth-return'
 
 const logger = createLogger('ConnectedCredentialDetail')
 
@@ -61,6 +72,27 @@ const ROLE_OPTIONS = [
   { value: 'member', label: 'Member' },
   { value: 'admin', label: 'Admin' },
 ] as const
+
+interface SectionProps {
+  title: ReactNode
+  children: ReactNode
+}
+
+/**
+ * Local "labeled section" primitive used by the credential detail page. Pairs
+ * a muted section title with a thin inset separator above the body so all
+ * four sections (Credential ID, Display Name, Description, Members) share
+ * the same vertical rhythm without repeating the markup at every callsite.
+ */
+function Section({ title, children }: SectionProps) {
+  return (
+    <section className='flex flex-col'>
+      <span className='pl-0.5 text-[var(--text-muted)] text-small'>{title}</span>
+      <div className='mt-[9px] mb-3 h-px bg-[var(--border)]' />
+      {children}
+    </section>
+  )
+}
 
 interface ConnectedCredentialDetailProps {
   workspaceId: string
@@ -73,6 +105,8 @@ export function ConnectedCredentialDetail({
 }: ConnectedCredentialDetailProps) {
   const router = useRouter()
   const integrationsHref = `/workspace/${workspaceId}/integrations`
+
+  useOAuthReturnRouter()
 
   const { data: session } = useSession()
   const currentUserId = session?.user?.id || ''
@@ -141,20 +175,17 @@ export function ConnectedCredentialDetail({
 
   const [displayNameDraft, setDisplayNameDraft] = useState('')
   const [descriptionDraft, setDescriptionDraft] = useState('')
-  const [detailsError, setDetailsError] = useState<string | null>(null)
   const [copyIdSuccess, setCopyIdSuccess] = useState(false)
 
-  const [isSharingWithWorkspace, setIsSharingWithWorkspace] = useState(false)
-
   const [showDeleteConfirmDialog, setShowDeleteConfirmDialog] = useState(false)
-  const [deleteError, setDeleteError] = useState<string | null>(null)
   const [showUnsavedChangesAlert, setShowUnsavedChangesAlert] = useState(false)
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false)
+  const [inviteRole, setInviteRole] = useState<WorkspaceCredentialRole>('member')
 
   // Sync drafts when credential loads or changes.
   useEffect(() => {
     setDisplayNameDraft(credential?.displayName ?? '')
     setDescriptionDraft(credential?.description ?? '')
-    setDetailsError(null)
   }, [credential?.id, credential?.displayName, credential?.description])
 
   const isDescriptionDirty = credential
@@ -200,7 +231,6 @@ export function ConnectedCredentialDetail({
 
   const handleSaveDetails = async () => {
     if (!credential || !isAdmin || !isDetailsDirty || updateCredential.isPending) return
-    setDetailsError(null)
     try {
       await updateCredential.mutateAsync({
         credentialId: credential.id,
@@ -210,15 +240,15 @@ export function ConnectedCredentialDetail({
       if (isDisplayNameDirty) setDisplayNameDraft((v) => v.trim())
       if (isDescriptionDirty) setDescriptionDraft((v) => v.trim())
     } catch (error: unknown) {
-      const message = getErrorMessage(error, 'Failed to save changes')
-      setDetailsError(message)
+      toast.error("Couldn't save changes", {
+        description: getErrorMessage(error, 'Please try again in a moment.'),
+      })
       logger.error('Failed to save credential details', error)
     }
   }
 
   const handleReconnectOAuth = async () => {
     if (!credential || credential.type !== 'oauth' || !credential.providerId || !workspaceId) return
-    setDetailsError(null)
     try {
       await createDraft.mutateAsync({
         workspaceId,
@@ -246,30 +276,10 @@ export function ConnectedCredentialDetail({
         callbackURL: window.location.href,
       })
     } catch (error: unknown) {
-      const message = getErrorMessage(error, 'Failed to start reconnect')
-      setDetailsError(message)
+      toast.error("Couldn't start reconnect", {
+        description: getErrorMessage(error, 'Please try again in a moment.'),
+      })
       logger.error('Failed to reconnect OAuth credential', error)
-    }
-  }
-
-  const handleShareWithWorkspace = async () => {
-    if (!credential || !isAdmin || workspaceUserOptions.length === 0) return
-    setDetailsError(null)
-    setIsSharingWithWorkspace(true)
-    try {
-      for (const user of workspaceUserOptions) {
-        await upsertMember.mutateAsync({
-          credentialId: credential.id,
-          userId: user.value,
-          role: 'member',
-        })
-      }
-    } catch (error: unknown) {
-      const message = getErrorMessage(error, 'Failed to share with workspace')
-      setDetailsError(message)
-      logger.error('Failed to share credential with workspace', error)
-    } finally {
-      setIsSharingWithWorkspace(false)
     }
   }
 
@@ -295,15 +305,14 @@ export function ConnectedCredentialDetail({
 
   const handleConfirmDelete = async () => {
     if (!credential) return
-    setDeleteError(null)
     try {
       if (credential.type === 'service_account') {
         await deleteCredential.mutateAsync(credential.id)
       } else {
         if (!credential.accountId || !credential.providerId) {
-          setDeleteError(
-            'Cannot disconnect: missing account information. Please try reconnecting this credential first.'
-          )
+          toast.error("Can't disconnect", {
+            description: 'Missing account information. Try reconnecting this credential first.',
+          })
           return
         }
         await disconnectOAuthService.mutateAsync({
@@ -321,8 +330,9 @@ export function ConnectedCredentialDetail({
       setShowDeleteConfirmDialog(false)
       router.push(integrationsHref)
     } catch (error) {
-      const message = getErrorMessage(error, 'Failed to disconnect integration')
-      setDeleteError(message)
+      toast.error("Couldn't disconnect", {
+        description: getErrorMessage(error, 'Please try again in a moment.'),
+      })
       logger.error('Failed to disconnect integration', error)
     }
   }
@@ -343,19 +353,11 @@ export function ConnectedCredentialDetail({
               Reconnect
             </Chip>
           )}
-          {(workspaceUserOptions.length > 0 || isSharingWithWorkspace) && (
-            <Chip
-              onClick={handleShareWithWorkspace}
-              disabled={isSharingWithWorkspace || workspaceUserOptions.length === 0}
-            >
-              {isSharingWithWorkspace ? 'Sharing...' : 'Share with workspace'}
-            </Chip>
-          )}
+          <Chip leftIcon={Send} onClick={() => setIsShareModalOpen(true)}>
+            Share
+          </Chip>
           <Chip
-            onClick={() => {
-              setDeleteError(null)
-              setShowDeleteConfirmDialog(true)
-            }}
+            onClick={() => setShowDeleteConfirmDialog(true)}
             disabled={disconnectOAuthService.isPending || deleteCredential.isPending}
           >
             Disconnect
@@ -429,9 +431,7 @@ export function ConnectedCredentialDetail({
             </div>
           </div>
 
-          <section className='flex flex-col'>
-            <span className='pl-0.5 text-[var(--text-muted)] text-small'>Credential ID</span>
-            <div className='mt-[9px] mb-3 h-px bg-[var(--border)]' />
+          <Section title='Credential ID'>
             <div className='flex h-[30px] items-center gap-2 rounded-lg border border-[var(--border-1)] bg-[var(--surface-5)] px-2 dark:bg-[var(--surface-4)]'>
               <input
                 id='credential-id'
@@ -463,11 +463,9 @@ export function ConnectedCredentialDetail({
                 </Tooltip.Content>
               </Tooltip.Root>
             </div>
-          </section>
+          </Section>
 
-          <section className='flex flex-col'>
-            <span className='pl-0.5 text-[var(--text-muted)] text-small'>Display Name</span>
-            <div className='mt-[9px] mb-3 h-px bg-[var(--border)]' />
+          <Section title='Display Name'>
             <div className='flex h-[30px] items-center gap-2 rounded-lg border border-[var(--border-1)] bg-[var(--surface-5)] px-2 dark:bg-[var(--surface-4)]'>
               <input
                 id='credential-display-name'
@@ -479,11 +477,9 @@ export function ConnectedCredentialDetail({
                 className='h-full w-full bg-transparent text-[var(--text-body)] text-sm outline-none placeholder:text-[var(--text-muted)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-60'
               />
             </div>
-          </section>
+          </Section>
 
-          <section className='flex flex-col'>
-            <span className='pl-0.5 text-[var(--text-muted)] text-small'>Description</span>
-            <div className='mt-[9px] mb-3 h-px bg-[var(--border)]' />
+          <Section title='Description'>
             <div className='flex items-start gap-1.5 rounded-lg border border-[var(--border-1)] bg-[var(--surface-5)] px-2 py-2 dark:bg-[var(--surface-4)]'>
               <textarea
                 id='credential-description'
@@ -498,20 +494,9 @@ export function ConnectedCredentialDetail({
                 className='w-full resize-none bg-transparent text-[var(--text-body)] text-sm outline-none placeholder:text-[var(--text-muted)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-60'
               />
             </div>
-          </section>
+          </Section>
 
-          {detailsError && (
-            <div className='rounded-lg border border-[color-mix(in_srgb,var(--text-error)_40%,transparent)] bg-[color-mix(in_srgb,var(--text-error)_10%,transparent)] px-2.5 py-2 text-[var(--text-error)] text-small'>
-              {detailsError}
-            </div>
-          )}
-
-          <section className='flex flex-col'>
-            <span className='pl-0.5 text-[var(--text-muted)] text-small'>
-              Members ({activeMembers.length})
-            </span>
-            <div className='mt-[9px] mb-3 h-px bg-[var(--border)]' />
-
+          <Section title={`Members (${activeMembers.length})`}>
             {membersLoading ? null : (
               <div className='flex flex-col gap-2'>
                 {activeMembers.map((member) => {
@@ -545,49 +530,21 @@ export function ConnectedCredentialDetail({
                           </span>
                         </div>
                       </div>
-                      {roleDisabled ? (
-                        <button
-                          type='button'
-                          disabled
-                          className='inline-flex h-[30px] items-center justify-between gap-2 rounded-lg bg-[var(--surface-active)] px-2 transition-colors disabled:cursor-not-allowed disabled:opacity-70'
-                        >
-                          <span className='text-[var(--text-body)] text-sm'>
-                            {ROLE_OPTIONS.find((option) => option.value === member.role)?.label ||
-                              'Role'}
-                          </span>
-                          <ChevronDown className='h-[7px] w-[9px] text-[var(--text-icon)]' />
-                        </button>
-                      ) : (
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <button
-                              type='button'
-                              className='inline-flex h-[30px] items-center justify-between gap-2 rounded-lg bg-[var(--surface-active)] px-2 transition-colors hover-hover:bg-[var(--surface-6)]'
-                            >
-                              <span className='text-[var(--text-body)] text-sm'>
-                                {ROLE_OPTIONS.find((option) => option.value === member.role)
-                                  ?.label || 'Role'}
-                              </span>
-                              <ChevronDown className='h-[7px] w-[9px] text-[var(--text-icon)]' />
-                            </button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align='end' className='min-w-[160px]'>
-                            {ROLE_OPTIONS.map((option) => (
-                              <DropdownMenuItem
-                                key={option.value}
-                                onSelect={() => handleChangeMemberRole(member.userId, option.value)}
-                              >
-                                {option.label}
-                              </DropdownMenuItem>
-                            ))}
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      )}
+                      <ChipDropdown
+                        options={ROLE_OPTIONS}
+                        value={member.role}
+                        placeholder='Role'
+                        disabled={roleDisabled}
+                        onChange={(role) =>
+                          handleChangeMemberRole(member.userId, role as WorkspaceCredentialRole)
+                        }
+                      />
                       {isAdmin && (
                         <Chip
                           onClick={() => handleRemoveMember(member.userId)}
                           disabled={roleLocked}
-                          className='mx-0 justify-self-end'
+                          flush
+                          className='justify-self-end'
                         >
                           Remove
                         </Chip>
@@ -597,19 +554,11 @@ export function ConnectedCredentialDetail({
                 })}
               </div>
             )}
-          </section>
+          </Section>
         </div>
       </div>
 
-      <Modal
-        open={showDeleteConfirmDialog}
-        onOpenChange={(open) => {
-          if (!open) {
-            setShowDeleteConfirmDialog(false)
-            setDeleteError(null)
-          }
-        }}
-      >
+      <Modal open={showDeleteConfirmDialog} onOpenChange={setShowDeleteConfirmDialog}>
         <ModalContent size='sm'>
           <ModalHeader>Disconnect Integration</ModalHeader>
           <ModalBody>
@@ -620,23 +569,9 @@ export function ConnectedCredentialDetail({
               </span>
               ? This action cannot be undone.
             </ModalDescription>
-            {deleteError && (
-              <div className='mt-3 rounded-lg border border-[color-mix(in_srgb,var(--text-error)_40%,transparent)] bg-[color-mix(in_srgb,var(--text-error)_10%,transparent)] p-3'>
-                <div className='flex items-start gap-2.5'>
-                  <AlertTriangle className='mt-[1px] size-4 flex-shrink-0 text-[var(--text-error)]' />
-                  <p className='text-[var(--text-error)] text-small'>{deleteError}</p>
-                </div>
-              </div>
-            )}
           </ModalBody>
           <ModalFooter>
-            <Button
-              variant='default'
-              onClick={() => {
-                setShowDeleteConfirmDialog(false)
-                setDeleteError(null)
-              }}
-            >
+            <Button variant='default' onClick={() => setShowDeleteConfirmDialog(false)}>
               Cancel
             </Button>
             <Button
@@ -651,6 +586,39 @@ export function ConnectedCredentialDetail({
           </ModalFooter>
         </ModalContent>
       </Modal>
+
+      <ChipModal
+        open={isShareModalOpen}
+        onOpenChange={setIsShareModalOpen}
+        srTitle='Invite team members'
+      >
+        <ChipModalHeader onClose={() => setIsShareModalOpen(false)}>
+          Invite team members
+        </ChipModalHeader>
+        <ChipModalBody>
+          <ChipModalField type='custom' title='Emails'>
+            <TagInput
+              items={[]}
+              onAdd={() => false}
+              onRemove={() => {}}
+              placeholder='Enter emails'
+              variant='block'
+            />
+          </ChipModalField>
+          <ChipModalField
+            type='dropdown'
+            title='Invite as'
+            options={ROLE_OPTIONS}
+            value={inviteRole}
+            placeholder='Select role'
+            align='start'
+            onChange={(role) => setInviteRole(role as WorkspaceCredentialRole)}
+          />
+        </ChipModalBody>
+        <ChipModalFooter>
+          <Chip variant='primary'>Send invites</Chip>
+        </ChipModalFooter>
+      </ChipModal>
 
       <Modal open={showUnsavedChangesAlert} onOpenChange={setShowUnsavedChangesAlert}>
         <ModalContent size='sm'>

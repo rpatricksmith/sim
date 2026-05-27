@@ -14,6 +14,10 @@ import {
   type LandingWorkflowSeed,
   LandingWorkflowSeedStorage,
 } from '@/lib/core/utils/browser-storage'
+import {
+  MOTHERSHIP_SEND_MESSAGE_EVENT,
+  type MothershipSendMessageDetail,
+} from '@/lib/mothership/events'
 import { captureEvent } from '@/lib/posthog/client'
 import { persistImportedWorkflow } from '@/lib/workflows/operations/import-export'
 import { useChatHistory, useMarkTaskRead } from '@/hooks/queries/tasks'
@@ -240,11 +244,11 @@ export function Home({ chatId }: HomeProps = {}) {
 
   useEffect(() => {
     const handler = (e: Event) => {
-      const message = (e as CustomEvent<{ message: string }>).detail?.message
+      const message = (e as CustomEvent<MothershipSendMessageDetail>).detail?.message
       if (message) sendMessage(message)
     }
-    window.addEventListener('mothership-send-message', handler)
-    return () => window.removeEventListener('mothership-send-message', handler)
+    window.addEventListener(MOTHERSHIP_SEND_MESSAGE_EVENT, handler)
+    return () => window.removeEventListener(MOTHERSHIP_SEND_MESSAGE_EVENT, handler)
   }, [sendMessage])
 
   function resolveResourceFromContext(

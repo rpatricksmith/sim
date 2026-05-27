@@ -19,6 +19,7 @@ import {
 } from '@/components/emcn'
 import { getEnv, isTruthy } from '@/lib/core/config/env'
 import { handleKeyboardActivation } from '@/lib/core/utils/keyboard'
+import { sendMothershipMessage } from '@/lib/mothership/events'
 import { useRegisterGlobalCommands } from '@/app/workspace/[workspaceId]/providers/global-commands-provider'
 import { createCommands } from '@/app/workspace/[workspaceId]/utils/commands-utils'
 import {
@@ -50,7 +51,6 @@ import {
 import { useContextMenu } from '@/app/workspace/[workspaceId]/w/components/sidebar/hooks'
 import { useShowTrainingControls } from '@/hooks/queries/general-settings'
 import { OUTPUT_PANEL_WIDTH, TERMINAL_HEIGHT } from '@/stores/constants'
-import { sendMothershipMessage } from '@/stores/notifications/utils'
 import type { ConsoleEntry } from '@/stores/terminal'
 import {
   safeConsoleStringify,

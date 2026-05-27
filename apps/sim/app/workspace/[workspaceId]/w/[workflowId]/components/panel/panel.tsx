@@ -33,6 +33,7 @@ import {
   PopoverSection,
   PopoverTrigger,
   Trash,
+  toast,
 } from '@/components/emcn'
 import { Lock, Unlock, Upload } from '@/components/emcn/icons'
 import { VariableIcon } from '@/components/icons'
@@ -43,6 +44,10 @@ import {
 } from '@/lib/api/contracts/copilot'
 import { getWorkflowNormalizedStateContract } from '@/lib/api/contracts/workflows'
 import { useSession } from '@/lib/auth/auth-client'
+import {
+  MOTHERSHIP_SEND_MESSAGE_EVENT,
+  type MothershipSendMessageDetail,
+} from '@/lib/mothership/events'
 import { captureEvent } from '@/lib/posthog/client'
 import { generateWorkflowJson } from '@/lib/workflows/operations/import-export'
 import { ConversationListItem } from '@/app/workspace/[workspaceId]/components'
@@ -80,7 +85,6 @@ import { useCollaborativeWorkflow } from '@/hooks/use-collaborative-workflow'
 import { usePermissionConfig } from '@/hooks/use-permission-config'
 import { useSettingsNavigation } from '@/hooks/use-settings-navigation'
 import { useChatStore } from '@/stores/chat/store'
-import { useNotificationStore } from '@/stores/notifications/store'
 import type { ChatContext, PanelTab } from '@/stores/panel'
 import { usePanelStore } from '@/stores/panel'
 import { useVariablesModalStore } from '@/stores/variables/modal'
@@ -445,13 +449,13 @@ export const Panel = memo(function Panel({ workspaceId: propWorkspaceId }: Panel
 
   useEffect(() => {
     const handler = (e: Event) => {
-      const message = (e as CustomEvent<{ message: string }>).detail?.message
+      const message = (e as CustomEvent<MothershipSendMessageDetail>).detail?.message
       if (!message) return
       setActiveTab('copilot')
       copilotSendMessage(message)
     }
-    window.addEventListener('mothership-send-message', handler)
-    return () => window.removeEventListener('mothership-send-message', handler)
+    window.addEventListener(MOTHERSHIP_SEND_MESSAGE_EVENT, handler)
+    return () => window.removeEventListener(MOTHERSHIP_SEND_MESSAGE_EVENT, handler)
   }, [setActiveTab, copilotSendMessage])
 
   useEffect(() => {
@@ -503,16 +507,12 @@ export const Panel = memo(function Panel({ workspaceId: propWorkspaceId }: Panel
     try {
       const result = await autoLayoutWithFitView()
       if (!result.success && result.error) {
-        useNotificationStore.getState().addNotification({
-          level: 'info',
-          message: result.error,
-          workflowId: activeWorkflowId || undefined,
-        })
+        toast({ message: result.error })
       }
     } finally {
       setIsAutoLayouting(false)
     }
-  }, [isExecuting, canMutateWorkflow, isAutoLayouting, autoLayoutWithFitView, activeWorkflowId])
+  }, [isExecuting, canMutateWorkflow, isAutoLayouting, autoLayoutWithFitView])
 
   /**
    * Handles exporting workflow as JSON

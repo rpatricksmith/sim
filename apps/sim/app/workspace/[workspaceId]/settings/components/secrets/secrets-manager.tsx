@@ -679,7 +679,6 @@ export function SecretsManager() {
         clearPendingCredentialCreateRequest()
         return
       }
-      if (request.type === 'oauth') return
 
       const envKey = request.envKey || ''
       if (envKey) {
