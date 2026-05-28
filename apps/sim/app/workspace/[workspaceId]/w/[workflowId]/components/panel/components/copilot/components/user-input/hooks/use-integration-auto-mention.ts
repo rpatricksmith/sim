@@ -1,76 +1,12 @@
 import { useCallback } from 'react'
-import { registry as blockRegistry } from '@/blocks/registry'
+import { getIntegrationMatcher } from '@/blocks/integration-matcher'
 import type { ChatContext } from '@/stores/panel'
-
-/**
- * Display names that collide with common English words even though their
- * block is `category: 'tools'`. Belt-and-suspenders defense against future
- * tools-category blocks whose names overlap natural language.
- */
-const EXCLUDED_NAMES: ReadonlySet<string> = new Set(['file', 'files', 'chat'])
 
 /**
  * Characters that signal the user has completed a word. Used by the
  * keystroke fast-path to detect that a typed integration name just ended.
  */
 const WORD_BOUNDARY_REGEX = /^[\s.,;:!?(){}[\]"'`/\\<>\n]$/
-
-interface IntegrationMatch {
-  blockType: string
-  name: string
-}
-
-interface Matcher {
-  regex: RegExp | null
-  byName: Map<string, IntegrationMatch>
-}
-
-function escapeRegex(value: string): string {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-}
-
-/** Strips ` (Legacy)` / ` V2` suffixes so the chip uses the natural name. */
-function normalizeDisplayName(name: string): string {
-  return name
-    .replace(/\s*\(legacy\)\s*$/i, '')
-    .replace(/\s+v\d+(\.\d+)*\s*$/i, '')
-    .trim()
-}
-
-let cachedMatcher: Matcher | null = null
-
-/**
- * Lazily builds (once per session) and returns the precomputed integration
- * matcher. Names are sorted longest-first so multi-word matches like
- * `Google Sheets` win over `Google`; lookarounds prevent substring hits
- * like `Slack` inside `Slackbot`.
- */
-function getMatcher(): Matcher {
-  if (cachedMatcher) return cachedMatcher
-
-  const byName = new Map<string, IntegrationMatch>()
-  const names: string[] = []
-
-  for (const [blockType, block] of Object.entries(blockRegistry)) {
-    if (block.category !== 'tools') continue
-    if (block.hideFromToolbar) continue
-    if (!block.name || block.name.trim().length < 2) continue
-    const displayName = normalizeDisplayName(block.name)
-    const key = displayName.toLowerCase()
-    if (EXCLUDED_NAMES.has(key)) continue
-    if (byName.has(key)) continue
-    byName.set(key, { blockType, name: displayName })
-    names.push(displayName)
-  }
-
-  names.sort((a, b) => b.length - a.length)
-  const regex = names.length
-    ? new RegExp(`(?<![A-Za-z0-9_])(${names.map(escapeRegex).join('|')})(?![A-Za-z0-9_])`, 'gi')
-    : null
-
-  cachedMatcher = { regex, byName }
-  return cachedMatcher
-}
 
 type IntegrationContext = Extract<ChatContext, { kind: 'integration' }>
 
@@ -91,7 +27,7 @@ function isMentionPrefixAt(text: string, atIndex: number): boolean {
  * preceded by `@` are surfaced as contexts but not double-prefixed.
  */
 function convertText(text: string): { text: string; contexts: IntegrationContext[] } {
-  const { regex, byName } = getMatcher()
+  const { regex, byName } = getIntegrationMatcher()
   if (!regex || !text) return { text, contexts: [] }
 
   regex.lastIndex = 0
@@ -187,7 +123,7 @@ export function useIntegrationAutoMention({ setSelectedContexts }: UseIntegratio
       // Scan the segment immediately preceding the boundary char for an
       // integration name that ends at the boundary (i.e. just completed).
       const before = nextValue.slice(0, diffIndex)
-      const { regex, byName } = getMatcher()
+      const { regex, byName } = getIntegrationMatcher()
       if (!regex) return nextValue
 
       regex.lastIndex = 0
