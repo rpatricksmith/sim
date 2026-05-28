@@ -24,9 +24,9 @@ import type { WorkflowSearchReplaceSubflowUpdate } from '@/lib/workflows/search-
 import { useRegisterGlobalCommands } from '@/app/workspace/[workspaceId]/providers/global-commands-provider'
 import { useUserPermissionsContext } from '@/app/workspace/[workspaceId]/providers/workspace-permissions-provider'
 import { createCommand } from '@/app/workspace/[workspaceId]/utils/commands-utils'
+import { ReplacementControls } from '@/app/workspace/[workspaceId]/w/[workflowId]/components/search-replace/components'
 import { useWorkflowResourceReplacementOptions } from '@/app/workspace/[workspaceId]/w/[workflowId]/components/search-replace/hooks/use-workflow-resource-replacement-options'
 import { useWorkflowSearchReferenceHydration } from '@/app/workspace/[workspaceId]/w/[workflowId]/components/search-replace/hooks/use-workflow-search-reference-hydration'
-import { ReplacementControls } from '@/app/workspace/[workspaceId]/w/[workflowId]/components/search-replace/replacement-controls'
 import {
   useFloatBoundarySync,
   useFloatDrag,

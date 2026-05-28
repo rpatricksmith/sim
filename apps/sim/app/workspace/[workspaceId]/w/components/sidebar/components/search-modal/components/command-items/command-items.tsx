@@ -6,8 +6,8 @@ import { Command } from 'cmdk'
 import { File } from '@/components/emcn/icons'
 import { cn } from '@/lib/core/utils/cn'
 import { workflowBorderColor } from '@/lib/workspaces/colors'
-import type { CommandItemProps } from '../utils'
-import { COMMAND_ITEM_CLASSNAME } from '../utils'
+import type { CommandItemProps } from '@/app/workspace/[workspaceId]/w/components/sidebar/components/search-modal/utils'
+import { COMMAND_ITEM_CLASSNAME } from '@/app/workspace/[workspaceId]/w/components/sidebar/components/search-modal/utils'
 
 export const MemoizedCommandItem = memo(
   function CommandItem({

@@ -4,13 +4,6 @@ import type { ComponentType } from 'react'
 import { memo } from 'react'
 import { Command } from 'cmdk'
 import { Database, Table } from '@/components/emcn/icons'
-import type {
-  SearchBlockItem,
-  SearchDocItem,
-  SearchToolOperationItem,
-} from '@/stores/modals/search/types'
-import type { FileItem, PageItem, TaskItem, WorkflowItem, WorkspaceItem } from '../utils'
-import { GROUP_HEADING_CLASSNAME } from '../utils'
 import {
   MemoizedCommandItem,
   MemoizedFileItem,
@@ -19,7 +12,20 @@ import {
   MemoizedTaskItem,
   MemoizedWorkflowItem,
   MemoizedWorkspaceItem,
-} from './command-items'
+} from '@/app/workspace/[workspaceId]/w/components/sidebar/components/search-modal/components/command-items'
+import type {
+  FileItem,
+  PageItem,
+  TaskItem,
+  WorkflowItem,
+  WorkspaceItem,
+} from '@/app/workspace/[workspaceId]/w/components/sidebar/components/search-modal/utils'
+import { GROUP_HEADING_CLASSNAME } from '@/app/workspace/[workspaceId]/w/components/sidebar/components/search-modal/utils'
+import type {
+  SearchBlockItem,
+  SearchDocItem,
+  SearchToolOperationItem,
+} from '@/stores/modals/search/types'
 
 export const BlocksGroup = memo(function BlocksGroup({
   items,

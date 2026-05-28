@@ -27,7 +27,7 @@ import type {
 import { useAutoScroll } from '@/hooks/use-auto-scroll'
 import { useProgressiveList } from '@/hooks/use-progressive-list'
 import type { ChatContext } from '@/stores/panel'
-import { MothershipChatSkeleton } from './mothership-chat-skeleton'
+import { MothershipChatSkeleton } from './components/mothership-chat-skeleton'
 
 interface MothershipChatProps {
   messages: ChatMessage[]

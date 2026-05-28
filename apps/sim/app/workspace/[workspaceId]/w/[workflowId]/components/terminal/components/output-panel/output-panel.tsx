@@ -27,8 +27,10 @@ import {
   Tooltip,
   Upload,
 } from '@/components/emcn'
-import { OutputContextMenu } from '@/app/workspace/[workspaceId]/w/[workflowId]/components/terminal/components/output-panel/components/output-context-menu'
-import { StructuredOutput } from '@/app/workspace/[workspaceId]/w/[workflowId]/components/terminal/components/output-panel/components/structured-output'
+import {
+  OutputContextMenu,
+  StructuredOutput,
+} from '@/app/workspace/[workspaceId]/w/[workflowId]/components/terminal/components/output-panel/components'
 import { ToggleButton } from '@/app/workspace/[workspaceId]/w/[workflowId]/components/terminal/components/toggle-button'
 import { useContextMenu } from '@/app/workspace/[workspaceId]/w/components/sidebar/hooks'
 import { useCodeViewerFeatures } from '@/hooks/use-code-viewer'

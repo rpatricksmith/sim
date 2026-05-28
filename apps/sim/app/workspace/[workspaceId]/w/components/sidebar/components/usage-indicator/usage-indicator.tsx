@@ -16,13 +16,13 @@ import {
 } from '@/lib/billing/client/utils'
 import { dollarsToCredits } from '@/lib/billing/credits/conversion'
 import { handleKeyboardActivation } from '@/lib/core/utils/keyboard'
+import { UsageIndicatorContextMenu } from '@/app/workspace/[workspaceId]/w/components/sidebar/components/usage-indicator/components/usage-indicator-context-menu'
 import { useContextMenu } from '@/app/workspace/[workspaceId]/w/components/sidebar/hooks'
 import { useSocket } from '@/app/workspace/providers/socket-provider'
 import { subscriptionKeys, useSubscriptionData } from '@/hooks/queries/subscription'
 import { useSettingsNavigation } from '@/hooks/use-settings-navigation'
 import { SIDEBAR_WIDTH } from '@/stores/constants'
 import { useSidebarStore } from '@/stores/sidebar/store'
-import { UsageIndicatorContextMenu } from './usage-indicator-context-menu'
 
 const logger = createLogger('UsageIndicator')
 

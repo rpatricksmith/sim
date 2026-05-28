@@ -32,6 +32,7 @@ import {
 import { Input } from '@/components/ui'
 import { getBaseUrl } from '@/lib/core/utils/urls'
 import { useUserPermissionsContext } from '@/app/workspace/[workspaceId]/providers/workspace-permissions-provider'
+import { CreateWorkflowMcpServerModal } from '@/app/workspace/[workspaceId]/settings/components/workflow-mcp-servers/components'
 import { useApiKeys } from '@/hooks/queries/api-keys'
 import { useCreateMcpServer } from '@/hooks/queries/mcp'
 import {
@@ -49,7 +50,6 @@ import {
 import { useWorkspaceSettings } from '@/hooks/queries/workspace'
 import { CreateApiKeyModal } from '../api-keys/components'
 import { FormField } from '../mcp/components'
-import { CreateWorkflowMcpServerModal } from './create-workflow-mcp-server-modal'
 
 const logger = createLogger('WorkflowMcpServers')
 
