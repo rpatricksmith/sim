@@ -1,0 +1,42 @@
+{
+  "anaVersion": "1.1.5",
+  "name": "simstudio",
+  "language": "TypeScript",
+  "framework": "Next.js",
+  "packageManager": "bun",
+  "commands": {
+    "build": "bun run build",
+    "test": "bun run test -- --run",
+    "lint": "bun run lint",
+    "dev": "bun run dev"
+  },
+  "surfaces": {
+    "docs": {
+      "path": "apps/docs",
+      "language": "TypeScript",
+      "framework": "Next.js",
+      "commands": {
+        "build": "(cd 'apps/docs' && bun run build)",
+        "test": null,
+        "lint": "(cd 'apps/docs' && bun run lint)",
+        "dev": null
+      }
+    },
+    "sim": {
+      "path": "apps/sim",
+      "language": "TypeScript",
+      "framework": "Next.js",
+      "commands": {
+        "build": "(cd 'apps/sim' && bun run build)",
+        "test": "(cd 'apps/sim' && bun run test)",
+        "lint": "(cd 'apps/sim' && bun run lint)",
+        "dev": null
+      }
+    }
+  },
+  "coAuthor": "Ana <build@anatomia.dev>",
+  "artifactBranch": "main",
+  "branchPrefix": "feature/",
+  "lastScanAt": "2026-05-29T03:19:33.090Z",
+  "custom": {}
+}

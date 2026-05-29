@@ -1,0 +1,1321 @@
+{
+  "schemaVersion": "1.0",
+  "applicationShape": "web-app",
+  "overview": {
+    "project": "simstudio",
+    "scannedAt": "2026-05-29T03:19:33.090Z",
+    "depth": "deep"
+  },
+  "stack": {
+    "language": "TypeScript",
+    "framework": "Next.js",
+    "database": "Drizzle",
+    "auth": "Better Auth",
+    "testing": [
+      "Vitest",
+      "Testing Library"
+    ],
+    "payments": "Stripe",
+    "workspace": "Turborepo (bun)",
+    "aiSdk": "Anthropic",
+    "uiSystem": "shadcn/ui (Tailwind)"
+  },
+  "stackProvenance": {},
+  "versions": {
+    "@1password/sdk": "0.3.1",
+    "@a2a-js/sdk": "0.3.7",
+    "@anthropic-ai/sdk": "0.71.2",
+    "@aws-sdk/client-athena": "3.1032.0",
+    "@aws-sdk/client-bedrock-runtime": "3.1032.0",
+    "@aws-sdk/client-cloudformation": "3.1032.0",
+    "@aws-sdk/client-cloudwatch": "3.1032.0",
+    "@aws-sdk/client-cloudwatch-logs": "3.1032.0",
+    "@aws-sdk/client-dynamodb": "3.1032.0",
+    "@aws-sdk/client-iam": "3.1032.0",
+    "@aws-sdk/client-identitystore": "3.1032.0",
+    "@aws-sdk/client-organizations": "3.1032.0",
+    "@aws-sdk/client-rds-data": "3.1032.0",
+    "@aws-sdk/client-s3": "3.1032.0",
+    "@aws-sdk/client-secrets-manager": "3.1032.0",
+    "@aws-sdk/client-sesv2": "3.1032.0",
+    "@aws-sdk/client-sqs": "3.1032.0",
+    "@aws-sdk/client-sso-admin": "3.1032.0",
+    "@aws-sdk/client-sts": "3.1032.0",
+    "@aws-sdk/lib-dynamodb": "3.1032.0",
+    "@aws-sdk/s3-request-presigner": "3.1032.0",
+    "@azure/communication-email": "1.0.0",
+    "@azure/storage-blob": "12.27.0",
+    "@better-auth/sso": "1.6.11",
+    "@better-auth/stripe": "1.6.11",
+    "@browserbasehq/stagehand": "^3.2.1",
+    "@cerebras/cerebras_cloud_sdk": "^1.23.0",
+    "@e2b/code-interpreter": "^2.0.0",
+    "@google/genai": "1.34.0",
+    "@hookform/resolvers": "5.2.2",
+    "@linear/sdk": "40.0.0",
+    "@marsidev/react-turnstile": "1.4.2",
+    "@modelcontextprotocol/sdk": "1.29.0",
+    "@monaco-editor/react": "4.7.0",
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/exporter-logs-otlp-http": "^0.217.0",
+    "@opentelemetry/exporter-metrics-otlp-http": "^0.217.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.217.0",
+    "@opentelemetry/resources": "^2.7.0",
+    "@opentelemetry/sdk-node": "^0.217.0",
+    "@opentelemetry/sdk-trace-base": "^2.7.0",
+    "@opentelemetry/sdk-trace-node": "^2.7.0",
+    "@opentelemetry/semantic-conventions": "^1.32.0",
+    "@radix-ui/react-alert-dialog": "^1.1.5",
+    "@radix-ui/react-avatar": "1.1.10",
+    "@radix-ui/react-checkbox": "^1.1.3",
+    "@radix-ui/react-collapsible": "^1.1.3",
+    "@radix-ui/react-dialog": "^1.1.5",
+    "@radix-ui/react-dropdown-menu": "2.1.16",
+    "@radix-ui/react-label": "^2.1.2",
+    "@radix-ui/react-popover": "^1.1.5",
+    "@radix-ui/react-progress": "^1.1.2",
+    "@radix-ui/react-radio-group": "^1.3.3",
+    "@radix-ui/react-scroll-area": "^1.2.2",
+    "@radix-ui/react-select": "^2.1.4",
+    "@radix-ui/react-separator": "^1.1.2",
+    "@radix-ui/react-slider": "^1.2.2",
+    "@radix-ui/react-slot": "1.2.2",
+    "@radix-ui/react-switch": "^1.1.2",
+    "@radix-ui/react-tabs": "^1.1.2",
+    "@radix-ui/react-toggle": "^1.1.2",
+    "@radix-ui/react-tooltip": "1.2.8",
+    "@radix-ui/react-visually-hidden": "1.2.4",
+    "@react-email/components": "0.5.7",
+    "@react-email/render": "2.0.8",
+    "@sim/audit": "workspace:*",
+    "@sim/logger": "workspace:*",
+    "@sim/realtime-protocol": "workspace:*",
+    "@sim/security": "workspace:*",
+    "@sim/utils": "workspace:*",
+    "@sim/workflow-authz": "workspace:*",
+    "@sim/workflow-persistence": "workspace:*",
+    "@sim/workflow-types": "workspace:*",
+    "@t3-oss/env-nextjs": "0.13.4",
+    "@tanstack/react-query": "5.90.8",
+    "@tanstack/react-query-devtools": "5.90.2",
+    "@tanstack/react-virtual": "3.13.24",
+    "@trigger.dev/sdk": "4.4.3",
+    "ajv": "8.18.0",
+    "better-auth": "1.6.11",
+    "better-auth-harmony": "1.3.1",
+    "binary-extensions": "3.1.0",
+    "browser-image-compression": "^2.0.2",
+    "cheerio": "1.1.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cmdk": "^1.0.0",
+    "croner": "^9.0.0",
+    "cronstrue": "3.3.0",
+    "csv-parse": "6.1.0",
+    "date-fns": "4.1.0",
+    "decimal.js": "10.6.0",
+    "docx": "^9.6.1",
+    "docx-preview": "^0.3.7",
+    "drizzle-orm": "^0.45.2",
+    "echarts": "6.0.0",
+    "es-toolkit": "1.45.1",
+    "ffmpeg-static": "5.3.0",
+    "fluent-ffmpeg": "2.1.3",
+    "framer-motion": "^12.5.0",
+    "free-email-domains": "1.2.25",
+    "google-auth-library": "10.5.0",
+    "gray-matter": "^4.0.3",
+    "groq-sdk": "^0.15.0",
+    "html-to-image": "1.11.13",
+    "html-to-text": "^9.0.5",
+    "idb-keyval": "6.2.2",
+    "imapflow": "1.2.4",
+    "input-otp": "^1.4.2",
+    "ioredis": "^5.6.0",
+    "ipaddr.js": "2.3.0",
+    "isolated-vm": "6.0.2",
+    "jose": "6.0.11",
+    "js-tiktoken": "1.0.21",
+    "js-yaml": "4.1.1",
+    "json5": "2.2.3",
+    "jszip": "3.10.1",
+    "jwt-decode": "^4.0.0",
+    "lru-cache": "11.3.6",
+    "lucide-react": "^0.479.0",
+    "mammoth": "^1.9.0",
+    "mermaid": "11.15.0",
+    "micromatch": "4.0.8",
+    "monaco-editor": "0.55.1",
+    "mongodb": "6.19.0",
+    "mysql2": "3.14.3",
+    "neo4j-driver": "6.0.1",
+    "next": "16.2.6",
+    "next-mdx-remote": "^6.0.0",
+    "next-runtime-env": "3.3.0",
+    "next-themes": "^0.4.6",
+    "nodemailer": "8.0.7",
+    "officeparser": "^5.2.0",
+    "openai": "^4.91.1",
+    "papaparse": "5.5.3",
+    "pdf-lib": "1.17.1",
+    "pdfjs-dist": "5.4.296",
+    "postgres": "^3.4.5",
+    "posthog-js": "1.364.4",
+    "posthog-node": "5.28.9",
+    "pptxgenjs": "4.0.1",
+    "prismjs": "^1.30.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-hook-form": "^7.54.2",
+    "react-joyride": "2.9.3",
+    "react-pdf": "10.4.1",
+    "react-simple-code-editor": "^0.14.1",
+    "react-window": "2.2.3",
+    "reactflow": "^11.11.4",
+    "rehype-autolink-headings": "^7.1.0",
+    "rehype-slug": "^6.0.0",
+    "remark-breaks": "^4.0.0",
+    "remark-gfm": "4.0.1",
+    "resend": "^4.1.2",
+    "rss-parser": "3.13.0",
+    "safe-regex2": "5.1.0",
+    "sharp": "0.34.3",
+    "socket.io-client": "4.8.1",
+    "ssh2": "^1.17.0",
+    "streamdown": "2.5.0",
+    "stripe": "18.5.0",
+    "svix": "1.88.0",
+    "tailwind-merge": "^2.6.0",
+    "tailwindcss-animate": "^1.0.7",
+    "three": "0.177.0",
+    "tldts": "7.0.30",
+    "twilio": "5.9.0",
+    "undici": "7.25.0",
+    "unified": "11.0.5",
+    "unpdf": "1.4.0",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
+    "zod": "4.3.6",
+    "zustand": "^5.0.13",
+    "@sim/testing": "workspace:*",
+    "@sim/tsconfig": "workspace:*",
+    "@tailwindcss/typography": "0.5.19",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@trigger.dev/build": "4.4.3",
+    "@types/fluent-ffmpeg": "2.1.28",
+    "@types/html-to-text": "9.0.4",
+    "@types/js-yaml": "4.0.9",
+    "@types/jsdom": "21.1.7",
+    "@types/micromatch": "4.0.10",
+    "@types/node": "24.2.1",
+    "@types/nodemailer": "7.0.4",
+    "@types/papaparse": "5.3.16",
+    "@types/prismjs": "^1.26.5",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/react-window": "2.0.0",
+    "@types/ssh2": "^1.15.5",
+    "@types/three": "0.177.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/coverage-v8": "^3.0.8",
+    "autoprefixer": "10.4.21",
+    "jsdom": "^26.0.0",
+    "postcss": "^8",
+    "react-email": "4.3.2",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.7.3",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.0.8"
+  },
+  "files": {
+    "source": 7422,
+    "test": 481,
+    "config": 58,
+    "total": 7961
+  },
+  "structure": [
+    {
+      "path": ".github/",
+      "purpose": "GitHub config"
+    },
+    {
+      "path": "apps/",
+      "purpose": "Applications"
+    },
+    {
+      "path": "docker/",
+      "purpose": "Docker configurations"
+    },
+    {
+      "path": "packages/",
+      "purpose": "Workspace packages"
+    },
+    {
+      "path": "scripts/",
+      "purpose": "Build/utility scripts"
+    }
+  ],
+  "commands": {
+    "build": "bun run build",
+    "test": "bun run test",
+    "lint": "bun run lint",
+    "dev": "bun run dev",
+    "all": {
+      "build": "turbo run build",
+      "dev": "turbo run dev",
+      "dev:sockets": "cd apps/realtime && bun run dev",
+      "dev:full": "bunx concurrently -n \"App,Realtime\" -c \"cyan,magenta\" \"cd apps/sim && bun run dev\" \"cd apps/realtime && bun run dev\"",
+      "test": "turbo run test",
+      "format": "turbo run format",
+      "format:check": "turbo run format:check",
+      "lint": "turbo run lint",
+      "lint:check": "turbo run lint:check",
+      "lint:helm": "helm lint ./helm/sim --strict --values ./helm/sim/test/values-lint.yaml",
+      "lint:all": "turbo run lint && bun run lint:helm",
+      "check": "turbo run format:check",
+      "check:boundaries": "bun run scripts/check-monorepo-boundaries.ts",
+      "check:api-validation": "bun run scripts/check-api-validation-contracts.ts --check",
+      "check:api-validation:strict": "bun run scripts/check-api-validation-contracts.ts --check --enforce-boundary-baseline",
+      "check:realtime-prune": "bun run scripts/check-realtime-prune-graph.ts",
+      "check:zustand-v5": "bun run scripts/check-zustand-v5-selectors.ts",
+      "check:utils": "bun run scripts/check-utils-enforcement.ts",
+      "mship-contracts:generate": "bun run scripts/sync-mothership-stream-contract.ts",
+      "mship-contracts:check": "bun run scripts/sync-mothership-stream-contract.ts --check",
+      "mship-tools:generate": "bun run scripts/sync-tool-catalog.ts",
+      "mship-tools:check": "bun run scripts/sync-tool-catalog.ts --check",
+      "trace-contracts:generate": "bun run scripts/sync-request-trace-contract.ts",
+      "trace-contracts:check": "bun run scripts/sync-request-trace-contract.ts --check",
+      "trace-spans-contract:generate": "bun run scripts/sync-trace-spans-contract.ts",
+      "trace-spans-contract:check": "bun run scripts/sync-trace-spans-contract.ts --check",
+      "trace-attributes-contract:generate": "bun run scripts/sync-trace-attributes-contract.ts",
+      "trace-attributes-contract:check": "bun run scripts/sync-trace-attributes-contract.ts --check",
+      "trace-attribute-values-contract:generate": "bun run scripts/sync-trace-attribute-values-contract.ts",
+      "trace-attribute-values-contract:check": "bun run scripts/sync-trace-attribute-values-contract.ts --check",
+      "trace-events-contract:generate": "bun run scripts/sync-trace-events-contract.ts",
+      "trace-events-contract:check": "bun run scripts/sync-trace-events-contract.ts --check",
+      "mship:generate": "bun run scripts/generate-mship-contracts.ts",
+      "mship:check": "bun run scripts/generate-mship-contracts.ts --check",
+      "prepare": "bun husky",
+      "type-check": "turbo run type-check",
+      "release": "bun run scripts/create-single-release.ts"
+    },
+    "packageManager": "bun"
+  },
+  "git": {
+    "head": "6bf9e960e",
+    "branch": "main",
+    "commitCount": 4798,
+    "lastCommitAt": "2026-05-28T18:05:24-07:00",
+    "uncommittedChanges": false,
+    "contributorCount": 55,
+    "defaultBranch": "main",
+    "branches": [
+      "SIM-514-useWebhookUrl-conditioning",
+      "backup/improvement-platform-20260514-214614",
+      "dev",
+      "feat/agent-media",
+      "feat/agents",
+      "feat/aws-lambda",
+      "feat/blogbench",
+      "feat/copilot-resume",
+      "feat/copilot-server",
+      "feat/copilot-server-1",
+      "feat/credential-table",
+      "feat/custom-oauth-adv-mdoe",
+      "feat/figma",
+      "feat/fork-fixes",
+      "feat/generic-resource",
+      "feat/google-service-account",
+      "feat/groups",
+      "feat/hosted-enrichment",
+      "feat/impersonation",
+      "feat/incident-io-trigger",
+      "feat/landing",
+      "feat/mothership-recommendation",
+      "feat/new-feat",
+      "feat/run-from-block",
+      "feat/snowflake",
+      "feat/tools",
+      "feat/trace-spans-s3-usage-log-cost",
+      "feat/while-subflow",
+      "feat/workflow-import-su",
+      "feat/zapier",
+      "feature/tiktok-integration",
+      "fix/copilot-credentials-validation",
+      "fix/copilot-thinking",
+      "fix/copilot-validation",
+      "fix/csv-import-tx-and-schema",
+      "fix/deepsec-medium-findings",
+      "fix/dups",
+      "fix/frozen",
+      "fix/hitl-outputs",
+      "fix/log-socket-error",
+      "fix/loops",
+      "fix/memory-leaks",
+      "fix/refresh",
+      "fix/resume-poll-partially-resumed",
+      "fix/s-tool",
+      "fix/sec2",
+      "fix/service-acount-programmatic",
+      "fix/side",
+      "fix/table-dispatcher-coldstart",
+      "fix/table-run-counter-edit-path",
+      "fix/table-workflow-stuff",
+      "fix/template-prompts",
+      "fix/tool-output",
+      "fix/tracespans",
+      "fix/use-hosted-key-agent",
+      "fix/webhook-signature-verification",
+      "improvement/al",
+      "improvement/billing-ledger",
+      "improvement/changelog",
+      "improvement/copilot-refactor",
+      "improvement/copilot-superagent-split",
+      "improvement/debug-mode",
+      "improvement/mship-functions",
+      "improvement/platform",
+      "improvement/respone-block",
+      "improvement/selector-context",
+      "main",
+      "sim-499",
+      "staging",
+      "upstream/SIM-514-useWebhookUrl-conditioning",
+      "upstream/backup/improvement-platform-20260514-214614",
+      "upstream/dev",
+      "upstream/feat/agent-media",
+      "upstream/feat/agents",
+      "upstream/feat/aws-lambda",
+      "upstream/feat/blogbench",
+      "upstream/feat/copilot-resume",
+      "upstream/feat/copilot-server",
+      "upstream/feat/copilot-server-1",
+      "upstream/feat/credential-table",
+      "upstream/feat/custom-oauth-adv-mdoe",
+      "upstream/feat/figma",
+      "upstream/feat/fork-fixes",
+      "upstream/feat/generic-resource",
+      "upstream/feat/google-service-account",
+      "upstream/feat/groups",
+      "upstream/feat/hosted-enrichment",
+      "upstream/feat/impersonation",
+      "upstream/feat/incident-io-trigger",
+      "upstream/feat/landing",
+      "upstream/feat/mothership-recommendation",
+      "upstream/feat/new-feat",
+      "upstream/feat/run-from-block",
+      "upstream/feat/snowflake",
+      "upstream/feat/tools",
+      "upstream/feat/trace-spans-s3-usage-log-cost",
+      "upstream/feat/while-subflow",
+      "upstream/feat/workflow-import-su",
+      "upstream/feat/zapier",
+      "upstream/feature/tiktok-integration",
+      "upstream/fix/copilot-credentials-validation",
+      "upstream/fix/copilot-thinking",
+      "upstream/fix/copilot-validation",
+      "upstream/fix/csv-import-tx-and-schema",
+      "upstream/fix/deepsec-medium-findings",
+      "upstream/fix/dups",
+      "upstream/fix/frozen",
+      "upstream/fix/hitl-outputs",
+      "upstream/fix/log-socket-error",
+      "upstream/fix/loops",
+      "upstream/fix/memory-leaks",
+      "upstream/fix/refresh",
+      "upstream/fix/resume-poll-partially-resumed",
+      "upstream/fix/s-tool",
+      "upstream/fix/sec2",
+      "upstream/fix/service-acount-programmatic",
+      "upstream/fix/side",
+      "upstream/fix/table-dispatcher-coldstart",
+      "upstream/fix/table-run-counter-edit-path",
+      "upstream/fix/table-workflow-stuff",
+      "upstream/fix/template-prompts",
+      "upstream/fix/tool-output",
+      "upstream/fix/tracespans",
+      "upstream/fix/use-hosted-key-agent",
+      "upstream/fix/webhook-signature-verification",
+      "upstream/improvement/al",
+      "upstream/improvement/billing-ledger",
+      "upstream/improvement/changelog",
+      "upstream/improvement/copilot-refactor",
+      "upstream/improvement/copilot-superagent-split",
+      "upstream/improvement/debug-mode",
+      "upstream/improvement/mship-functions",
+      "upstream/improvement/platform",
+      "upstream/improvement/respone-block",
+      "upstream/improvement/selector-context",
+      "upstream/main",
+      "upstream/sim-499",
+      "upstream/staging",
+      "upstream/waleedlatif1/add-doordash",
+      "upstream/waleedlatif1/add-google-chat",
+      "upstream/waleedlatif1/add-greenhouse-trigger",
+      "upstream/waleedlatif1/add-hitl-openapi",
+      "upstream/waleedlatif1/add-ironclad",
+      "upstream/waleedlatif1/add-notion-trigger",
+      "upstream/waleedlatif1/allowed-private-hosts",
+      "upstream/waleedlatif1/auth-signup-rate-limit",
+      "upstream/waleedlatif1/azure-devops-4642",
+      "upstream/waleedlatif1/box-sign-integration",
+      "upstream/waleedlatif1/confluence-get-user",
+      "upstream/waleedlatif1/denver-v2",
+      "upstream/waleedlatif1/excel-sharepoint-drive",
+      "upstream/waleedlatif1/execute-command-block",
+      "upstream/waleedlatif1/fix-shopify-redirect",
+      "upstream/waleedlatif1/fix-trigger-react-email",
+      "upstream/waleedlatif1/google-analytics-integration",
+      "upstream/waleedlatif1/gusto-integration",
+      "upstream/waleedlatif1/la-paz-v2",
+      "upstream/waleedlatif1/meta-ads-integration",
+      "upstream/waleedlatif1/montpellier-v2",
+      "upstream/waleedlatif1/quickbooks-integration",
+      "upstream/waleedlatif1/richmond-v1",
+      "upstream/waleedlatif1/sheets-named-ranges",
+      "waleedlatif1/add-doordash",
+      "waleedlatif1/add-google-chat",
+      "waleedlatif1/add-greenhouse-trigger",
+      "waleedlatif1/add-hitl-openapi",
+      "waleedlatif1/add-ironclad",
+      "waleedlatif1/add-notion-trigger",
+      "waleedlatif1/allowed-private-hosts",
+      "waleedlatif1/auth-signup-rate-limit",
+      "waleedlatif1/azure-devops-4642",
+      "waleedlatif1/box-sign-integration",
+      "waleedlatif1/confluence-get-user",
+      "waleedlatif1/denver-v2",
+      "waleedlatif1/excel-sharepoint-drive",
+      "waleedlatif1/execute-command-block",
+      "waleedlatif1/fix-shopify-redirect",
+      "waleedlatif1/fix-trigger-react-email",
+      "waleedlatif1/google-analytics-integration",
+      "waleedlatif1/gusto-integration",
+      "waleedlatif1/la-paz-v2",
+      "waleedlatif1/meta-ads-integration",
+      "waleedlatif1/montpellier-v2",
+      "waleedlatif1/quickbooks-integration",
+      "waleedlatif1/richmond-v1",
+      "waleedlatif1/sheets-named-ranges"
+    ],
+    "commitFormat": {
+      "conventional": true,
+      "confidence": 0.56,
+      "sampleSize": 50
+    },
+    "branchPatterns": {
+      "prefixes": {},
+      "primary": null
+    },
+    "hooks": {
+      "preCommit": {
+        "exists": true,
+        "runsTests": false,
+        "runsLint": true,
+        "runsTypecheck": false
+      }
+    },
+    "mergeStrategy": {
+      "strategy": "merge",
+      "confidence": 1
+    },
+    "coAuthor": {
+      "detected": true,
+      "pattern": "Cursor <cursoragent@cursor.com>"
+    },
+    "recentActivity": {
+      "windowDays": 14,
+      "highChurnFiles": [
+        {
+          "path": "apps/sim/components/icons.tsx",
+          "commits": 12
+        },
+        {
+          "path": "apps/sim/app/(landing)/integrations/data/icon-mapping.ts",
+          "commits": 11
+        },
+        {
+          "path": "apps/sim/tools/registry.ts",
+          "commits": 11
+        },
+        {
+          "path": "packages/db/schema.ts",
+          "commits": 11
+        },
+        {
+          "path": "apps/docs/components/ui/icon-mapping.ts",
+          "commits": 10
+        },
+        {
+          "path": "apps/sim/blocks/registry.ts",
+          "commits": 10
+        },
+        {
+          "path": "scripts/check-api-validation-contracts.ts",
+          "commits": 9
+        },
+        {
+          "path": "apps/docs/components/icons.tsx",
+          "commits": 8
+        },
+        {
+          "path": "apps/sim/hooks/queries/tables.ts",
+          "commits": 8
+        },
+        {
+          "path": "apps/sim/lib/mcp/service.ts",
+          "commits": 7
+        }
+      ],
+      "activeContributors": 6,
+      "weeklyCommits": [
+        60,
+        81,
+        82,
+        120
+      ]
+    }
+  },
+  "monorepo": {
+    "isMonorepo": true,
+    "tool": "bun",
+    "packages": [
+      {
+        "name": "sim",
+        "path": "apps/sim",
+        "language": "TypeScript",
+        "framework": "Next.js",
+        "testing": [
+          "Vitest",
+          "Testing Library"
+        ],
+        "hasBin": false,
+        "scripts": [
+          "dev",
+          "dev:clean",
+          "dev:webpack",
+          "load:workflow",
+          "load:workflow:baseline",
+          "load:workflow:waves",
+          "load:workflow:isolation",
+          "build",
+          "build:sandbox-bundles",
+          "start",
+          "prepare",
+          "test",
+          "test:watch",
+          "test:coverage",
+          "email:dev",
+          "type-check",
+          "lint",
+          "lint:check",
+          "format",
+          "format:check",
+          "generate-docs"
+        ],
+        "sourceFiles": 7689
+      },
+      {
+        "name": "docs",
+        "path": "apps/docs",
+        "language": "TypeScript",
+        "framework": "Next.js",
+        "testing": [],
+        "hasBin": false,
+        "scripts": [
+          "dev",
+          "build",
+          "start",
+          "postinstall",
+          "type-check",
+          "lint",
+          "lint:check",
+          "format",
+          "format:check"
+        ],
+        "sourceFiles": 45
+      },
+      {
+        "name": "@sim/realtime",
+        "path": "apps/realtime",
+        "language": "TypeScript",
+        "framework": null,
+        "testing": [
+          "Vitest"
+        ],
+        "hasBin": false,
+        "scripts": [
+          "dev",
+          "start",
+          "type-check",
+          "lint",
+          "lint:check",
+          "format",
+          "format:check",
+          "test",
+          "test:watch"
+        ],
+        "sourceFiles": 25
+      },
+      {
+        "name": "@sim/audit",
+        "path": "packages/audit",
+        "language": "TypeScript",
+        "framework": null,
+        "testing": [
+          "Vitest"
+        ],
+        "hasBin": false,
+        "scripts": [
+          "type-check",
+          "lint",
+          "lint:check",
+          "format",
+          "format:check",
+          "test",
+          "test:watch"
+        ],
+        "sourceFiles": 5
+      },
+      {
+        "name": "@sim/auth",
+        "path": "packages/auth",
+        "language": "TypeScript",
+        "framework": null,
+        "testing": [],
+        "hasBin": false,
+        "scripts": [
+          "type-check",
+          "lint",
+          "lint:check",
+          "format",
+          "format:check"
+        ],
+        "sourceFiles": 1
+      },
+      {
+        "name": "simstudio",
+        "path": "packages/cli",
+        "language": "TypeScript",
+        "framework": null,
+        "testing": [],
+        "hasBin": true,
+        "scripts": [
+          "build",
+          "type-check",
+          "lint",
+          "lint:check",
+          "format",
+          "format:check",
+          "prepublishOnly"
+        ],
+        "sourceFiles": 1
+      },
+      {
+        "name": "@sim/db",
+        "path": "packages/db",
+        "language": "TypeScript",
+        "framework": null,
+        "testing": [],
+        "hasBin": false,
+        "scripts": [
+          "db:push",
+          "db:migrate",
+          "db:studio",
+          "test",
+          "type-check",
+          "lint",
+          "lint:check",
+          "format",
+          "format:check"
+        ],
+        "sourceFiles": 15
+      },
+      {
+        "name": "@sim/logger",
+        "path": "packages/logger",
+        "language": "TypeScript",
+        "framework": null,
+        "testing": [
+          "Vitest"
+        ],
+        "hasBin": false,
+        "scripts": [
+          "type-check",
+          "lint",
+          "lint:check",
+          "format",
+          "format:check",
+          "test",
+          "test:watch"
+        ],
+        "sourceFiles": 4
+      },
+      {
+        "name": "@sim/realtime-protocol",
+        "path": "packages/realtime-protocol",
+        "language": "TypeScript",
+        "framework": null,
+        "testing": [],
+        "hasBin": false,
+        "scripts": [
+          "type-check",
+          "lint",
+          "lint:check",
+          "format",
+          "format:check"
+        ],
+        "sourceFiles": 2
+      },
+      {
+        "name": "@sim/security",
+        "path": "packages/security",
+        "language": "TypeScript",
+        "framework": null,
+        "testing": [
+          "Vitest"
+        ],
+        "hasBin": false,
+        "scripts": [
+          "type-check",
+          "lint",
+          "lint:check",
+          "format",
+          "format:check",
+          "test",
+          "test:watch"
+        ],
+        "sourceFiles": 11
+      },
+      {
+        "name": "@sim/testing",
+        "path": "packages/testing",
+        "language": "TypeScript",
+        "framework": null,
+        "testing": [
+          "Vitest"
+        ],
+        "hasBin": false,
+        "scripts": [
+          "type-check",
+          "lint",
+          "lint:check",
+          "format",
+          "format:check"
+        ],
+        "sourceFiles": 64
+      },
+      {
+        "name": "simstudio-ts-sdk",
+        "path": "packages/ts-sdk",
+        "language": "TypeScript",
+        "framework": null,
+        "testing": [
+          "Vitest"
+        ],
+        "hasBin": false,
+        "scripts": [
+          "build",
+          "type-check",
+          "lint",
+          "lint:check",
+          "format",
+          "format:check",
+          "dev:watch",
+          "prepublishOnly",
+          "test",
+          "test:watch"
+        ],
+        "sourceFiles": 4
+      },
+      {
+        "name": "@sim/tsconfig",
+        "path": "packages/tsconfig",
+        "language": null,
+        "framework": null,
+        "testing": [],
+        "hasBin": false,
+        "scripts": [],
+        "sourceFiles": 0
+      },
+      {
+        "name": "@sim/utils",
+        "path": "packages/utils",
+        "language": "TypeScript",
+        "framework": null,
+        "testing": [
+          "Vitest"
+        ],
+        "hasBin": false,
+        "scripts": [
+          "type-check",
+          "lint",
+          "lint:check",
+          "format",
+          "format:check",
+          "test",
+          "test:watch"
+        ],
+        "sourceFiles": 14
+      },
+      {
+        "name": "@sim/workflow-authz",
+        "path": "packages/workflow-authz",
+        "language": "TypeScript",
+        "framework": null,
+        "testing": [],
+        "hasBin": false,
+        "scripts": [
+          "type-check",
+          "lint",
+          "lint:check",
+          "format",
+          "format:check"
+        ],
+        "sourceFiles": 1
+      },
+      {
+        "name": "@sim/workflow-persistence",
+        "path": "packages/workflow-persistence",
+        "language": "TypeScript",
+        "framework": null,
+        "testing": [],
+        "hasBin": false,
+        "scripts": [
+          "type-check",
+          "lint",
+          "lint:check",
+          "format",
+          "format:check"
+        ],
+        "sourceFiles": 6
+      },
+      {
+        "name": "@sim/workflow-types",
+        "path": "packages/workflow-types",
+        "language": "TypeScript",
+        "framework": null,
+        "testing": [],
+        "hasBin": false,
+        "scripts": [
+          "type-check",
+          "lint",
+          "lint:check",
+          "format",
+          "format:check"
+        ],
+        "sourceFiles": 2
+      }
+    ],
+    "primaryPackage": {
+      "name": "sim",
+      "path": "apps/sim"
+    }
+  },
+  "surfaces": [
+    {
+      "name": "docs",
+      "path": "apps/docs",
+      "packageName": "docs",
+      "language": "TypeScript",
+      "framework": "Next.js",
+      "testing": [],
+      "sourceFiles": 45
+    },
+    {
+      "name": "sim",
+      "path": "apps/sim",
+      "packageName": "sim",
+      "language": "TypeScript",
+      "framework": "Next.js",
+      "testing": [
+        "Vitest",
+        "Testing Library"
+      ],
+      "sourceFiles": 7689
+    }
+  ],
+  "externalServices": [
+    {
+      "name": "Stripe",
+      "category": "payments",
+      "source": "dependency",
+      "configFound": false,
+      "stackRoles": [
+        "payments"
+      ]
+    },
+    {
+      "name": "AWS S3",
+      "category": "storage",
+      "source": "dependency",
+      "configFound": false,
+      "stackRoles": []
+    },
+    {
+      "name": "Nodemailer",
+      "category": "email",
+      "source": "dependency",
+      "configFound": false,
+      "stackRoles": []
+    },
+    {
+      "name": "Resend",
+      "category": "email",
+      "source": "dependency",
+      "configFound": false,
+      "stackRoles": []
+    },
+    {
+      "name": "PostHog",
+      "category": "analytics",
+      "source": "dependency",
+      "configFound": false,
+      "stackRoles": []
+    },
+    {
+      "name": "OpenAI",
+      "category": "ai",
+      "source": "dependency",
+      "configFound": false,
+      "stackRoles": []
+    },
+    {
+      "name": "Anthropic",
+      "category": "ai",
+      "source": "dependency",
+      "configFound": false,
+      "stackRoles": [
+        "aiSdk"
+      ]
+    },
+    {
+      "name": "Socket.IO",
+      "category": "realtime",
+      "source": "dependency",
+      "configFound": false,
+      "stackRoles": []
+    },
+    {
+      "name": "Groq",
+      "category": "ai",
+      "source": "dependency",
+      "configFound": false,
+      "stackRoles": []
+    },
+    {
+      "name": "React Email",
+      "category": "email",
+      "source": "dependency",
+      "configFound": false,
+      "stackRoles": []
+    },
+    {
+      "name": "OpenTelemetry",
+      "category": "monitoring",
+      "source": "dependency",
+      "configFound": false,
+      "stackRoles": []
+    },
+    {
+      "name": "Trigger.dev",
+      "category": "jobs",
+      "source": "dependency",
+      "configFound": false,
+      "stackRoles": []
+    },
+    {
+      "name": "Redis",
+      "category": "cache",
+      "source": "dependency",
+      "configFound": false,
+      "stackRoles": []
+    }
+  ],
+  "schemas": {
+    "drizzle": {
+      "found": true,
+      "path": "packages/db/schema.ts",
+      "modelCount": 99,
+      "provider": "postgresql"
+    }
+  },
+  "secrets": {
+    "envFileExists": false,
+    "envExampleExists": true,
+    "gitignoreCoversEnv": true
+  },
+  "projectProfile": {
+    "type": "nextjs",
+    "hasExternalAPIs": true,
+    "hasDatabase": true,
+    "hasBrowserUI": true,
+    "hasAuthSystem": true,
+    "hasPayments": true,
+    "hasFileStorage": true
+  },
+  "blindSpots": [],
+  "findings": [
+    {
+      "id": "api-validation",
+      "severity": "warn",
+      "title": "~314 of 757 API route files may lack input validation",
+      "detail": "Heuristic: checks imports in first 30 lines. Wrapper-based or middleware validation may not be detected.",
+      "category": "security"
+    },
+    {
+      "id": "hardcoded-secret",
+      "severity": "pass",
+      "title": "No hardcoded secrets detected",
+      "detail": "Checked: Stripe, OpenAI, Anthropic, AWS, GitHub, database URLs, Resend, SendGrid, Twilio",
+      "category": "security"
+    },
+    {
+      "id": "env-hygiene",
+      "severity": "pass",
+      "title": ".env.example exists, .gitignore covers .env",
+      "detail": null,
+      "category": "quality"
+    },
+    {
+      "id": "error-boundaries",
+      "severity": "pass",
+      "title": "Error boundary detected",
+      "detail": null,
+      "category": "reliability"
+    }
+  ],
+  "deployment": {
+    "platform": null,
+    "configFile": null,
+    "ci": "GitHub Actions",
+    "ciWorkflowFiles": [
+      "ci.yml",
+      "docs-embeddings.yml",
+      "i18n.yml",
+      "images.yml",
+      "migrations.yml",
+      "publish-cli.yml",
+      "publish-python-sdk.yml",
+      "publish-ts-sdk.yml",
+      "test-build.yml"
+    ]
+  },
+  "patterns": {
+    "errorHandling": {
+      "library": "exceptions",
+      "variant": "nextjs",
+      "confidence": 0.8,
+      "evidence": [
+        "nextjs uses try/catch error handling"
+      ]
+    },
+    "validation": {
+      "library": "zod",
+      "confidence": 0.9500000000000001,
+      "evidence": [
+        "zod in dependencies",
+        "Zod imports found in code",
+        "Zod usage patterns detected"
+      ]
+    },
+    "database": {
+      "library": "drizzle",
+      "confidence": 0.9,
+      "evidence": [
+        "drizzle-orm in dependencies",
+        "Drizzle ORM imports found"
+      ]
+    },
+    "auth": {
+      "library": "jwt",
+      "confidence": 0.9,
+      "evidence": [
+        "JWT library in dependencies",
+        "JWT library imports found in code"
+      ]
+    },
+    "testing": {
+      "library": "vitest",
+      "confidence": 0.8,
+      "evidence": [
+        "vitest in devDependencies",
+        "vitest imports found"
+      ]
+    },
+    "dataFetching": {
+      "library": "react-query",
+      "confidence": 0.75,
+      "evidence": [
+        "@tanstack/react-query in dependencies"
+      ]
+    },
+    "stateManagement": {
+      "library": "zustand",
+      "confidence": 0.9,
+      "evidence": [
+        "zustand in dependencies",
+        "zustand imports in 1/568 component files (incidental)"
+      ]
+    },
+    "formHandling": {
+      "library": "react-hook-form",
+      "confidence": 0.75,
+      "evidence": [
+        "react-hook-form in dependencies"
+      ]
+    },
+    "sampledFiles": 750,
+    "detectionTime": 3,
+    "threshold": 0.7
+  },
+  "conventions": {
+    "naming": {
+      "files": {
+        "majority": "kebab-case",
+        "confidence": 0.7590361445783133,
+        "mixed": false,
+        "distribution": {
+          "snake_case": 0.21739130434782608,
+          "kebab-case": 0.782608695652174
+        },
+        "sampleSize": 750
+      },
+      "functions": {
+        "majority": "camelCase",
+        "confidence": 0.751628664495114,
+        "mixed": false,
+        "distribution": {
+          "camelCase": 0.7547015535568274,
+          "PascalCase": 0.24448078495502862,
+          "SCREAMING_SNAKE_CASE": 0.0008176614881439084
+        },
+        "sampleSize": 1255
+      },
+      "classes": {
+        "majority": "PascalCase",
+        "confidence": 0.7058823529411765,
+        "mixed": false,
+        "distribution": {
+          "PascalCase": 1
+        },
+        "sampleSize": 12
+      },
+      "variables": {
+        "majority": "camelCase",
+        "confidence": 0.8117452440033085,
+        "mixed": false,
+        "distribution": {
+          "camelCase": 0.8124172185430464,
+          "PascalCase": 0.040066225165562915,
+          "SCREAMING_SNAKE_CASE": 0.14751655629139074
+        },
+        "sampleSize": 9607
+      },
+      "constants": {
+        "majority": "SCREAMING_SNAKE_CASE",
+        "confidence": 0.9944196428571429,
+        "mixed": false,
+        "distribution": {
+          "SCREAMING_SNAKE_CASE": 1
+        },
+        "sampleSize": 891
+      }
+    },
+    "imports": {
+      "style": "relative",
+      "confidence": 1,
+      "distribution": {
+        "absolute": 0,
+        "relative": 1
+      },
+      "aliasPattern": null
+    },
+    "indentation": {
+      "style": "spaces",
+      "width": 2,
+      "confidence": 1
+    },
+    "codePatterns": {
+      "jsExtensionImports": {
+        "count": 0,
+        "total": 1,
+        "ratio": 0
+      },
+      "emptyCatches": {
+        "empty": 1,
+        "commented": 4,
+        "total": 19
+      },
+      "defaultExports": {
+        "count": 10,
+        "totalFiles": 30
+      },
+      "nullStyle": {
+        "nullCount": 11,
+        "optionalCount": 22,
+        "preference": "mixed"
+      }
+    },
+    "sampledFiles": 750,
+    "detectionTime": 1577
+  },
+  "readme": {
+    "description": "The open-source platform to build AI agents and run your agentic workforce. Connect 1,000+ integrations and LLMs to orchestrate agentic workflows.",
+    "architecture": null,
+    "setup": null,
+    "source": "fallback"
+  },
+  "documentation": {
+    "files": [
+      {
+        "path": "README.md",
+        "category": "project-docs",
+        "sizeBytes": 11441,
+        "lastModifiedDays": 28
+      },
+      {
+        "path": ".github/PULL_REQUEST_TEMPLATE.md",
+        "category": "templates",
+        "sizeBytes": 763,
+        "lastModifiedDays": 301
+      },
+      {
+        "path": ".github/ISSUE_TEMPLATE",
+        "category": "templates",
+        "sizeBytes": 0,
+        "lastModifiedDays": 383
+      },
+      {
+        "path": "apps/docs/README.md",
+        "category": "project-docs",
+        "sizeBytes": 640,
+        "lastModifiedDays": 375
+      },
+      {
+        "path": "packages/cli/README.md",
+        "category": "project-docs",
+        "sizeBytes": 622,
+        "lastModifiedDays": 303
+      },
+      {
+        "path": "packages/ts-sdk/README.md",
+        "category": "project-docs",
+        "sizeBytes": 11993,
+        "lastModifiedDays": 16
+      }
+    ],
+    "docsDirectory": null,
+    "landingPage": null
+  },
+  "secretFindings": null,
+  "envVarMap": null,
+  "duplicates": null,
+  "circularDeps": null,
+  "orphanFiles": null,
+  "complexityHotspots": null,
+  "gitIntelligence": null,
+  "dependencyIntelligence": null,
+  "technicalDebtMarkers": null,
+  "inconsistencies": null,
+  "conventionBreaks": null,
+  "aiReadinessScore": null
+}
