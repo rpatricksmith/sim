@@ -2,7 +2,7 @@ import '@sim/testing/mocks/executor'
 
 import { urlsMock, urlsMockFns } from '@sim/testing'
 import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest'
-import { BlockType, HTTP } from '@/executor/constants'
+import { BlockType } from '@/executor/constants'
 import { HumanInTheLoopBlockHandler } from '@/executor/handlers/human-in-the-loop/human-in-the-loop-handler'
 import type { ExecutionContext } from '@/executor/types'
 import type { SerializedBlock } from '@/serializer/types'
@@ -97,12 +97,8 @@ describe('HumanInTheLoopBlockHandler', () => {
   it('should execute with human operation and return correct response shape', async () => {
     const inputs = {
       operation: 'human',
-      inputFormat: [
-        { id: 'field-1', name: 'username', label: 'Username', type: 'string' },
-      ],
-      builderData: [
-        { id: '1', name: 'result', type: 'string', value: 'test' },
-      ],
+      inputFormat: [{ id: 'field-1', name: 'username', label: 'Username', type: 'string' }],
+      builderData: [{ id: '1', name: 'result', type: 'string', value: 'test' }],
     }
 
     const result = await handler.execute(mockContext, mockBlock, inputs)

@@ -254,7 +254,8 @@ export class HumanInTheLoopBlockHandler implements BlockHandler {
     if (dataMode === 'json' && inputs.data) {
       if (typeof inputs.data === 'string') {
         return parseJSON(inputs.data, inputs.data)
-      } else if (typeof inputs.data === 'object' && inputs.data !== null) {
+      }
+      if (typeof inputs.data === 'object' && inputs.data !== null) {
         return inputs.data
       }
       return inputs.data
