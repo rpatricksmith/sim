@@ -1,0 +1,199 @@
+version: "1.0"
+sealed_by: "AnaPlan"
+feature: "Harden JSON parsing and error visibility in executor handlers"
+
+assertions:
+  # AC1: No bare JSON.parse in handler files
+  - id: A001
+    says: "Response handler uses the project's JSON parsing utility instead of bare JSON.parse"
+    block: "response-handler uses parseJSON for data parsing"
+    target: "response-handler.parseResponseData"
+    matcher: "contains"
+    value: "parseJSON"
+
+  - id: A002
+    says: "Human-in-the-loop handler uses the project's JSON parsing utility instead of bare JSON.parse"
+    block: "hitl-handler uses parseJSON for data parsing"
+    target: "hitl-handler.parseResponseData"
+    matcher: "contains"
+    value: "parseJSON"
+
+  - id: A003
+    says: "Router handler uses the project's JSON parsing utilities instead of bare JSON.parse"
+    block: "router-handler uses parseJSON/parseJSONOrThrow"
+    target: "router-handler.bareJSONParseCount"
+    matcher: "equals"
+    value: 0
+
+  - id: A004
+    says: "API handler uses the project's JSON parsing utility instead of bare JSON.parse"
+    block: "api-handler uses parseJSON for body parsing"
+    target: "api-handler.parseBodyExpression"
+    matcher: "contains"
+    value: "parseJSON"
+
+  - id: A005
+    says: "Generic handler uses the project's JSON parsing utility instead of bare JSON.parse"
+    block: "generic-handler uses parseJSON for field parsing"
+    target: "generic-handler.parseFieldExpression"
+    matcher: "contains"
+    value: "parseJSON"
+
+  # AC2: No empty catch blocks
+  - id: A006
+    says: "Router handler logs a warning when provider error response cannot be parsed"
+    block: "router legacy empty catch replaced with logger.warn"
+    target: "router-handler.legacyErrorCatch"
+    matcher: "contains"
+    value: "logger.warn"
+
+  - id: A007
+    says: "Router V2 handler logs a warning when provider error response cannot be parsed"
+    block: "router v2 empty catch replaced with logger.warn"
+    target: "router-handler.v2ErrorCatch"
+    matcher: "contains"
+    value: "logger.warn"
+
+  # AC3: response-handler.test.ts exists with required coverage
+  - id: A008
+    says: "Response handler test verifies the handler recognizes response blocks"
+    block: "canHandle returns true for response blocks"
+    target: "result"
+    matcher: "equals"
+    value: true
+
+  - id: A009
+    says: "Response handler test verifies the handler rejects non-response blocks"
+    block: "canHandle returns false for non-response blocks"
+    target: "result"
+    matcher: "equals"
+    value: false
+
+  - id: A010
+    says: "Response handler test verifies successful execution returns correct data shape"
+    block: "executes response block with structured data"
+    target: "result.status"
+    matcher: "equals"
+    value: 200
+
+  - id: A011
+    says: "Malformed JSON input to response handler falls back to the original string"
+    block: "handles malformed JSON data by returning original string"
+    target: "result.data"
+    matcher: "equals"
+    value: "{invalid json}"
+
+  - id: A012
+    says: "Response handler returns an error object instead of throwing when execution fails"
+    block: "catch-all returns error response object"
+    target: "result.status"
+    matcher: "equals"
+    value: 500
+
+  # AC4: human-in-the-loop-handler.test.ts exists with required coverage
+  - id: A013
+    says: "Human-in-the-loop handler test verifies the handler recognizes HITL blocks"
+    block: "canHandle returns true for human-in-the-loop blocks"
+    target: "result"
+    matcher: "equals"
+    value: true
+
+  - id: A014
+    says: "Human-in-the-loop handler test verifies the handler rejects non-HITL blocks"
+    block: "canHandle returns false for non-hitl blocks"
+    target: "result"
+    matcher: "equals"
+    value: false
+
+  - id: A015
+    says: "Human-in-the-loop handler test verifies successful execution with human operation"
+    block: "executes hitl block with human operation"
+    target: "result.response.status"
+    matcher: "equals"
+    value: 200
+
+  - id: A016
+    says: "Malformed JSON input to HITL handler falls back to the original string"
+    block: "handles malformed JSON data in hitl handler"
+    target: "result"
+    matcher: "exists"
+
+  - id: A017
+    says: "HITL handler returns an error object instead of throwing when execution fails"
+    block: "catch-all returns error response in hitl handler"
+    target: "result.response.status"
+    matcher: "equals"
+    value: 500
+
+  # AC5: router-handler.test.ts new test cases
+  - id: A018
+    says: "Router handles provider errors even when the error response is not valid JSON"
+    block: "legacy router handles non-JSON error response from provider"
+    target: "error.message"
+    matcher: "contains"
+    value: "Provider API request failed with status"
+
+  - id: A019
+    says: "Router V2 handles provider errors even when the error response is not valid JSON"
+    block: "v2 router handles non-JSON error response from provider"
+    target: "error.message"
+    matcher: "contains"
+    value: "Provider API request failed with status"
+
+  - id: A020
+    says: "Router V2 treats invalid JSON routes input as empty and rejects the request"
+    block: "parseRoutes with invalid JSON string returns empty routes"
+    target: "error.message"
+    matcher: "contains"
+    value: "No routes defined for router"
+
+  # AC6: api-handler.test.ts new test case
+  - id: A021
+    says: "API handler keeps the original body string when JSON-like input fails to parse"
+    block: "handles malformed JSON body by keeping original string"
+    target: "toolCallBody"
+    matcher: "equals"
+    value: "{invalid json body"
+
+  # AC7: generic-handler.test.ts new test case
+  - id: A022
+    says: "Generic handler keeps the original string when a JSON field cannot be parsed"
+    block: "handles malformed json field input by keeping original string"
+    target: "toolCallInput"
+    matcher: "equals"
+    value: "{not valid json"
+
+  # AC8 & AC9: Existing tests pass, lint passes
+  - id: A023
+    says: "All existing tests continue to pass after the changes"
+    block: "existing test suite passes"
+    target: "testResult"
+    matcher: "truthy"
+
+  - id: A024
+    says: "Linter reports no new warnings after the changes"
+    block: "lint passes"
+    target: "lintResult"
+    matcher: "truthy"
+
+file_changes:
+  - path: "apps/sim/executor/handlers/response/response-handler.ts"
+    action: modify
+  - path: "apps/sim/executor/handlers/human-in-the-loop/human-in-the-loop-handler.ts"
+    action: modify
+  - path: "apps/sim/executor/handlers/router/router-handler.ts"
+    action: modify
+  - path: "apps/sim/executor/handlers/api/api-handler.ts"
+    action: modify
+  - path: "apps/sim/executor/handlers/generic/generic-handler.ts"
+    action: modify
+  - path: "apps/sim/executor/handlers/response/response-handler.test.ts"
+    action: create
+  - path: "apps/sim/executor/handlers/human-in-the-loop/human-in-the-loop-handler.test.ts"
+    action: create
+  - path: "apps/sim/executor/handlers/router/router-handler.test.ts"
+    action: modify
+  - path: "apps/sim/executor/handlers/api/api-handler.test.ts"
+    action: modify
+  - path: "apps/sim/executor/handlers/generic/generic-handler.test.ts"
+    action: modify
