@@ -41,5 +41,20 @@
     "apps/sim/executor/handlers/router/router-handler.test.ts",
     "apps/sim/executor/handlers/router/router-handler.ts"
   ],
-  "commit_hygiene": []
+  "commit_hygiene": [],
+  "verify_started_at": "2026-05-29T04:41:07.145Z",
+  "verify_agent": "ana-verify",
+  "pre-check": {
+    "seal": "INTACT",
+    "seal_hash": "sha256:aa433b845665351edf12a9cdc57252b58553a5a133bb5893ed59ba28d3124c09",
+    "run_at": "2026-05-29T04:44:42.156Z"
+  },
+  "verify-report": {
+    "saved_at": "2026-05-29T04:44:42.198Z",
+    "hash": "sha256:0b9bcd73469a87386911f3cc96abc37a299213aea384d0021c218df3424e8b4e"
+  },
+  "verify-data": {
+    "saved_at": "2026-05-29T04:44:42.198Z",
+    "hash": "sha256:68cdfc97406d67f28c9999deb4f79843fbcd6f58b3c8e42877b7a8d98f2c7ae3"
+  }
 }
