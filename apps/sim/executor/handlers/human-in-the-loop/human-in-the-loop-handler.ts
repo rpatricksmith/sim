@@ -17,7 +17,7 @@ import {
 import type { BlockHandler, ExecutionContext, PauseMetadata } from '@/executor/types'
 import { collectBlockData } from '@/executor/utils/block-data'
 import { convertBuilderDataToJson, convertPropertyValue } from '@/executor/utils/builder-data'
-import { parseObjectStrings } from '@/executor/utils/json'
+import { parseJSON, parseObjectStrings } from '@/executor/utils/json'
 import type { SerializedBlock } from '@/serializer/types'
 import { executeTool } from '@/tools'
 
@@ -253,12 +253,7 @@ export class HumanInTheLoopBlockHandler implements BlockHandler {
 
     if (dataMode === 'json' && inputs.data) {
       if (typeof inputs.data === 'string') {
-        try {
-          return JSON.parse(inputs.data)
-        } catch (error) {
-          logger.warn('Failed to parse JSON data, returning as string:', error)
-          return inputs.data
-        }
+        return parseJSON(inputs.data, inputs.data)
       } else if (typeof inputs.data === 'object' && inputs.data !== null) {
         return inputs.data
       }
