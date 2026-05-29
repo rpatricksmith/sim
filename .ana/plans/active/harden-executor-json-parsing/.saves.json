@@ -18,5 +18,28 @@
   "spec": {
     "saved_at": "2026-05-29T04:25:34.790Z",
     "hash": "sha256:210b215e1806c8c0127a0c2348641d100fee8b9b0e15ad0b656a5f085a557a6d"
-  }
+  },
+  "build_started_at": "2026-05-29T04:29:51.751Z",
+  "build_agent": "ana-build",
+  "build-report": {
+    "saved_at": "2026-05-29T04:39:01.124Z",
+    "hash": "sha256:c7ce0025c0a21307a16ad997007d93fbdff08d00d1f5827bd0314f8d1e2b64b6"
+  },
+  "build-data": {
+    "saved_at": "2026-05-29T04:39:01.125Z",
+    "hash": "sha256:2f0cf24c37b819900062ceb56388c584b0e495574c12761fc630605ef17fe7cc"
+  },
+  "modules_touched": [
+    "apps/sim/executor/handlers/api/api-handler.test.ts",
+    "apps/sim/executor/handlers/api/api-handler.ts",
+    "apps/sim/executor/handlers/generic/generic-handler.test.ts",
+    "apps/sim/executor/handlers/generic/generic-handler.ts",
+    "apps/sim/executor/handlers/human-in-the-loop/human-in-the-loop-handler.test.ts",
+    "apps/sim/executor/handlers/human-in-the-loop/human-in-the-loop-handler.ts",
+    "apps/sim/executor/handlers/response/response-handler.test.ts",
+    "apps/sim/executor/handlers/response/response-handler.ts",
+    "apps/sim/executor/handlers/router/router-handler.test.ts",
+    "apps/sim/executor/handlers/router/router-handler.ts"
+  ],
+  "commit_hygiene": []
 }
