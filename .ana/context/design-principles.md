@@ -16,8 +16,22 @@ The user isn't asking for a scope, a plan, or code — they're asking for an out
 
 Foundation is code you build on top of. Scaffolding is code you tear down later. The test: would a senior engineer approve this — not just for correctness, but for craft? If the answer is "this works, but it's not how we'd do it if we had time" — you don't have time NOT to do it right.
 
-<!-- Add your team's principles below. What tradeoffs do you consistently make?
-     What quality bar do you hold? What does "good" mean here?
+## The Proof Chain Catches It Or Nobody Does
 
-     A principle changes decisions. "Write clean code" is a platitude.
-     "We prefer Result<T,E> over thrown errors" is a principle. -->
+If a rule can be enforced by a script, a hook, or a test — enforce it mechanically. Don't rely on code review to catch what `check:api-validation` can catch. The CI gate is the real reviewer; humans review design.
+
+## Follow the Pattern, Don't Invent a New One
+
+When a proven pattern exists (tools → blocks → icons → registry), follow it exactly. The 220th integration should look identical to the 219th. Creativity goes into the product, not the plumbing. If the pattern needs to change, change the pattern everywhere — don't fork it for one service.
+
+## Integrations Are the Product
+
+1,000+ integrations is the headline number. Adding a new integration should be the easiest thing a contributor can do. If the tools → blocks → icons → registry path gets harder, something is wrong. Protect that path.
+
+## Visual First, Code Always Available
+
+The canvas is how people think about agent workflows. But everything on the canvas is also accessible via API. Don't build features that only work in one mode.
+
+## Ship Daily
+
+120 commits last week. Same-day PR merges. The velocity is the culture. Don't over-plan, don't over-process. Ship, see what breaks, fix it.

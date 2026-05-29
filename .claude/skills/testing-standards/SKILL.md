@@ -20,6 +20,12 @@ description: "Invoke when writing tests, reviewing test quality, or setting up t
 - Cover the error path, not just the happy path. For each feature test, write at least one test for invalid input, missing data, or service failure.
 - Assert on specific expected values from real inputs. `expect(status).toBe(200)` not `expect(status).toBeDefined()`. A test that passes regardless of whether the feature works catches nothing. Never write tautological tests — `expect(true).toBe(true)` proves nothing. If you can't determine the specific expected value, read the contract's `matcher`/`value` fields before falling back to a weak assertion.
 - Never weaken a test to make it pass. If a test fails, fix the code or fix the expectation — never broaden assertions or catch exceptions to force green.
+- Use `vi.hoisted()` + `vi.mock()` + static imports. NEVER use `vi.resetModules()` + `vi.doMock()` + dynamic `await import()` — it causes tests to hang and is significantly slower.
+- Use centralized mocks from `@sim/testing`: `createMockRequest`, `authMock`, `dbChainMock`. Only use `vi.hoisted()` for mocking modules not covered by `@sim/testing`.
+- Mock heavy deps not under test: `@/blocks`, `@/tools/registry`, `@/triggers`. These are large registries that slow test startup.
+- Default to `@vitest-environment node`. Only use `jsdom` when the test needs `window`, `document`, or DOM APIs. Node environment is significantly faster.
+- NEVER use `mockAuth()`, `mockConsoleLogger()`, `setupCommonApiMocks()` from `@sim/testing` — they use `vi.doMock()` internally.
+- `beforeEach(() => vi.clearAllMocks())` for test isolation. Don't use redundant `afterEach` cleanup.
 
 ## Gotchas
 - Vitest defaults to watch mode. Always pass `--run` in CI and non-interactive environments (e.g., `pnpm run test -- --run`).

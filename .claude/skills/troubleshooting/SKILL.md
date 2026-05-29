@@ -26,7 +26,13 @@ description: "Invoke when debugging failures, diagnosing unexpected behavior, or
 - **Webhook signature verification fails with "No signatures found matching the expected signature" even though the signing secret is correct** — Stripe signature verification requires the RAW request body, not parsed JSON. In Next.js App Router: use `request.text()`. In Express: use `express.raw({ type: "application/json" })` on the webhook route. Body parsers (like `express.json()`) modify the body and break verification.
 
 ## Rules
-*Not yet captured. This section grows from real debugging sessions.*
+- **Slow tests = anti-pattern.** If tests take >50ms per file, check for `vi.resetModules()` + `vi.doMock()` + dynamic imports. Fix: use `vi.hoisted()` + `vi.mock()` + static imports.
+- **Drizzle schema drift.** Schema changes update TypeScript types immediately but NOT the database. Always run `bun run db:push` (dev) or `bun run db:migrate` (prod) in `packages/db/` after editing `schema.ts`.
+- **Test env default is Node.** Only use `@vitest-environment jsdom` when accessing `window`/`document`. Node environment is significantly faster.
+- **Registry merge conflicts.** `tools/registry.ts` (6,150 lines), `blocks/registry.ts`, `triggers/registry.ts` are the most common source of merge conflicts. Multiple people adding integrations at the same time means registry conflicts on every PR. Always rebase before merging.
+- **Incomplete integration = broken UI.** Adding an integration means touching `tools/`, `blocks/`, `icons.tsx`, and `registry.ts`. Miss one and the integration shows up broken or without an icon. There's no CI check that catches an incomplete integration — it's manual. Verify all four files are present.
+- **Mothership external dependency.** The Copilot/Mothership backend is external (`copilot.sim.ai`). Working on Mothership features locally means you can't fully test without the real backend. Mock what you can.
+- **bun, not npm or pnpm.** New contributors who run `npm install` or `pnpm install` will get a broken state. It's `bun` everywhere — `bun install`, `bun run`, `bunx`.
 
 ## Gotchas
 *Not yet captured. Add as you discover them during development.*

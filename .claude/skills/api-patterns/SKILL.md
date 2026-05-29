@@ -16,10 +16,15 @@ description: "Invoke when implementing API routes, request handling, middleware,
 - Server Components fetch data directly from service functions or the database. Route Handlers are for EXTERNAL clients (webhooks, mobile apps, third-party integrations). Never call your own Route Handlers from Server Components — that adds an unnecessary network hop.
 
 ## Rules
-- Validate all input at the API boundary. Parse request bodies, query params, and path params with the project's validation library before any processing.
-- Return a consistent error response shape from every endpoint. Never leak stack traces, database errors, or internal paths in production responses.
-- Keep route handlers thin. Validation, then service call, then response. Business logic and data access belong in separate modules.
-- Verify the requesting user owns the requested resource. An authenticated user should not access another user's data by changing an ID in the URL.
+- All route handlers must be wrapped with `withRouteHandler` from `@/lib/core/utils/with-route-handler`. Never export bare `async function GET/POST` — always `export const METHOD = withRouteHandler(...)`.
+- Define contracts in `lib/api/contracts/` — one file per resource family. Use `defineRouteContract()` with Zod schemas. Routes and clients share the same contract.
+- Validate with `parseRequest(contract, request, context)`. Never import Zod directly in route files or use raw `request.json()`. Check `parsed.success` and return `parsed.response` on failure.
+- Auth runs BEFORE validation: `const session = await getSession(); if (!session) return createErrorResponse('Unauthorized', 401)`. Per-route auth, not middleware-based.
+- Return consistent shapes: `createSuccessResponse({ data })` for success, `createErrorResponse(message, statusCode)` for errors. Never leak stack traces or internal paths.
+- Keep route handlers thin: validate → service call → response. Business logic lives in `lib/` service modules, not inline in routes.
+- Verify the requesting user owns the requested resource. Filter by workspace/user — don't rely solely on API-layer checks.
+- Routes under `apps/sim/app/api/v1/**` use shared middleware in `apps/sim/app/api/v1/middleware.ts` for auth, rate-limit, and workspace access. Don't reimplement per-route.
+- `bun run check:api-validation` must pass — enforces boundary policy (no route Zod imports, no route-local schemas, no raw `request.json()`).
 
 ## Gotchas
 - Don't call Route Handlers from Server Components. Call the data function directly — the Route Handler is for external clients, not internal server-side calls.
