@@ -1,0 +1,31 @@
+schema: 1
+findings:
+  - category: code
+    summary: "Removed logger.warn on JSON parse failure in generic-handler field processing"
+    file: "apps/sim/executor/handlers/generic/generic-handler.ts"
+    line: 48
+    severity: observation
+    suggested_action: accept
+    related_assertions: ["A005"]
+  - category: upstream
+    summary: "Contract A016 uses weak 'exists' matcher where 'equals' would be more precise"
+    severity: observation
+    suggested_action: monitor
+    related_assertions: ["A016"]
+  - category: code
+    summary: "Bare JSON.parse remains in 5 other handler files outside this scope"
+    file: "apps/sim/executor/handlers/shared/response-format.ts"
+    severity: debt
+    suggested_action: scope
+  - category: test
+    summary: "response-handler.test.ts uses dynamic import to access mock mid-test"
+    file: "apps/sim/executor/handlers/response/response-handler.test.ts"
+    line: 133
+    severity: observation
+    suggested_action: accept
+  - category: code
+    summary: "Router logger.warn logs error object on parse failure — benign but verify no PII leakage in production"
+    file: "apps/sim/executor/handlers/router/router-handler.ts"
+    line: 123
+    severity: observation
+    suggested_action: monitor

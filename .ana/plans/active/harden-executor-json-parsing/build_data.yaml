@@ -1,0 +1,9 @@
+schema: 1
+concerns:
+  - summary: "generic-handler logger.warn on parse failure removed — silent fallback reduces observability"
+    file: "apps/sim/executor/handlers/generic/generic-handler.ts"
+    severity: observation
+    suggested_action: monitor
+  - summary: "response-handler and HITL handler have identical parseResponseData methods (pre-existing)"
+    severity: debt
+    suggested_action: scope
